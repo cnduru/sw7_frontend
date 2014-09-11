@@ -1,17 +1,30 @@
 package sw7.cornfield;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 
 public class MainActivity extends Activity {
+
+    public static Context mainContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // this sets the context for the main activity to be used internally in this class
+        mainContext = this.getApplicationContext();
+        GpsApi gps = new GpsApi();
+        gps.askForGps(mainContext);
+        double x = gps.getLon();
+        double y = gps.getLat();
     }
 
 
