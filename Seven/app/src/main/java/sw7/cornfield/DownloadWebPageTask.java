@@ -1,6 +1,8 @@
 package sw7.cornfield;
 
 import android.os.AsyncTask;
+import android.text.Html;
+import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -34,9 +36,18 @@ class DownloadWebPageTask extends AsyncTask<String, Void, String> {
         }
         return response;
     }
+
+    private String _websiteData;
+
     @Override
     protected void onPostExecute(String result) {
-        TextView six = (TextView) findViewById(R.id.six);
-        six.setText(Html.fromHtml(result));
+        // todo: uncomment code and find a meaningful way to output the data
+        //TextView six = (TextView) findViewById(R.id.six);
+        _websiteData = Html.fromHtml(result).toString();
+    }
+
+    public String getWebsiteData()
+    {
+        return _websiteData;
     }
 }

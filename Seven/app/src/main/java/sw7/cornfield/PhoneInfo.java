@@ -7,6 +7,14 @@ import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.widget.TextView;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 public class PhoneInfo {
 
     private void getOpenSignalData() {
@@ -52,9 +60,13 @@ public class PhoneInfo {
     }
 
      //Create a TelephonyManager to extract information
-    private TelephonyManager phonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+    private TelephonyManager phonyManager;
+    Context ct;
 
-    public void intializePhoneData(){
+    public void intializePhoneData(Context context){
+        ct = context;
+        phonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
         //Set name of carrier
         _operatorName = phonyManager.getNetworkOperatorName();
 
@@ -206,9 +218,11 @@ public class PhoneInfo {
         }
         @Override
         protected void onPostExecute(String result) {
+            // todo: this is the json code from the website. Do something!
+
             //When executing task, set text in TextView;
-            TextView openSignalJson = (TextView) findViewById(R.id.openSignalJson);
-            openSignalJson.setText(Html.fromHtml(result));
+            //TextView openSignalJson = (TextView) findViewById(R.id.openSignalJson);
+            //openSignalJson.setText(Html.fromHtml(result));
         }
     }
 }
