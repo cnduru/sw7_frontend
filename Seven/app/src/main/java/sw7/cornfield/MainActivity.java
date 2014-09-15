@@ -8,6 +8,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,15 +51,17 @@ public class MainActivity extends Activity {
         };
 
         locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                3600000, 1000,
+                1000, 0,
                 onLocationChange);
+
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                3600000, 1000,
+                1000, 0,
                 onLocationChange);
     }
 
@@ -68,8 +72,8 @@ public class MainActivity extends Activity {
         lon.setText(String.format("%f",loc.getLongitude()));
         lat.setText(String.format("%f",loc.getLatitude()));
 
-        Toast.makeText(this, String.format(
-                "%f,%f", loc.getLongitude(),loc.getLatitude()),Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, String.format(
+        //        "%f,%f", loc.getLongitude(),loc.getLatitude()),Toast.LENGTH_LONG).show();
     }
 
 
