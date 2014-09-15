@@ -2,6 +2,7 @@ package sw7.cornfield;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.GpsStatus;
 import android.location.LocationManager;
 import android.provider.Settings;
 import android.widget.Toast;
@@ -25,13 +26,18 @@ public class GpsApi
 {
     LocationManager service;
     static LocListener loc;
+    Double latitude = .0;
+    Double longitude = .0;
+    Context context;
 
-    public void askForGps(Context context)
+    public LocationManager askForGps(Context con)
     {
         // this code checks whether the gps is enabled. If not, the user is sent to the screen
         // where the gps can be activated
+        context = con;
         service = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
         boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
 
         if (!enabled)
         {
@@ -42,19 +48,19 @@ public class GpsApi
         }else {
             Toast.makeText(context, "GPS is enabled.",
                     Toast.LENGTH_SHORT).show();
-
-            // start the GPS listener
-            loc = new LocListener();
         }
+        return service;
     }
-
+    /*
     public double getLon()
     {
-        return loc.getLon();
+        return longitude;
     }
 
     public double getLat()
     {
-        return loc.getLat();
+        return latitude;
     }
+*/
+
 }
