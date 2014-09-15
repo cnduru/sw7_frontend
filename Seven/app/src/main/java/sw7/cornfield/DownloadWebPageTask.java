@@ -15,6 +15,8 @@ import java.io.InputStreamReader;
 class DownloadWebPageTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... urls) {
+
+        //Create HttpClient and fetch data from url into InputStream
         String response = "";
         for (String url : urls) {
             DefaultHttpClient client = new DefaultHttpClient();
@@ -23,10 +25,11 @@ class DownloadWebPageTask extends AsyncTask<String, Void, String> {
                 HttpResponse execute = client.execute(httpGet);
                 InputStream content = execute.getEntity().getContent();
 
-                BufferedReader buffer = new BufferedReader(
-                        new InputStreamReader(content));
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                //Ensure string is empty before attempted read
                 String s = "";
                 while ((s = buffer.readLine()) != null) {
+                    //Add line to result string
                     response += s;
                 }
 
