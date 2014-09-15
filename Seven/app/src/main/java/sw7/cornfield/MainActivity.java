@@ -8,15 +8,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.location.LocationRequest;
-
-import org.w3c.dom.Text;
-
 
 public class MainActivity extends Activity {
 
@@ -29,12 +21,12 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // this sets the context for the main activity to be used internally in this class
+        // Set context for the main activity to be used internally in this class
         mainContext = this.getApplicationContext();
         GpsApi gps = new GpsApi();
         locMan = gps.askForGps(mainContext);
 
-        onLocationChange=new LocationListener() {
+        onLocationChange = new LocationListener() {
             public void onLocationChanged(Location location) {
                 updateGPS(location);
             }
@@ -44,38 +36,20 @@ public class MainActivity extends Activity {
             public void onProviderEnabled(String provider) {
             // required for interface, not used
             }
-            public void onStatusChanged(String provider, int status,
-                                        Bundle extras) {
+            public void onStatusChanged(String provider, int status, Bundle extras) {
             // required for interface, not used
             }
         };
-
-        locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000, 0,
-                onLocationChange);
-
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000, 0,
-                onLocationChange);
     }
 
     void updateGPS(Location loc){
-        TextView lon = (TextView) findViewById(R.id.textView);
-        TextView lat = (TextView) findViewById(R.id.textView2);
 
-        lon.setText(String.format("%f",loc.getLongitude()));
+        TextView lat = (TextView) findViewById(R.id.lat);
+        TextView lon = (TextView) findViewById(R.id.lng);
+
         lat.setText(String.format("%f",loc.getLatitude()));
-
-        //Toast.makeText(this, String.format(
-        //        "%f,%f", loc.getLongitude(),loc.getLatitude()),Toast.LENGTH_LONG).show();
+        lon.setText(String.format("%f",loc.getLongitude()));
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,5 +68,11 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, onLocationChange);
     }
 }
