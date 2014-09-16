@@ -2,11 +2,14 @@ package sw7.cornfield;
 
 import android.os.AsyncTask;
 import android.text.Html;
+import android.util.Log;
 import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -40,16 +43,19 @@ class DownloadWebPageTask extends AsyncTask<String, Void, String> {
         return response;
     }
 
-    private String _websiteData;
+    private JSONObject _websiteData;
 
     @Override
     protected void onPostExecute(String result) {
         // todo: uncomment code and find a meaningful way to output the data
-        //TextView six = (TextView) findViewById(R.id.six);
-        _websiteData = Html.fromHtml(result).toString();
+        JSONObject json = new JSONObject();
+        try {
+            json = new JSONObject(result);
+        } catch (Throwable t) {}
+        _websiteData = json;
     }
 
-    public String getWebsiteData()
+    public JSONObject getWebsiteData()
     {
         return _websiteData;
     }

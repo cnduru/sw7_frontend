@@ -52,6 +52,9 @@ public class MainActivity extends Activity {
             // required for interface, not used
             }
         };
+
+        PhoneInfo info = new PhoneInfo();
+        info.intializePhoneData(mainContext);
     }
 
     void updateGPS(Location loc){
@@ -79,7 +82,7 @@ public class MainActivity extends Activity {
                 try {
                     insertDB();
                     System.out.println("Succes");
-                }catch(Exception e){
+                } catch (Exception e) {
                     System.out.println("it broke");
                     System.out.println(e.toString());
                 }

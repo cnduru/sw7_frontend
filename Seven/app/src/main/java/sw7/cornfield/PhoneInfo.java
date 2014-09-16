@@ -24,7 +24,7 @@ public class PhoneInfo {
         int network = 3;
         double lat = 57.022665;
         double lng = 9.991581;
-        String key = "ed1fe765c4c5cfc287675a85b74b546d";
+        String key = "d165247e29d7af1122b00662c6468d17";
         String url = "http://api.opensignal.com/v2/networkrank.json?lat=" + lat + "&lng=" + lng + "&distance=" + distance + "&network_type=" + network + "&apikey=" + key + "";
 
         //Create task to get the OpenSignal data and execute it
@@ -87,6 +87,8 @@ public class PhoneInfo {
                 _gsmStrength = Integer.toString(s.getGsmSignalStrength());
             }
         };
+
+        getOpenSignalData();
 
         //Listen for changes
         phonyManager.listen(listener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
