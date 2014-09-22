@@ -19,43 +19,38 @@ public class PhoneInfo {
 
     private void getOpenSignalData() {
 
-        // todo: Hardcoded. Assuming 3G network, Aalborg coordinates and average of a 5x5km square
+        // TODO: Hardcoded for now. Assuming 3G network, Aalborg coordinates and average of a 5x5km square
         int distance = 5;
         int network = 3;
         double lat = 57.022665;
         double lng = 9.991581;
-        String key = "ed1fe765c4c5cfc287675a85b74b546d";
+        String key = "d165247e29d7af1122b00662c6468d17";
         String url = "http://api.opensignal.com/v2/networkrank.json?lat=" + lat + "&lng=" + lng + "&distance=" + distance + "&network_type=" + network + "&apikey=" + key + "";
 
         //Create task to get the OpenSignal data and execute it
-        GetJsonFromUrlTask getJson = new GetJsonFromUrlTask();
+        DownloadWebPageTask getJson = new DownloadWebPageTask();
         getJson.execute(url);
     }
 
     private String _operatorName, _deviceId, _phoneType, _networkName, _gsmStrength;
 
-    public String getOperatorName()
-    {
+    public String getOperatorName() {
         return _operatorName;
     }
 
-    public String getDeviceId()
-    {
+    public String getDeviceId() {
         return _deviceId;
     }
 
-    public String getPhoneType()
-    {
+    public String getPhoneType() {
         return _phoneType;
     }
 
-    public String getNetworkName()
-    {
+    public String getNetworkName() {
         return _networkName;
     }
 
-    public String getGsmStrength()
-    {
+    public String getGsmStrength() {
         return _gsmStrength;
     }
 
@@ -64,14 +59,15 @@ public class PhoneInfo {
     Context ct;
 
     public void intializePhoneData(Context context){
+
         ct = context;
         phonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
         //Set name of carrier
         _operatorName = phonyManager.getNetworkOperatorName();
 
-        //Set DeviceId (IMEI number)
-        _deviceId = phonyManager.getDeviceId(); // IMEI
+        //Set DeviceId (IMEI)
+        _deviceId = phonyManager.getDeviceId();
 
         //Get phone type, parse to string and set the type
         int phoneTypeNum = phonyManager.getPhoneType();
@@ -82,9 +78,8 @@ public class PhoneInfo {
         String networkName = getNetworkNameFromType(phonyManager.getNetworkType());
         _networkName = networkName;
 
-
         //TODO: This only works for GSM phones. Implement the other types or some kind of safety
-        //Create listener to get updates for GMS Signal Strength. This assumes the phone is GSM
+        //Create listener to get updates for GSM Signal Strength. This assumes the phone is GSM
         PhoneStateListener listener = new PhoneStateListener(){
             public void onSignalStrengthsChanged(SignalStrength s)
             {
@@ -92,6 +87,8 @@ public class PhoneInfo {
                 _gsmStrength = Integer.toString(s.getGsmSignalStrength());
             }
         };
+
+        getOpenSignalData();
 
         //Listen for changes
         phonyManager.listen(listener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
@@ -102,8 +99,7 @@ public class PhoneInfo {
         String networkTypeName;
 
         //Switch through the possible network types, translating to text
-        switch (networkType)
-        {
+        switch (networkType) {
             case 1:
                 networkTypeName = "GPRS";
                 break;
@@ -156,7 +152,6 @@ public class PhoneInfo {
                 networkTypeName = "Unknown";
                 break;
         }
-
         return networkTypeName;
     }
 
@@ -187,42 +182,5 @@ public class PhoneInfo {
         }
 
         return phoneTypeName;
-    }
-
-    private class GetJsonFromUrlTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... urls) {
-
-            //Create HttpClient and fetch data from url into InputStream
-            String response = "";
-            for (String url : urls) {
-                DefaultHttpClient client = new DefaultHttpClient();
-                HttpGet httpGet = new HttpGet(url);
-                try {
-                    HttpResponse execute = client.execute(httpGet);
-                    InputStream content = execute.getEntity().getContent();
-
-                    BufferedReader buffer = new BufferedReader(
-                            new InputStreamReader(content));
-                    //Ensure string is empty before attempted read
-                    String s;
-                    while ((s = buffer.readLine()) != null) {
-                        //Add line to result string
-                        response += s;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            return response;
-        }
-        @Override
-        protected void onPostExecute(String result) {
-            // todo: this is the json code from the website. Do something!
-
-            //When executing task, set text in TextView;
-            //TextView openSignalJson = (TextView) findViewById(R.id.openSignalJson);
-            //openSignalJson.setText(Html.fromHtml(result));
-        }
     }
 }
