@@ -47,7 +47,6 @@ class DownloadWebPageTask extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        // todo: uncomment code and find a meaningful way to output the data
         JSONObject json = new JSONObject();
         try {
             json = new JSONObject(result);
