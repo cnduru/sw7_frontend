@@ -6,16 +6,21 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.location.LocationRequest;
-
-import org.w3c.dom.Text;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 
 public class MainActivity extends Activity {
@@ -23,6 +28,14 @@ public class MainActivity extends Activity {
     public static Context mainContext;
     LocationManager locMan;
     LocationListener onLocationChange;
+    private ServerSocket serverSocket;
+    Handler updateConversationHandler;
+    Thread serverThread = null;
+    private Socket socket;
+    private static final String SERVER_IP = "172.25.18.10";
+    public static final int SERVERPORT = 44444;
+
+    //TextView text = (TextView) findViewById(R.id.textView3);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,48 +45,74 @@ public class MainActivity extends Activity {
         // this sets the context for the main activity to be used internally in this class
         mainContext = this.getApplicationContext();
         GpsApi gps = new GpsApi();
-        locMan = gps.askForGps(mainContext);
+        GpsApi.LocationClass lc = gps.askForGps(mainContext);
+        locMan = lc.locationManager;
+        updateGPS(lc.location);
 
-        onLocationChange=new LocationListener() {
+
+        onLocationChange = new LocationListener() {
             public void onLocationChanged(Location location) {
                 updateGPS(location);
+                sendData(location);
             }
+
             public void onProviderDisabled(String provider) {
-            // required for interface, not used
+                // required for interface, not used
             }
+
             public void onProviderEnabled(String provider) {
-            // required for interface, not used
+                // required for interface, not used
             }
+
             public void onStatusChanged(String provider, int status,
                                         Bundle extras) {
-            // required for interface, not used
+                // required for interface, not used
             }
         };
+        new Thread(new ClientThread()).start();
+        sendData(lc.location);
+        /*updateConversationHandler = new Handler();
+        serverThread = new Thread(new ServerThread());
+        serverThread.start();*/
+    }
 
-        locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000, 0,
-                onLocationChange);
+    private void sendData(Location location) {
+        try {
+            PrintWriter out = new PrintWriter(new BufferedWriter(
+                    new OutputStreamWriter(socket.getOutputStream())),
+                    true);
+            out.println(String.format("%f,%f",
+                    location.getLatitude(), location.getLongitude()));
 
-
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
         locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                1000, 0,
+                10000, 0,
                 onLocationChange);
     }
 
-    void updateGPS(Location loc){
-        TextView lon = (TextView) findViewById(R.id.textView);
+    @Override
+    public void onPause() {
+        super.onPause();
+        locMan.removeUpdates(onLocationChange);
+    }
+
+    void updateGPS(Location loc) {
+        TextView lon = (TextView) findViewById(R.id.textView1);
         TextView lat = (TextView) findViewById(R.id.textView2);
 
-        lon.setText(String.format("%f",loc.getLongitude()));
-        lat.setText(String.format("%f",loc.getLatitude()));
-
-        //Toast.makeText(this, String.format(
-        //        "%f,%f", loc.getLongitude(),loc.getLatitude()),Toast.LENGTH_LONG).show();
+        lon.setText(String.format("Longitude: %f", loc.getLongitude()));
+        lat.setText(String.format("Latitude: %f", loc.getLatitude()));
     }
 
 
@@ -94,5 +133,25 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    class ClientThread implements Runnable {
+
+        @Override
+        public void run() {
+
+            try {
+                InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
+
+                socket = new Socket(serverAddr, SERVERPORT);
+
+            } catch (UnknownHostException e1) {
+                e1.printStackTrace();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+        }
+
     }
 }

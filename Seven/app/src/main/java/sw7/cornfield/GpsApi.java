@@ -20,6 +20,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 
+import java.security.Provider;
+
 import javax.xml.datatype.Duration;
 
 public class GpsApi
@@ -30,12 +32,16 @@ public class GpsApi
     Double longitude = .0;
     Context context;
 
-    public LocationManager askForGps(Context con)
+    public LocationClass askForGps(Context con)
     {
         // this code checks whether the gps is enabled. If not, the user is sent to the screen
         // where the gps can be activated
         context = con;
         service = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = service.getBestProvider(criteria, false);
+        Location location = service.getLastKnownLocation(provider);
+
         boolean enabled = service.isProviderEnabled(LocationManager.GPS_PROVIDER);
 
 
@@ -49,7 +55,17 @@ public class GpsApi
             Toast.makeText(context, "GPS is enabled.",
                     Toast.LENGTH_SHORT).show();
         }
-        return service;
+
+        return new LocationClass(service, location);
+    }
+
+    public class LocationClass{
+        public LocationManager locationManager;
+        public Location location;
+        public LocationClass(LocationManager locM, Location loc){
+            locationManager = locM;
+            location = loc;
+        }
     }
     /*
     public double getLon()
