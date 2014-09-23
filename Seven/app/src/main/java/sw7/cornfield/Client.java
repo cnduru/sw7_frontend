@@ -15,19 +15,27 @@ public class Client {
         cThread.start();
     }
 
-    public void sendLocation(Location location) {
+    public void sendLocation(Location location, String gms) {
         try {
             PrintWriter out = new PrintWriter(new BufferedWriter(
                     new OutputStreamWriter(socket.getOutputStream())),
                     true);
-            out.println(String.format("%f,%f",
-                    location.getLatitude(), location.getLongitude()));
+            out.println(String.format("%f,%f,%s",
+                    location.getLatitude(), location.getLongitude(), gms));
 
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -36,13 +36,16 @@ public class MainActivity extends Activity {
         locMan = lc.locationManager;
         updateGPS(lc.location);
 
+        final PhoneInfo info = new PhoneInfo();
+        info.intializePhoneData(mainContext);
+
 
         final Client client = new Client();
 
         locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 updateGPS(location);
-                client.sendLocation(location);
+                client.sendLocation(location, info.getGsmStrength());
             }
             public void onProviderDisabled(String provider) {
                 // required for interface, not used
@@ -56,10 +59,7 @@ public class MainActivity extends Activity {
             }
         };
 
-        client.sendLocation(lc.location);
-
-        PhoneInfo info = new PhoneInfo();
-        info.intializePhoneData(mainContext);
+        client.sendLocation(lc.location, info.getGsmStrength());
     }
 
 
@@ -69,6 +69,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Client user = new Client();
+                user.close();
             }
         });
         Button dbKnap = (Button)findViewById(R.id.dbknap);
