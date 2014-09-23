@@ -58,10 +58,7 @@ public class MainActivity extends Activity {
                 // required for interface, not used
             }
         };
-
-        client.sendLocation(lc.location, info.getGsmStrength());
     }
-
 
     public void tempButtons() {
         Button knap = (Button)findViewById(R.id.knap);
