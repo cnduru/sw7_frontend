@@ -27,7 +27,6 @@ import javax.xml.datatype.Duration;
 public class GpsApi
 {
     LocationManager service;
-    static LocListener loc;
     Double latitude = .0;
     Double longitude = .0;
     Context context;
@@ -67,16 +66,4 @@ public class GpsApi
             location = loc;
         }
     }
-    /*
-    public double getLon()
-    {
-        return longitude;
-    }
-
-    public double getLat()
-    {
-        return latitude;
-    }
-*/
-
 }
