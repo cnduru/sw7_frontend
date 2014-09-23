@@ -3,7 +3,6 @@ package sw7.cornfield;
 import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -11,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -27,7 +25,7 @@ import java.sql.*;
 public class MainActivity extends Activity {
     public static Context mainContext;
     LocationManager locMan;
-    LocationListener onLocationChange;
+    GPSListener onLocationChange;
     private Socket socket;
     private static final String SERVER_IP = "172.25.18.10";
     public static final int SERVER_PORT = 44444;
@@ -46,34 +44,18 @@ public class MainActivity extends Activity {
         GpsApi gps = new GpsApi();
         GpsApi.LocationClass lc = gps.askForGps(mainContext);
         locMan = lc.locationManager;
-        updateGPS(lc.location);
+        gps.updateGPS(lc.location);
 
         tempButtons();
 
-        onLocationChange = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                updateGPS(location);
-                sendData(location);
-            }
-
-            public void onProviderDisabled(String provider) {
-                // required for interface, not used
-            }
-
-            public void onProviderEnabled(String provider) {
-                // required for interface, not used
-            }
-
-            public void onStatusChanged(String provider, int status,
-                                        Bundle extras) {
-                // required for interface, not used
-            }
-        };
         new Thread(new ClientThread()).start();
         sendData(lc.location);
 
+
         PhoneInfo info = new PhoneInfo();
         info.intializePhoneData(mainContext);
+
+        onLocationChange = new GPSListener();
     }
     private void sendData(Location location) {
         try {
@@ -128,15 +110,6 @@ public class MainActivity extends Activity {
                 }
             }
         });
-    }
-
-
-    public void updateGPS(Location loc) {
-        TextView lon = (TextView) findViewById(R.id.lng);
-        TextView lat = (TextView) findViewById(R.id.lat);
-
-        lon.setText(String.format("Longitude: %f", loc.getLongitude()));
-        lat.setText(String.format("Latitude: %f", loc.getLatitude()));
     }
 
  public void insertDB() throws SQLException {
