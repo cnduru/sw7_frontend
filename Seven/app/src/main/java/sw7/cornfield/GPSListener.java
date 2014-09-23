@@ -9,8 +9,13 @@ import android.os.Bundle;
  */
 public class GPSListener implements LocationListener {
     public void onLocationChanged(Location location) {
+
+        PhoneInfo info = new PhoneInfo();
+        info.intializePhoneData(MainActivity.mainContext);
+        String signal = info.getGsmStrength();
+
         Client client = new Client();
-        client.sendData(location);
+        client.sendLocation(location, signal);
     }
 
     public void onProviderDisabled(String provider) {

@@ -14,7 +14,7 @@ import java.sql.*;
 public class MainActivity extends Activity {
     public static Context mainContext;
     LocationManager locMan;
-    GPSListener onLocationChange;
+    GPSListener locationListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +37,7 @@ public class MainActivity extends Activity {
         final PhoneInfo info = new PhoneInfo();
         info.intializePhoneData(mainContext);
 
-        final Client client = new Client();
-
-        locationListener = new LocationListener() {
-
-
-
-        onLocationChange = new GPSListener();
+        locationListener = new GPSListener();
     }
 
 
