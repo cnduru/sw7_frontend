@@ -1,50 +1,56 @@
 package sw7.cornfield;
 
+import android.location.Location;
+
 import java.net.*;
 import java.io.*;
 
-/**
- * Created by Casper on 09-09-2014.
- */
 public class Client {
+    private static final String SERVER_IP = "172.25.18.10";
+    public static final int SERVER_PORT = 4444;
+    Socket socket;
+
     public Client() {
         Thread cThread = new Thread(new ClientThread());
         cThread.start();
     }
 
+    public void sendLocation(Location location, String gms) {
+        try {
+            PrintWriter out = new PrintWriter(new BufferedWriter(
+                    new OutputStreamWriter(socket.getOutputStream())),
+                    true);
+            out.println(String.format("%f,%f,%s",
+                    location.getLatitude(), location.getLongitude(), gms));
+
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void close() {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public class ClientThread implements Runnable {
         public void run() {
-            String result = new String();
-            String ip = "192.168.1.206";
+            String ip = SERVER_IP;
             try {
                 InetAddress serverName = InetAddress.getByName(ip);
-                Socket client = new Socket(serverName, 8000);
+                socket = new Socket(serverName, SERVER_PORT);
 
-                BufferedWriter out = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
-                BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
                 out.write("Hello server");
                 out.flush();
-
-                result = in.readLine();
-
-
-            /*
-            OutputStream outToServer = client.getOutputStream();
-            OutputStreamWriter osr = new OutputStreamWriter(outToServer);
-
-            DataOutputStream out = new DataOutputStream(outToServer);
-            out.writeUTF("Helle from client");
-
-
-            InputStream inFromServer = client.getInputStream();
-            DataInputStream in = new DataInputStream(inFromServer);
-            result = in.toString();
-            client.close();
-            */
-
-
-                client.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
