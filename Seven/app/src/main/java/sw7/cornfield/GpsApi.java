@@ -1,31 +1,10 @@
 package sw7.cornfield;
 
 import android.content.Context;
-import android.content.Intent;
-import android.location.GpsStatus;
 import android.location.LocationManager;
-import android.provider.Settings;
-import android.widget.Toast;
-import android.app.Activity;
-import android.content.Context;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-
-import com.google.android.gms.maps.model.LatLng;
-
-import java.security.Provider;
-
-import javax.xml.datatype.Duration;
-
 public class GpsApi
 {
     LocationManager service;
@@ -62,11 +41,9 @@ public class GpsApi
 
 
     public void updateGPS(Location loc) {
-        /*TextView lon = (TextView) ((Activity)MainActivity.mainContext).findViewById(R.id.lng);
-        TextView lat = (TextView) ((Activity)MainActivity.mainContext).findViewById(R.id.lat);
 
-        lon.setText(String.format("Longitude: %f", loc.getLongitude()));
-        lat.setText(String.format("Latitude: %f", loc.getLatitude()));*/
+        MainActivity.lat.setText(String.format("Lat: %f", loc.getLatitude()));
+        MainActivity.lng.setText(String.format("Lng: %f", loc.getLongitude()));
 
     }
 
