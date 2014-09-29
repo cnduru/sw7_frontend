@@ -6,8 +6,8 @@ import java.net.*;
 import java.io.*;
 
 public class Client {
-    private static final String SERVER_IP = "172.25.18.10";
-    public static final int SERVER_PORT = 4444;
+    private static final String SERVER_IP = "192.168.43.234";
+    public static final int SERVER_PORT = 8080;
     Socket socket;
 
     public Client() {
@@ -35,7 +35,7 @@ public class Client {
     public void close() {
         try {
             socket.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

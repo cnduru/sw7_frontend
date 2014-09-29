@@ -3,26 +3,25 @@ package sw7.cornfield;
 import android.app.Activity;
 import android.content.Context;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import java.sql.Statement;
 import java.sql.*;
 
 public class MainActivity extends Activity {
     public static Context mainContext;
     LocationManager locMan;
-    LocationListener locationListener;
+    GPSListener locationListener;
+    public static Client client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        client = new Client();
         tempButtons();
 
         //Johan known what this is for...
@@ -34,30 +33,12 @@ public class MainActivity extends Activity {
         GpsApi gps = new GpsApi();
         GpsApi.LocationClass lc = gps.askForGps(mainContext);
         locMan = lc.locationManager;
-        updateGPS(lc.location);
+        gps.updateGPS(lc.location);
 
         final PhoneInfo info = new PhoneInfo();
         info.intializePhoneData(mainContext);
 
-
-        final Client client = new Client();
-
-        locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                updateGPS(location);
-                client.sendLocation(location, info.getGsmStrength());
-            }
-            public void onProviderDisabled(String provider) {
-                // required for interface, not used
-            }
-            public void onProviderEnabled(String provider) {
-                // required for interface, not used
-            }
-            public void onStatusChanged(String provider, int status,
-                                        Bundle extras) {
-                // required for interface, not used
-            }
-        };
+        locationListener = new GPSListener();
     }
 
     public void tempButtons() {
@@ -96,15 +77,6 @@ public class MainActivity extends Activity {
     public void onPause() {
         super.onPause();
         locMan.removeUpdates(locationListener);
-    }
-
-
-    public void updateGPS(Location loc) {
-        TextView lon = (TextView) findViewById(R.id.lng);
-        TextView lat = (TextView) findViewById(R.id.lat);
-
-        lon.setText(String.format("Longitude: %f", loc.getLongitude()));
-        lat.setText(String.format("Latitude: %f", loc.getLatitude()));
     }
 
     public void insertDB() throws SQLException {

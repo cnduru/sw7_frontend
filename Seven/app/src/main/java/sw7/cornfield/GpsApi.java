@@ -20,6 +20,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.security.Provider;
 
 import javax.xml.datatype.Duration;
@@ -56,6 +58,15 @@ public class GpsApi
         }
 
         return new LocationClass(service, location);
+    }
+
+
+    public void updateGPS(Location loc) {
+        /*TextView lon = (TextView) ((Activity)MainActivity.mainContext).findViewById(R.id.lng);
+        TextView lat = (TextView) ((Activity)MainActivity.mainContext).findViewById(R.id.lat);
+
+        lon.setText(String.format("Longitude: %f", loc.getLongitude()));
+        lat.setText(String.format("Latitude: %f", loc.getLatitude()));*/
     }
 
     public class LocationClass{
