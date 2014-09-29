@@ -62,7 +62,7 @@ public class GpsApi
 
 
     public void updateGPS(Location loc) {
-        /*TextView lon = (TextView) ((Activity)MainActivity.mainContext).findViewById(R.id.lng);
+        TextView lon = (TextView) ((Activity)MainActivity.mainContext).findViewById(R.id.lng);
         TextView lat = (TextView) ((Activity)MainActivity.mainContext).findViewById(R.id.lat);
 
         lon.setText(String.format("Longitude: %f", loc.getLongitude()));

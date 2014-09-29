@@ -2,17 +2,20 @@ package sw7.cornfield;
 
 import android.app.Activity;
 import android.content.Context;
-import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
 import java.sql.Statement;
 import java.sql.*;
 
 public class MainActivity extends Activity {
     public static Context mainContext;
+    public static TextView lat;
+    public static TextView lng;
     LocationManager locMan;
     GPSListener locationListener;
     public static Client client;
@@ -25,11 +28,12 @@ public class MainActivity extends Activity {
         tempButtons();
 
         //Johan known what this is for...
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-                .detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
 
         // Set context for the main activity to be used internally in this class
         mainContext = this.getApplicationContext();
+        lat = (TextView) findViewById(R.id.lat);
+        lng = (TextView) findViewById(R.id.lng);
         GpsApi gps = new GpsApi();
         GpsApi.LocationClass lc = gps.askForGps(mainContext);
         locMan = lc.locationManager;
@@ -50,6 +54,7 @@ public class MainActivity extends Activity {
                 user.close();
             }
         });
+
         Button dbKnap = (Button)findViewById(R.id.dbknap);
         dbKnap.setOnClickListener(new View.OnClickListener() {
             @Override
