@@ -40,10 +40,11 @@ public class GpsApi
     }
 
 
-    public void updateGPS(Location loc) {
+    public void updateGPS(Location loc, String gsmStr) {
 
         MainActivity.lat.setText(String.format("Lat: %f", loc.getLatitude()));
         MainActivity.lng.setText(String.format("Lng: %f", loc.getLongitude()));
+        MainActivity.gsm.setText(String.format("Gsm: %s", gsmStr));
 
     }
 

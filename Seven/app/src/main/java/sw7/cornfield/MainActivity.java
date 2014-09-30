@@ -23,6 +23,8 @@ public class MainActivity extends Activity {
     public static Context mainContext;
     public static TextView lat;
     public static TextView lng;
+    public static TextView gsm;
+
     public static GoogleMap map;
     LocationManager locMan;
     GPSListener locationListener;
@@ -42,10 +44,11 @@ public class MainActivity extends Activity {
         mainContext = this.getApplicationContext();
         lat = (TextView) findViewById(R.id.lat);
         lng = (TextView) findViewById(R.id.lng);
+        gsm = (TextView) findViewById(R.id.gsm);
         GpsApi gps = new GpsApi();
         GpsApi.LocationClass lc = gps.askForGps(mainContext);
         locMan = lc.locationManager;
-        gps.updateGPS(lc.location);
+        gps.updateGPS(lc.location, "0");
 
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lc.location.getLatitude(), lc.location.getLongitude()), 14));

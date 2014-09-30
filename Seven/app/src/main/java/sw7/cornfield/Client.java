@@ -24,6 +24,7 @@ public class Client {
                     location.getLatitude(), location.getLongitude(), gms));
 
 
+
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {

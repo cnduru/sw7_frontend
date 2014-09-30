@@ -3,6 +3,7 @@ package sw7.cornfield;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -21,10 +22,9 @@ public class GPSListener implements LocationListener {
 
     public void onLocationChanged(Location location) {
         String signal = info.getGsmStrength();
-        new GpsApi().updateGPS(location);
+        new GpsApi().updateGPS(location, signal);
         MainActivity.map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
         MainActivity.client.sendLocation(location, signal);
-
     }
 
     public void onProviderDisabled(String provider) {
