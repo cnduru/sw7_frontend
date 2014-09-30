@@ -23,6 +23,7 @@ public class Client {
             out.println(String.format("%f,%f,%s",
                     location.getLatitude(), location.getLongitude(), gms));
 
+
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
