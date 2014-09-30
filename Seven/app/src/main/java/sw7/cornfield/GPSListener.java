@@ -4,6 +4,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by Morten on 23-09-2014.
  */
@@ -18,6 +21,7 @@ public class GPSListener implements LocationListener {
 
     public void onLocationChanged(Location location) {
         String signal = info.getGsmStrength();
+        MainActivity.map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
         MainActivity.client.sendLocation(location, signal);
 
     }

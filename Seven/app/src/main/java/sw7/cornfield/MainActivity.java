@@ -2,12 +2,19 @@ package sw7.cornfield;
 
 import android.app.Activity;
 import android.content.Context;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.sql.Statement;
 import java.sql.*;
@@ -16,6 +23,7 @@ public class MainActivity extends Activity {
     public static Context mainContext;
     public static TextView lat;
     public static TextView lng;
+    public static GoogleMap map;
     LocationManager locMan;
     GPSListener locationListener;
     public static Client client;
@@ -39,10 +47,15 @@ public class MainActivity extends Activity {
         locMan = lc.locationManager;
         gps.updateGPS(lc.location);
 
+        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lc.location.getLatitude(), lc.location.getLongitude()), 14));
+        map.setMyLocationEnabled(true);
+
         final PhoneInfo info = new PhoneInfo();
         info.intializePhoneData(mainContext);
 
         locationListener = new GPSListener();
+
     }
 
     public void tempButtons() {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     package="sw7.cornfield" >
 
     <application
@@ -21,7 +22,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyC2YiZVd4ZgwK2jI6WlaMs6xzcK6CjX58s"/>
+            android:value="AIzaSyBy_I_MoOqoWPhL2pHhj-xbPPgMLQRmA5k"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -29,5 +30,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 </manifest>
