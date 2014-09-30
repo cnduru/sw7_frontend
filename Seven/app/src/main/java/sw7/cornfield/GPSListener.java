@@ -23,7 +23,7 @@ public class GPSListener implements LocationListener {
     public void onLocationChanged(Location location) {
         String signal = info.getGsmStrength();
         new GpsApi().updateGPS(location, signal);
-        MainActivity.map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+        MainActivity.map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(MainActivity.map.getMyLocation().getLatitude(), MainActivity.map.getMyLocation().getLongitude())));
         MainActivity.client.sendLocation(location, signal);
     }
 
