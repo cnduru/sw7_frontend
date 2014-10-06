@@ -2,6 +2,7 @@ package sw7.cornfield;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -34,6 +35,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = new Intent(this, ClientListener.class);
+        startActivity(intent);
+        /* first of 4 blocks remove to get old func back
         client = new Client();
         tempButtons();
 
@@ -58,7 +63,7 @@ public class MainActivity extends Activity {
         info.intializePhoneData(mainContext);
 
         locationListener = new GPSListener();
-
+        */
     }
 
     public void tempButtons() {
@@ -89,15 +94,15 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+/*        locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                 10000, 0,
                 locationListener);
-    }
+*/    }
 
     @Override
     public void onPause() {
         super.onPause();
-        locMan.removeUpdates(locationListener);
+//        locMan.removeUpdates(locationListener);
     }
 
     public void insertDB() throws SQLException {
