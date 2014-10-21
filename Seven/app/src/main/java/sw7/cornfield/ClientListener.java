@@ -18,7 +18,7 @@ import java.util.Enumeration;
 
 
 public class ClientListener extends Activity {
-
+// todo: fix typo in class name
     private ServerSocket serverSocket;
 
     Handler updateConversationHandler;
@@ -118,14 +118,22 @@ public class ClientListener extends Activity {
 
     class updateUIThread implements Runnable {
         private String msg;
+        private boolean first = true;
 
         public updateUIThread(String str) {
             this.msg = str;
         }
 
         @Override
-        public void run() {
-            text.setText(text.getText().toString()+"Client Says: "+ msg + "\n");
+        public void run()
+        {
+            if(msg != null && first == true)
+            {
+                text.setText(text.getText().toString()+"\nClient Says: "+ msg + "\n");
+            }else if (msg != null)
+            {
+                text.setText(text.getText().toString()+"Client Says: "+ msg + "\n");
+            }
         }
     }
 }
