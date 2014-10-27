@@ -42,6 +42,11 @@ public class Client {
         }
     }
 
+    public void getInfo()
+    {
+
+    }
+
     public class ClientThread implements Runnable {
         public void run() {
             String ip = SERVER_IP;
