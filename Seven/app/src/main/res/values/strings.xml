@@ -4,4 +4,13 @@
     <string name="app_name">CornField</string>
     <string name="action_settings">Settings</string>
 
+
+    <string name="monitor_prompt">Default</string>
+
+    <string-array name="monitor_arrays">
+        <item>Default</item>
+        <item>Aggressive</item>
+        <item>Relaxed</item>
+    </string-array>
+
 </resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <CheckBox
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#D6D6D6"
+        android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:paddingLeft="3dp"
+        android:paddingRight="0dp"
+        android:text="Map"
+        android:textSize="30dp"
+        android:layout_marginBottom="1dp"/>
+    <CheckBox
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#D6D6D6"
+        android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:paddingLeft="3dp"
+        android:paddingRight="0dp"
+        android:text="Nearby Transportation"
+        android:textSize="30dp"
+        android:layout_marginBottom="1dp"/>
+    <CheckBox
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#D6D6D6"
+        android:button="@null"
+        android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+        android:paddingLeft="3dp"
+        android:paddingRight="0dp"
+        android:text="Map"
+        android:textSize="30dp"
+        android:layout_marginBottom="1dp"
+        android:scaleX="0.80"
+        android:scaleY="0.80"/>
+
+</LinearLayout>
