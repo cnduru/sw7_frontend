@@ -3,52 +3,38 @@ package sw7.cornfield;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
-import java.util.Enumeration;
 
 
 public class ClientListener extends Activity {
-// todo: fix typo in class name
-    private ServerSocket serverSocket;
 
-    Handler updateConversationHandler;
-
-    Thread serverThread = null;
-
-    private TextView text;
+    private ServerSocket ServerSocket;
+    private Handler UpdateConversationHandler = new Handler();
+    private Thread ServerThread = new Thread(new ServerThread());
+    private TextView Text;
 
     public static final int SERVERPORT = 8080;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        text = (TextView) findViewById(R.id.server);
-
-        updateConversationHandler = new Handler();
-
-        this.serverThread = new Thread(new ServerThread());
-        this.serverThread.start();
-
+        Text = (TextView) findViewById(R.id.server);
+        this.ServerThread.start();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         try {
-            serverSocket.close();
+            ServerSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,7 +45,7 @@ public class ClientListener extends Activity {
         public void run() {
             Socket socket = null;
             try {
-                serverSocket = new ServerSocket(SERVERPORT);
+                ServerSocket = new ServerSocket(SERVERPORT);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -67,7 +53,7 @@ public class ClientListener extends Activity {
 
                 try {
 
-                    socket = serverSocket.accept();
+                    socket = ServerSocket.accept();
 
                     CommunicationThread commThread = new CommunicationThread(socket);
                     new Thread(commThread).start();
@@ -106,7 +92,7 @@ public class ClientListener extends Activity {
 
                     String read = input.readLine();
 
-                    updateConversationHandler.post(new updateUIThread(read));
+                    UpdateConversationHandler.post(new updateUIThread(read));
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -129,10 +115,10 @@ public class ClientListener extends Activity {
         {
             if(msg != null && first == true)
             {
-                text.setText(text.getText().toString()+"\nClient Says: "+ msg + "\n");
+                Text.setText(Text.getText().toString()+"\nClient Says: "+ msg + "\n");
             }else if (msg != null)
             {
-                text.setText(text.getText().toString()+"Client Says: "+ msg + "\n");
+                Text.setText(Text.getText().toString()+"Client Says: "+ msg + "\n");
             }
         }
     }
