@@ -7,9 +7,69 @@ import android.telephony.TelephonyManager;
 
 public class PhoneInfo {
 
+    private TelephonyManager PhonyManager;
+    private String OperatorName;
+    private String DeviceId;
+    private String PhoneType;
+    private String NetworkName;
+    private String GsmStrength;
+
+    public PhoneInfo (Context context) {
+
+        this.PhonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+
+        //Set name of carrier
+        OperatorName = PhonyManager.getNetworkOperatorName();
+
+        //Set DeviceId (IMEI)
+        DeviceId = PhonyManager.getDeviceId();
+
+        //Get phone type (int), parse to string and set the type
+        this.PhoneType = getPhoneTypeName(PhonyManager.getPhoneType());
+
+        //Get the current connection type (int), parse to string and set the type
+        NetworkName = getNetworkNameFromType(PhonyManager.getNetworkType());
+
+        //TODO: This only works for GSM phones. Implement the other types or some kind of safety
+        //Create listener to get updates for GSM Signal Strength. This assumes the phone is GSM
+        PhoneStateListener listener = new PhoneStateListener(){
+            public void onSignalStrengthsChanged(SignalStrength s) {
+                //Update the signal strength (Range 0-31 where higher is better. 99 is no signal)
+                GsmStrength = Integer.toString(s.getGsmSignalStrength());
+            }
+        };
+
+        //Listen for changes on signal strength - Variable GsmStrength should now always be up to date
+        PhonyManager.listen(listener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+
+        //Get info from OpenSignalAPI
+        getOpenSignalData();
+    }
+
+    public String getOperatorName() {
+        return OperatorName;
+    }
+
+    public String getDeviceId() {
+        return DeviceId;
+    }
+
+    public String getPhoneType() {
+        return PhoneType;
+    }
+
+    public String getNetworkName() {
+        return NetworkName;
+    }
+
+    public String getGsmStrength() {
+        return GsmStrength;
+    }
+
     private void getOpenSignalData() {
 
         // TODO: Hardcoded for now. Assuming 3G network, Aalborg coordinates and average of a 5x5km square
+        //Create needed data to create API request
         int distance = 5;
         int network = 3;
         double lat = 57.022665;
@@ -18,70 +78,10 @@ public class PhoneInfo {
         String url = "http://api.opensignal.com/v2/networkrank.json?lat=" + lat + "&lng=" + lng + "&distance=" + distance + "&network_type=" + network + "&apikey=" + key + "";
 
         //Create task to get the OpenSignal data and execute it
+        //Json can be extracted using something like this:
+        //InputStream content = execute.getEntity().getContent();
         DownloadWebPageTask getJson = new DownloadWebPageTask();
         getJson.execute(url);
-    }
-
-    private String _operatorName, _deviceId, _phoneType, _networkName, _gsmStrength;
-
-    public String getOperatorName() {
-        return _operatorName;
-    }
-
-    public String getDeviceId() {
-        return _deviceId;
-    }
-
-    public String getPhoneType() {
-        return _phoneType;
-    }
-
-    public String getNetworkName() {
-        return _networkName;
-    }
-
-    public String getGsmStrength() {
-        return _gsmStrength;
-    }
-
-     //Create a TelephonyManager to extract information
-    private TelephonyManager phonyManager;
-    Context ct;
-
-    public void intializePhoneData(Context context){
-
-        ct = context;
-        phonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-
-        //Set name of carrier
-        _operatorName = phonyManager.getNetworkOperatorName();
-
-        //Set DeviceId (IMEI)
-        _deviceId = phonyManager.getDeviceId();
-
-        //Get phone type, parse to string and set the type
-        int phoneTypeNum = phonyManager.getPhoneType();
-        String phoneTypeName = getPhoneTypeName(phoneTypeNum);
-       _phoneType = phoneTypeName;
-
-        //Get the current connection type, parse to string and set the type
-        String networkName = getNetworkNameFromType(phonyManager.getNetworkType());
-        _networkName = networkName;
-
-        //TODO: This only works for GSM phones. Implement the other types or some kind of safety
-        //Create listener to get updates for GSM Signal Strength. This assumes the phone is GSM
-        PhoneStateListener listener = new PhoneStateListener(){
-            public void onSignalStrengthsChanged(SignalStrength s)
-            {
-                //Update the signal strength (Range 0-31 where higher is better. 99 is no signal)
-                _gsmStrength = Integer.toString(s.getGsmSignalStrength());
-            }
-        };
-
-        getOpenSignalData();
-
-        //Listen for changes
-        phonyManager.listen(listener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
     }
 
     private String getNetworkNameFromType(int networkType){
@@ -170,7 +170,6 @@ public class PhoneInfo {
             default:
                 phoneTypeName = "Unknown";
         }
-
         return phoneTypeName;
     }
 }
