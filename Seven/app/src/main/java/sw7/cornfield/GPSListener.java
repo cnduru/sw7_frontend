@@ -12,11 +12,11 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by Morten on 23-09-2014.
  */
 public class GPSListener implements LocationListener {
+
     PhoneInfo info;
 
     public GPSListener() {
-        info = new PhoneInfo();
-        info.intializePhoneData(MainActivity.mainContext);
+        info = new PhoneInfo(MainActivity.mainContext);
     }
 
 

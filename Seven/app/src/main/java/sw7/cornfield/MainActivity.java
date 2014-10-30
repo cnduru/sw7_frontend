@@ -54,8 +54,7 @@ public class MainActivity extends Activity {
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lc.location.getLatitude(), lc.location.getLongitude()), 14));
         map.setMyLocationEnabled(true);
 
-        final PhoneInfo info = new PhoneInfo();
-        info.intializePhoneData(mainContext);
+        final PhoneInfo info = new PhoneInfo(mainContext);
 
         locationListener = new GPSListener();
 
