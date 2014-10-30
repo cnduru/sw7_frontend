@@ -39,10 +39,6 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, ClientListener.class);
         startActivity(intent);
         client = new Client();
-        tempButtons();
-
-        //Johan known what this is for...
-        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
 
         // Set context for the main activity to be used internally in this class
         mainContext = this.getApplicationContext();
@@ -65,6 +61,21 @@ public class MainActivity extends Activity {
 
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                10000, 0,
+                locationListener);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        locMan.removeUpdates(locationListener);
+    }
+/*
     public void tempButtons() {
         Button knap = (Button)findViewById(R.id.knap);
         knap.setOnClickListener(new View.OnClickListener() {
@@ -89,21 +100,6 @@ public class MainActivity extends Activity {
             }
         });
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        locMan.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-                10000, 0,
-                locationListener);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        locMan.removeUpdates(locationListener);
-    }
-
     public void insertDB() throws SQLException {
         dbCon con = new dbCon();
         Statement st = con.DBC.createStatement();
@@ -113,5 +109,5 @@ public class MainActivity extends Activity {
         //String ins = "INSERT INTO public.usertable(distributer,phonetype) VALUES (" + dist + "," + "name)";
         st.execute(ins);
         con.Close();
-    }
+    }*/
 }
