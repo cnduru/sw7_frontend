@@ -29,6 +29,8 @@ public class MainActivity extends Activity {
     public static GoogleMap map;
     LocationManager locMan;
     GPSListener locationListener;
+    PhoneInfo phoneInfo;
+    DataAccumulator Accumulator;
     public static Client client;
 
     @Override
@@ -44,20 +46,22 @@ public class MainActivity extends Activity {
         mainContext = this.getApplicationContext();
         lat = (TextView) findViewById(R.id.lat);
         lng = (TextView) findViewById(R.id.lng);
-        gsm = (TextView) findViewById(R.id.gsm);
         GpsApi gps = new GpsApi();
         GpsApi.LocationClass lc = gps.askForGps(mainContext);
         locMan = lc.locationManager;
-        gps.updateGPS(lc.location, "0");
+
+        // gps.updateGPS(lc.location, "0");
 
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lc.location.getLatitude(), lc.location.getLongitude()), 14));
+        //map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(56.1883954, 10.1875298), 8));
+        CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(new LatLng(56.1883954, 10.1875298), 8);
+        map.animateCamera(yourLocation);
         map.setMyLocationEnabled(true);
 
-        final PhoneInfo info = new PhoneInfo(mainContext);
-
+        phoneInfo = new PhoneInfo(mainContext);
         locationListener = new GPSListener();
 
+        Accumulator = new DataAccumulator(phoneInfo,locationListener);
     }
 
 

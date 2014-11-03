@@ -4,6 +4,7 @@ import android.content.Context;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
+import android.os.CountDownTimer;
 
 public class PhoneInfo {
 
@@ -12,7 +13,7 @@ public class PhoneInfo {
     private String DeviceId;
     private String PhoneType;
     private String NetworkName;
-    private String GsmStrength;
+    private String GsmStrength = "0";
 
     public PhoneInfo (Context context) {
 
@@ -35,7 +36,9 @@ public class PhoneInfo {
         PhoneStateListener listener = new PhoneStateListener(){
             public void onSignalStrengthsChanged(SignalStrength s) {
                 //Update the signal strength (Range 0-31 where higher is better. 99 is no signal)
+
                 GsmStrength = Integer.toString(s.getGsmSignalStrength());
+
             }
         };
 

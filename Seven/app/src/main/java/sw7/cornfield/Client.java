@@ -15,15 +15,13 @@ public class Client {
         cThread.start();
     }
 
-    public void sendLocation(Location location, String gms) {
+    public void sendData(Location location, String deviceId, String gsmStrength) {
         try {
             PrintWriter out = new PrintWriter(new BufferedWriter(
                     new OutputStreamWriter(socket.getOutputStream())),
                     true);
-            out.println(String.format("%f,%f,%s",
-                    location.getLatitude(), location.getLongitude(), gms));
-
-
+            out.println(String.format("%f,%f,%s,%s",
+                    location.getLatitude(), location.getLongitude(), deviceId, gsmStrength));
 
         } catch (UnknownHostException e) {
             e.printStackTrace();

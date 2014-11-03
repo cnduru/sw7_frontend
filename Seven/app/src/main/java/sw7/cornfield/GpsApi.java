@@ -5,6 +5,7 @@ import android.location.LocationManager;
 import android.widget.Toast;
 import android.location.Criteria;
 import android.location.Location;
+
 public class GpsApi
 {
     LocationManager service;
@@ -40,11 +41,11 @@ public class GpsApi
     }
 
 
-    public void updateGPS(Location loc, String gsmStr) {
+    public void updateGPS(Location loc) {
 
         MainActivity.lat.setText(String.format("Lat: %f", loc.getLatitude()));
         MainActivity.lng.setText(String.format("Lng: %f", loc.getLongitude()));
-        MainActivity.gsm.setText(String.format("Gsm: %s", gsmStr));
+        //MainActivity.gsm.setText(String.format("Gsm: %s", gsmStr));
 
     }
 

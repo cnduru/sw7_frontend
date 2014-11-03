@@ -13,18 +13,12 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class GPSListener implements LocationListener {
 
-    PhoneInfo info;
-
-    public GPSListener() {
-        info = new PhoneInfo(MainActivity.mainContext);
-    }
-
+    Location CurrentLocation;
 
     public void onLocationChanged(Location location) {
-        String signal = info.getGsmStrength();
-        new GpsApi().updateGPS(location, signal);
+        this.CurrentLocation = location;
+        new GpsApi().updateGPS(location);
         MainActivity.map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(MainActivity.map.getMyLocation().getLatitude(), MainActivity.map.getMyLocation().getLongitude())));
-        MainActivity.client.sendLocation(location, signal);
     }
 
     public void onProviderDisabled(String provider) {
@@ -38,6 +32,10 @@ public class GPSListener implements LocationListener {
     public void onStatusChanged(String provider, int status,
                                 Bundle extras) {
         // required for interface, not used
+    }
+
+    public Location getCurrentLocation() {
+        return CurrentLocation;
     }
 };
 

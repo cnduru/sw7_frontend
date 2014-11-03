@@ -27,7 +27,7 @@ public class ClientListener extends Activity {
 
     private TextView text;
 
-    public static final int SERVERPORT = 8080;
+    public static final int SERVERPORT = 8000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,11 +47,11 @@ public class ClientListener extends Activity {
     @Override
     protected void onStop() {
         super.onStop();
-        try {
+       /* try {
             serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        } */
     }
 
     class ServerThread implements Runnable {
