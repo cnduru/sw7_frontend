@@ -9,7 +9,7 @@ import android.os.CountDownTimer;
 public class DataAccumulator {
 
     PhoneInfo Phone;
-    GPSListener Gps;
+    GPS Gps;
 
     private CountDownTimer Timer = new CountDownTimer(5000,5000) {
         @Override
@@ -23,9 +23,9 @@ public class DataAccumulator {
         }
     };
 
-    public DataAccumulator(PhoneInfo phoneinfo, GPSListener gpsListener) {
+    public DataAccumulator(PhoneInfo phoneinfo, GPS gps) {
         this.Phone = phoneinfo;
-        this.Gps = gpsListener;
+        this.Gps = gps;
         Timer.start();
     }
 }
