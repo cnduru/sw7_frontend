@@ -20,9 +20,9 @@ public class Client {
             //If logcat produces errors here, check that the server port matches SERVER_PORT
             PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
             if(location != null && gsmStrength != null) {
-                out.println(String.format("%f;%f;%s;%s", location.getLatitude(), location.getLongitude(), deviceId, gsmStrength));
+                out.println(String.format("%s;%s;%f;%f", deviceId, gsmStrength,location.getLatitude(), location.getLongitude()));
             } else {
-                out.println(String.format("%s, waiting for gps", deviceId));
+                out.println(String.format("%s;%s; No GPS", deviceId, gsmStrength));
             }
         } catch (UnknownHostException e) {
             e.printStackTrace();
