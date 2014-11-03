@@ -6,7 +6,7 @@ import java.net.*;
 import java.io.*;
 
 public class Client {
-    private static final String SERVER_IP = "192.168.43.234";
+    private static final String SERVER_IP = "192.168.1.59";
     public static final int SERVER_PORT = 8080;
     Socket socket;
 
@@ -20,8 +20,13 @@ public class Client {
             PrintWriter out = new PrintWriter(new BufferedWriter(
                     new OutputStreamWriter(socket.getOutputStream())),
                     true);
-            out.println(String.format("%f,%f,%s,%s",
-                    location.getLatitude(), location.getLongitude(), deviceId, gsmStrength));
+            if(location != null && gsmStrength != null) {
+                out.println(String.format("%f,%f,%s,%s",
+                        location.getLatitude(), location.getLongitude(), deviceId, gsmStrength));
+            }else {
+                out.println(String.format("%s, waiting for gps",
+                         deviceId));
+            }
 
         } catch (UnknownHostException e) {
             e.printStackTrace();

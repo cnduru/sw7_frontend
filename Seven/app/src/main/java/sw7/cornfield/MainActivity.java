@@ -38,8 +38,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, ClientListener.class);
-        startActivity(intent);
         client = new Client();
 
         // Set context for the main activity to be used internally in this class
