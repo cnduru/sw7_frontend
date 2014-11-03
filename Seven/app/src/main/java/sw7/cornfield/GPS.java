@@ -76,7 +76,7 @@ public class GPS implements GooglePlayServicesClient.ConnectionCallbacks, Google
     //Needed for GooglePlayServicesClient.OnConnectionFailedListener
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Toast.makeText(MainContext, "GPS Connection Failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainContext, "GPS connection failed", Toast.LENGTH_SHORT).show();
     }
 
     //Needed for GooglePlayServicesClient.ConnectionCallbacks
@@ -88,8 +88,6 @@ public class GPS implements GooglePlayServicesClient.ConnectionCallbacks, Google
             Client.requestLocationUpdates(Request, this);
         }
 
-        Toast.makeText(MainContext, "GPS Connected", Toast.LENGTH_SHORT).show();
-
         if(Client != null){
             CurrentLocation = Client.getLastLocation();
         }
@@ -98,7 +96,7 @@ public class GPS implements GooglePlayServicesClient.ConnectionCallbacks, Google
     //Needed for GooglePlayServicesClient.ConnectionCallbacks
     @Override
     public void onDisconnected() {
-        Toast.makeText(MainContext, "GPS Disconnected.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainContext, "GPS disconnected.", Toast.LENGTH_SHORT).show();
     }
 
     // Listen for location changes

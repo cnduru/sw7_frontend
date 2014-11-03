@@ -1,14 +1,10 @@
 package sw7.cornfield;
 
 import android.os.AsyncTask;
-import android.text.Html;
-import android.util.Log;
-import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -16,6 +12,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 class DownloadWebPageTask extends AsyncTask<String, Void, String> {
+
+    private JSONObject WebsiteData;
+
     @Override
     protected String doInBackground(String... urls) {
 
@@ -43,19 +42,16 @@ class DownloadWebPageTask extends AsyncTask<String, Void, String> {
         return response;
     }
 
-    private JSONObject _websiteData;
-
     @Override
     protected void onPostExecute(String result) {
         JSONObject json = new JSONObject();
         try {
             json = new JSONObject(result);
         } catch (Throwable t) {}
-        _websiteData = json;
+        this.WebsiteData = json;
     }
 
-    public JSONObject getWebsiteData()
-    {
-        return _websiteData;
+    public JSONObject getJson() {
+        return WebsiteData;
     }
 }

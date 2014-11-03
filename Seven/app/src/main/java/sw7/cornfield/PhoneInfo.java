@@ -79,10 +79,10 @@ public class PhoneInfo {
         String url = "http://api.opensignal.com/v2/networkrank.json?lat=" + lat + "&lng=" + lng + "&distance=" + distance + "&network_type=" + network + "&apikey=" + key + "";
 
         //Create task to get the OpenSignal data and execute it
-        //Json can be extracted using something like this:
-        //InputStream content = execute.getEntity().getContent();
-        DownloadWebPageTask getJson = new DownloadWebPageTask();
-        getJson.execute(url);
+        //The resulting Json can be retrieved using the "getJson" method
+        DownloadWebPageTask task = new DownloadWebPageTask();
+        task.execute(url);
+        task.getJson();
     }
 
     private String getNetworkNameFromType(int networkType){
