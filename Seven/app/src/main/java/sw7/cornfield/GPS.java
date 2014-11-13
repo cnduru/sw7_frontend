@@ -25,17 +25,10 @@ public class GPS implements GooglePlayServicesClient.ConnectionCallbacks, Google
     Location CurrentLocation;
     LocationRequest Request;
 
-    TextView Lat;
-    TextView Lng;
-    GoogleMap Map;
-
-    public GPS(Context mainContext, TextView lat, TextView lng, GoogleMap map) {
+    public GPS(Context mainContext) {
 
         //Set class variables
         this.MainContext = mainContext;
-        this.Lat = lat;
-        this.Lng = lng;
-        this.Map = map;
 
         //Display warning if GPS is disabled
         if(!gpsEnabled()) {
@@ -104,10 +97,5 @@ public class GPS implements GooglePlayServicesClient.ConnectionCallbacks, Google
     public void onLocationChanged(Location location) {
         //Update class variable
         CurrentLocation = Client.getLastLocation();
-
-        //Update views
-        Lat.setText(String.format("Lat: %f", location.getLatitude()));
-        Lng.setText(String.format("Lng: %f", location.getLongitude()));
-        Map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14));
     }
 }

@@ -15,14 +15,14 @@ public class Client {
         cThread.start();
     }
 
-    public void sendData(Location location, String deviceId, String gsmStrength) {
+    public void sendData(Location location, int userId) {
         try {
             //If logcat produces errors here, check that the server port matches SERVER_PORT
             PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-            if(location != null && gsmStrength != null) {
-                out.println(String.format("%s;%s;%f;%f", deviceId, gsmStrength,location.getLatitude(), location.getLongitude()));
+            if(location != null) {
+                out.println(String.format("%i;%d;%d", userId, location.getLatitude(), location.getLongitude()));
             } else {
-                out.println(String.format("%s;%s; No GPS", deviceId, gsmStrength));
+                out.println(String.format("%i; No GPS", userId));
             }
         } catch (UnknownHostException e) {
             e.printStackTrace();

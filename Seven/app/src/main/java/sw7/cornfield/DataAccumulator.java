@@ -8,23 +8,21 @@ import android.os.CountDownTimer;
 
 public class DataAccumulator {
 
-    PhoneInfo Phone;
     GPS Gps;
 
-    private CountDownTimer Timer = new CountDownTimer(5000,5000) {
+    private CountDownTimer Timer = new CountDownTimer(2000,2000) {
         @Override
         public void onTick(long l) {
         }
 
         @Override
         public void onFinish() {
-            MainActivity.client.sendData(Gps.getCurrentLocation(),Phone.getDeviceId(), Phone.getGsmStrength());
+            //MainActivity.client.sendData(Gps.getCurrentLocation());
             Timer.start();
         }
     };
 
-    public DataAccumulator(PhoneInfo phoneinfo, GPS gps) {
-        this.Phone = phoneinfo;
+    public DataAccumulator(GPS gps) {
         this.Gps = gps;
         Timer.start();
     }

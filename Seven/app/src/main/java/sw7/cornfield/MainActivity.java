@@ -10,14 +10,10 @@ import com.google.android.gms.maps.MapFragment;
 
 public class MainActivity extends Activity {
 
-    private TextView LatView;
-    private TextView LngView;
-    private GoogleMap MapView;
-    private PhoneInfo Phone;
     private GPS Gps;
     private DataAccumulator Accumulator;
+    private Context mainContext;
 
-    public static Context mainContext;
     public static Client client;
 
     @Override
@@ -25,19 +21,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        LatView = (TextView) findViewById(R.id.lat);
-        LngView = (TextView) findViewById(R.id.lng);
-        MapView = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        MapView.setMyLocationEnabled(true);
-
         // Set context for the main activity to be used internally in this class
         mainContext = this.getApplicationContext();
 
         client = new Client();
 
-        Phone = new PhoneInfo(mainContext);
-        Gps = new GPS(mainContext, LatView, LngView, MapView);
-        Accumulator = new DataAccumulator(Phone, Gps);
+        Gps = new GPS(mainContext);
+        Accumulator = new DataAccumulator(Gps);
     }
 
 
