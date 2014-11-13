@@ -17,14 +17,20 @@
             android:id="@+id/Username"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Username:"/>
+            android:hint="Username:"
+            android:maxLength="20"
+            android:singleLine="true"
+            android:imeOptions="actionDone"/>
 
         <EditText
             android:id="@+id/Password"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_below="@id/Username"
-            android:hint="Password:"/>
+            android:hint="Password:"
+            android:maxLength="20"
+            android:singleLine="true"
+            android:imeOptions="actionDone"/>
 
         <LinearLayout
             android:layout_width="match_parent"
