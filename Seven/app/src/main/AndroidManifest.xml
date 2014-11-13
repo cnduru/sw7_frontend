@@ -42,6 +42,14 @@
             android:name="sw7.cornfield.OverviewActivity"
             android:label="@string/title_activity_overview" >
         </activity>
+        <activity
+            android:name="sw7.cornfield.SignUpActivity"
+            android:label="@string/title_activity_sign_up"
+            android:parentActivityName="sw7.cornfield.LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="sw7.cornfield.LoginActivity" />
+        </activity>
     </application>
 
 </manifest>

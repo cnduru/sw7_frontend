@@ -1,0 +1,131 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="sw7.cornfield.SignUpActivity">
+
+    <RelativeLayout
+        android:id="@+id/Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:singleLine="true"
+            android:textSize="50dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/Title"
+        android:layout_marginTop="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/UsernameStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/Username"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Username:"
+                android:maxLength="20"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/UsernameStatusImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/UsernameStatusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_below="@id/UsernameStatus"/>
+
+        <LinearLayout
+            android:id="@+id/PasswordLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/UsernameStatusText"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/Password"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Password:"
+                android:maxLength="20"
+                android:singleLine="true"
+                android:password="true"
+                android:imeOptions="actionDone"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/PasswordStatusImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ConfirmPasswordLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/PasswordLayout"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/ConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="Confirm Password:"
+                android:maxLength="20"
+                android:singleLine="true"
+                android:password="true"
+                android:imeOptions="actionDone"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:id="@+id/ConfirmPasswordStatusImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/ConfirmPasswordLayout">
+
+            <Button
+                android:id="@+id/CreateUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="60dp"
+                android:layout_marginRight="60dp"
+                android:text="Create"
+                android:enabled="false"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
