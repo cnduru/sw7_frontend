@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:id="@+id/StartTimeRightText"
-            android:text="Hours"
+            android:text="hours"
             android:textSize="17dp"
             android:gravity="center_vertical"
             android:layout_alignParentRight="true"/>
@@ -99,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:id="@+id/EndTimeRightText"
-            android:text="Hours"
+            android:text="hours"
             android:textSize="17dp"
             android:gravity="center_vertical"
             android:layout_alignParentRight="true"/>
@@ -114,5 +114,153 @@
             android:layout_marginLeft="10dp"/>
 
     </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/GameBoundries"
+        android:text="Game Boundries"
+        android:layout_below="@id/EndTime"
+        android:layout_centerInParent="true"
+        android:textSize="17dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/StartCoordinates"
+        android:layout_below="@id/GameBoundries">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:id="@+id/StartCoordinatesLeftText"
+                android:text="Lat "
+                android:textSize="17dp"
+                android:gravity="center_vertical"
+                android:layout_alignParentLeft="true" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/StartLat"
+                android:layout_toRightOf="@id/StartCoordinatesLeftText"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:id="@+id/StartCoordinatesRightText"
+                android:text="Lng "
+                android:textSize="17dp"
+                android:gravity="center_vertical"/>
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/StartLng"
+                android:layout_toRightOf="@id/StartCoordinatesRightText"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/EndCoordinates"
+        android:layout_below="@id/StartCoordinates">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:id="@+id/EndCoordinatesLeftText"
+                android:text="Lat "
+                android:textSize="17dp"
+                android:gravity="center_vertical"
+                android:layout_alignParentLeft="true" />
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/EndLat"
+                android:layout_toRightOf="@id/EndCoordinatesLeftText"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:id="@+id/EndCoordinatesRightText"
+                android:text="Lng "
+                android:textSize="17dp"
+                android:gravity="center_vertical"/>
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/EndLng"
+                android:layout_toRightOf="@id/EndCoordinatesRightText"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/OkCreate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="Create Game"
+            android:enabled="false"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Cancel"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 
 </RelativeLayout>
