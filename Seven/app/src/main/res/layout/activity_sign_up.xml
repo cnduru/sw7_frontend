@@ -48,7 +48,8 @@
                 android:id="@+id/UsernameStatusImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"/>
         </LinearLayout>
 
         <TextView
@@ -80,7 +81,8 @@
                 android:id="@+id/PasswordStatusImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"/>
 
         </LinearLayout>
 
@@ -106,7 +108,8 @@
                 android:id="@+id/ConfirmPasswordStatusImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"/>
         </LinearLayout>
 
         <LinearLayout
