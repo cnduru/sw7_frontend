@@ -13,10 +13,10 @@ import android.widget.Toast;
 public class OverviewActivity extends Activity {
 
     TextView WelcomeText;
-    Button ResumeGame;
-    Button JoinGame;
-    Button CreateGame;
-    Button LogOut;
+    Button ResumeGameButton;
+    Button JoinGameButton;
+    Button CreateGameButton;
+    Button LogOutButton;
 
     String Username;
 
@@ -26,12 +26,13 @@ public class OverviewActivity extends Activity {
         setContentView(R.layout.activity_overview);
 
         WelcomeText = (TextView) findViewById(R.id.WelcomeText);
-        ResumeGame = (Button) findViewById(R.id.ResumeGame);
-        JoinGame = (Button) findViewById(R.id.JoinGame);
-        CreateGame = (Button) findViewById(R.id.CreateGame);
-        LogOut = (Button) findViewById(R.id.LogOut);
+        ResumeGameButton = (Button) findViewById(R.id.ResumeGame);
+        JoinGameButton = (Button) findViewById(R.id.JoinGame);
+        CreateGameButton = (Button) findViewById(R.id.CreateGame);
+        LogOutButton = (Button) findViewById(R.id.LogOut);
 
-        LogOut.setOnClickListener(LogOutListener);
+        CreateGameButton.setOnClickListener(CreateGameListener);
+        LogOutButton.setOnClickListener(LogOutListener);
 
         Intent intent = getIntent();
         Username = intent.getStringExtra("Username");
@@ -44,6 +45,13 @@ public class OverviewActivity extends Activity {
             Intent intent = new Intent(OverviewActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
+        }
+    };
+
+    View.OnClickListener CreateGameListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            Intent intent = new Intent(OverviewActivity.this, CreateGameActivity.class);
+            startActivity(intent);
         }
     };
 
