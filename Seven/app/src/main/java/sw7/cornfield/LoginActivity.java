@@ -94,6 +94,7 @@ public class LoginActivity extends Activity {
                 Intent intent = new Intent(LoginActivity.this, OverviewActivity.class);
                 intent.putExtra("Username", UsernameText.getText().toString());
                 startActivity(intent);
+                finish();
             } else {
                 Toast loginError = Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_SHORT);
                 loginError.show();
@@ -106,6 +107,7 @@ public class LoginActivity extends Activity {
         public void onClick(View v) {
             Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
             startActivity(intent);
+            finish();
         }
     };
 }

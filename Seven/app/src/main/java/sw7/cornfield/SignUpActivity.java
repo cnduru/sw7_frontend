@@ -59,6 +59,7 @@ public class SignUpActivity extends Activity {
             Intent intent = new Intent(SignUpActivity.this, OverviewActivity.class);
             intent.putExtra("Username", UsernameText.getText().toString());
             startActivity(intent);
+            finish();
         }
     };
 

@@ -12,4 +12,51 @@
         android:layout_height="wrap_content"
         android:gravity="center"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+    <Button
+        android:id="@+id/ResumeGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:text="Resume Game"/>
+
+    <Button
+        android:id="@+id/JoinGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_below="@id/ResumeGame"
+        android:text="Join Game"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/CreateGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_below="@id/JoinGame"
+        android:text="Create Game"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/LogOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/CreateGame"
+        android:text="Log Out"
+        android:layout_weight="1"/>
+
+    </RelativeLayout>
+
+
 </RelativeLayout>
