@@ -7,10 +7,9 @@
     tools:context="sw7.cornfield.CreateGameActivity">
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_centerHorizontal="true"
         android:id="@+id/PrivacySetting"
         android:layout_weight="1" >
 
@@ -18,13 +17,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Private Game"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            android:layout_weight="1"
+            android:layout_gravity="center|left"/>
 
         <RadioButton android:id="@+id/radio_ninjas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Public Game"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            android:layout_weight="1"
+            android:layout_gravity="center|right"/>
     </RadioGroup>
 
     <Spinner
@@ -32,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/PrivacySetting"
         android:id="@+id/NumberOfTeams"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown" />
 
@@ -41,6 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:id="@+id/StartTime"
+        android:layout_marginTop="10dp"
         android:layout_below="@id/NumberOfTeams">
 
         <TextView
@@ -53,6 +57,15 @@
             android:layout_alignParentLeft="true"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/StartTimeRightText"
+            android:text="Hours"
+            android:textSize="17dp"
+            android:gravity="center_vertical"
+            android:layout_alignParentRight="true"/>
+
         <EditText
             android:layout_width="80dp"
             android:layout_height="wrap_content"
@@ -62,14 +75,6 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:id="@+id/StartTimeRightText"
-            android:text="Hours"
-            android:textSize="17dp"
-            android:gravity="center_vertical"
-            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
 
@@ -90,15 +95,6 @@
             android:layout_alignParentLeft="true"
             />
 
-        <EditText
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/EndTimeEditable"
-            android:layout_toLeftOf="@id/EndTimeRightText"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"/>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="50dp"
@@ -108,7 +104,15 @@
             android:gravity="center_vertical"
             android:layout_alignParentRight="true"/>
 
-    </RelativeLayout>
+        <EditText
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/EndTimeEditable"
+            android:layout_toLeftOf="@id/EndTimeRightText"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"/>
 
+    </RelativeLayout>
 
 </RelativeLayout>
