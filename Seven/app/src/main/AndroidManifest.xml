@@ -58,6 +58,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="sw7.cornfield.OverviewActivity" />
         </activity>
+        <activity
+            android:name="sw7.cornfield.InvitePlayersActivity"
+            android:label="@string/title_activity_invite_players" >
+        </activity>
     </application>
 
 </manifest>

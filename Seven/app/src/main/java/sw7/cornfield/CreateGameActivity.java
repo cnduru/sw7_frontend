@@ -1,6 +1,7 @@
 package sw7.cornfield;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -37,6 +38,13 @@ public class CreateGameActivity extends Activity {
     EditText EndLng;
     Button CreateGameButton;
     Button CancelButton;
+
+    Boolean GameStartValid = false;
+    Boolean GameEndValid = false;
+    Boolean StartLatValid = false;
+    Boolean StartLngValid = false;
+    Boolean EndLatValid = false;
+    Boolean EndLngValid = false;
 
     String[] NumberOfTeamsValues = new String[]{"2 Teams", "3 Teams", "4 Teams"};
     ArrayAdapter<String> NumberOfTeamsAdapter;
@@ -83,8 +91,35 @@ public class CreateGameActivity extends Activity {
         EndLat.addTextChangedListener(EndLatListener);
         EndLng.addTextChangedListener(EndLngListener);
 
+        CreateGameButton.setOnClickListener(CreateGameListener);
+        CancelButton.setOnClickListener(CancelListener);
+
 
     }
+
+    private void updateCreateGameButton() {
+        if (GameStartValid && GameEndValid && StartLatValid && StartLngValid && EndLatValid && EndLngValid) {
+            CreateGameButton.setEnabled(true);
+        } else {
+            CreateGameButton.setEnabled(false);
+        }
+    }
+
+    View.OnClickListener CancelListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            finish();
+        }
+    };
+
+    View.OnClickListener CreateGameListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            //TODO: Send created variables to server
+            Intent intent = new Intent(CreateGameActivity.this, InvitePlayersActivity.class);
+            //TODO: Put GameId into intent. Invite friends will need it.
+            startActivity(intent);
+            finish();
+        }
+    };
 
     private TextWatcher GameStartListener = new TextWatcher() {
         @Override
@@ -101,9 +136,12 @@ public class CreateGameActivity extends Activity {
 
             if (GameStart.length() == 0) {
                 GameStartTime = Calendar.getInstance();
+                GameStartValid = false;
             } else {
                 GameStartTime.add(Calendar.HOUR, Integer.parseInt(GameStart));
+                GameStartValid = true;
             }
+            updateCreateGameButton();
         }
     };
 
@@ -121,10 +159,13 @@ public class CreateGameActivity extends Activity {
             String GameEnd = editable.toString();
 
             if (GameEnd.length() == 0) {
+                GameEndValid = false;
 
             } else {
                 GameDuration = Integer.parseInt(GameEnd);
+                GameEndValid = true;
             }
+            updateCreateGameButton();
         }
     };
 
@@ -142,11 +183,12 @@ public class CreateGameActivity extends Activity {
             String startLat = editable.toString();
             if(startLat.length()  == 0) {
                 SouthEastBoundry = new LatLng(0, SouthEastBoundry.longitude);
+                StartLatValid = false;
             } else {
                 SouthEastBoundry = new LatLng(Double.parseDouble(startLat), SouthEastBoundry.longitude);
+                StartLatValid = true;
             }
-            Log.e("test", "Southeast bounds are: Lat " + SouthEastBoundry.latitude + " Lng " + SouthEastBoundry.longitude);
-            Log.e("test", "Northwest bounds are: Lat " + NorthWestBoundry.latitude + " Lng " + NorthWestBoundry.longitude);
+            updateCreateGameButton();
         }
     };
 
@@ -164,11 +206,12 @@ public class CreateGameActivity extends Activity {
             String startLng = editable.toString();
             if(startLng.length()  == 0) {
                 SouthEastBoundry = new LatLng(SouthEastBoundry.latitude, 0);
+                StartLngValid = false;
             } else {
                 SouthEastBoundry = new LatLng(SouthEastBoundry.latitude, Double.parseDouble(startLng));
+                StartLngValid = true;
             }
-            Log.e("test", "Southeast bounds are: Lat " + SouthEastBoundry.latitude + " Lng " + SouthEastBoundry.longitude);
-            Log.e("test", "Northwest bounds are: Lat " + NorthWestBoundry.latitude + " Lng " + NorthWestBoundry.longitude);
+            updateCreateGameButton();
         }
     };
 
@@ -186,11 +229,12 @@ public class CreateGameActivity extends Activity {
             String endLat = editable.toString();
             if(endLat.length()  == 0) {
                 NorthWestBoundry = new LatLng(0, NorthWestBoundry.longitude);
+                EndLatValid = false;
             } else {
                 NorthWestBoundry = new LatLng(Double.parseDouble(endLat), NorthWestBoundry.longitude);
+                EndLatValid = true;
             }
-            Log.e("test", "Southeast bounds are: Lat " + SouthEastBoundry.latitude + " Lng " + SouthEastBoundry.longitude);
-            Log.e("test", "Northwest bounds are: Lat " + NorthWestBoundry.latitude + " Lng " + NorthWestBoundry.longitude);
+            updateCreateGameButton();
         }
     };
 
@@ -208,11 +252,12 @@ public class CreateGameActivity extends Activity {
             String endLng = editable.toString();
             if(endLng.length()  == 0) {
                 NorthWestBoundry = new LatLng(NorthWestBoundry.latitude, 0);
+                EndLngValid = false;
             } else {
                 NorthWestBoundry = new LatLng(NorthWestBoundry.latitude, Double.parseDouble(endLng));
+                EndLngValid = true;
             }
-            Log.e("test", "Southeast bounds are: Lat " + SouthEastBoundry.latitude + " Lng " + SouthEastBoundry.longitude);
-            Log.e("test", "Northwest bounds are: Lat " + NorthWestBoundry.latitude + " Lng " + NorthWestBoundry.longitude);
+            updateCreateGameButton();
         }
     };
 
