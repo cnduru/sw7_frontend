@@ -7,9 +7,9 @@
     tools:context="sw7.cornfield.InvitePlayersActivity">
 
     <TextView
+        android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:text="Add Players to Game"
         android:textSize="17dp"/>
 
@@ -17,23 +17,57 @@
         android:id="@+id/InviteLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/Title"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/Username"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:hint="Username:"
             android:maxLength="20"
             android:singleLine="true"
             android:imeOptions="actionDone"
             android:layout_weight="1"/>
 
-        <ImageView
-            android:id="@+id/UsernameAddImage"
-            android:layout_width="50dp"
+        <ImageButton
+            android:id="@+id/UsernameAddButton"
+            android:layout_width="100dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:layout_marginLeft="5dp" />
+            android:clickable="false"
+            android:src="@drawable/add"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"/>
+
     </LinearLayout>
+
+
+
+    <Button
+        android:id="@+id/Done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:layout_alignParentBottom="true"
+        android:text="Create Game"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@id/Done"
+        android:layout_below="@id/InviteLayout">
+
+        <ListView
+            android:id="@+id/PlayerList"
+            android:layout_below="@id/InviteLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+
+        </LinearLayout>
 
 </RelativeLayout>
