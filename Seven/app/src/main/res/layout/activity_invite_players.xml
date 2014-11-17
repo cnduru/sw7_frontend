@@ -51,7 +51,7 @@
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
         android:layout_alignParentBottom="true"
-        android:text="Create Game"
+        android:text="Done"
         android:layout_weight="1"/>
 
     <LinearLayout

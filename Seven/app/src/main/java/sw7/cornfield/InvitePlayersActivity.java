@@ -72,17 +72,22 @@ public class InvitePlayersActivity extends Activity {
 
     View.OnClickListener InvitePlayerListener = new View.OnClickListener() {
         public void onClick(View v) {
-            //TODO: Ask server if user exists - If so, add user id to list and to server invite list (Currently just adds to list whatever string is entered)
-            if (true) {
-                InvitedPlayers.add(InvitePlayerText.getText().toString());
-                InvitePlayerText.setText("");
-                invitedPlayersAdapter.notifyDataSetChanged();
+            if (!InvitedPlayers.contains(InvitePlayerText.getText().toString())) {
+                //TODO: Ask server if user exists - If so, add user id to list and to server invite list (Currently just adds to list whatever string is entered)
+                if (true) {
+                    InvitedPlayers.add(InvitePlayerText.getText().toString());
+                    InvitePlayerText.setText("");
+                    invitedPlayersAdapter.notifyDataSetChanged();
 
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(InvitePlayerText.getWindowToken(), 0);
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(InvitePlayerText.getWindowToken(), 0);
 
+                } else {
+                    Toast inviteError = Toast.makeText(getApplicationContext(), "That user does not exist", Toast.LENGTH_SHORT);
+                    inviteError.show();
+                }
             } else {
-                Toast inviteError = Toast.makeText(getApplicationContext(), "That user does not exist", Toast.LENGTH_SHORT);
+                Toast inviteError = Toast.makeText(getApplicationContext(), "This user has already been invited", Toast.LENGTH_SHORT);
                 inviteError.show();
             }
         }
