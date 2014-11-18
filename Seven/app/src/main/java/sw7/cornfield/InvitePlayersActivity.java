@@ -90,7 +90,7 @@ public class InvitePlayersActivity extends Activity {
                 InvitePlayerText.setText("");
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(InvitePlayerText.getWindowToken(), 0);
-                
+
                 Toast inviteError = Toast.makeText(getApplicationContext(), "This user has already been invited", Toast.LENGTH_SHORT);
                 inviteError.show();
             }

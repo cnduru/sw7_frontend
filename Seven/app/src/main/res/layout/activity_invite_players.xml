@@ -42,8 +42,6 @@
 
     </LinearLayout>
 
-
-
     <Button
         android:id="@+id/Done"
         android:layout_width="match_parent"
@@ -63,6 +61,7 @@
 
         <ListView
             android:id="@+id/PlayerList"
+            android:isScrollContainer="false"
             android:layout_below="@id/InviteLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
