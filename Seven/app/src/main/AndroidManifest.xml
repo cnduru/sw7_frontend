@@ -62,6 +62,10 @@
             android:name="sw7.cornfield.InvitePlayersActivity"
             android:label="@string/title_activity_invite_players" >
         </activity>
+        <activity
+            android:name="sw7.cornfield.GameChooserActivity"
+            android:label="@string/title_activity_game_chooser" >
+        </activity>
     </application>
 
 </manifest>

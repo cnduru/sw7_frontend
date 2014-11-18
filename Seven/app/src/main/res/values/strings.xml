@@ -17,5 +17,6 @@
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_create_game">CreateGameActivity</string>
     <string name="title_activity_invite_players">InvitePlayersActivity</string>
+    <string name="title_activity_game_chooser">GameChooserActivity</string>
 
 </resources>

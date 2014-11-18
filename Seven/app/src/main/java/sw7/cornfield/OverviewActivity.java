@@ -30,6 +30,8 @@ public class OverviewActivity extends Activity {
         LogOutButton = (Button) findViewById(R.id.LogOut);
 
         CreateGameButton.setOnClickListener(CreateGameListener);
+        ResumeGameButton.setOnClickListener(ResumeGameListener);
+        JoinGameButton.setOnClickListener(JoinGameListener);
         LogOutButton.setOnClickListener(LogOutListener);
 
         Intent intent = getIntent();
@@ -50,6 +52,19 @@ public class OverviewActivity extends Activity {
         public void onClick(View v) {
             Intent intent = new Intent(OverviewActivity.this, CreateGameActivity.class);
             startActivity(intent);
+        }
+    };
+
+    View.OnClickListener ResumeGameListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            Intent intent = new Intent(OverviewActivity.this, GameChooserActivity.class);
+            startActivity(intent);
+        }
+    };
+
+    View.OnClickListener JoinGameListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            //TODO: Implement activity for joining a public game
         }
     };
 
