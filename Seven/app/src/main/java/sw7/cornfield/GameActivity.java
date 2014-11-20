@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 
-public class MainActivity extends Activity {
+public class GameActivity extends Activity {
 
     private GPS Gps;
     private DataAccumulator Accumulator;

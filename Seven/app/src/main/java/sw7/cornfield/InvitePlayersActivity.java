@@ -23,7 +23,7 @@ public class InvitePlayersActivity extends Activity {
     ListView InvitedPlayersView;
     Button DoneButton;
 
-    InvitedPlayersAdapter invitedPlayersAdapter;
+    InvitedPlayersAdapter PlayersAdapter;
 
     //TODO: This should just be an Integer when database is ready
     ArrayList<String> InvitedPlayers = new ArrayList<String>();
@@ -43,8 +43,8 @@ public class InvitePlayersActivity extends Activity {
         InvitePlayerButton.setEnabled(false);
         DoneButton.setOnClickListener(DoneListener);
 
-        invitedPlayersAdapter = new InvitedPlayersAdapter(this, R.layout.player_list_item, InvitedPlayers);
-        InvitedPlayersView.setAdapter(invitedPlayersAdapter);
+        PlayersAdapter = new InvitedPlayersAdapter(this, R.layout.game_list_item, InvitedPlayers);
+        InvitedPlayersView.setAdapter(PlayersAdapter);
     }
 
     private TextWatcher InvitePlayerTextListener = new TextWatcher() {
@@ -77,7 +77,7 @@ public class InvitePlayersActivity extends Activity {
                 if (true) {
                     InvitedPlayers.add(InvitePlayerText.getText().toString());
                     InvitePlayerText.setText("");
-                    invitedPlayersAdapter.notifyDataSetChanged();
+                    PlayersAdapter.notifyDataSetChanged();
 
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(InvitePlayerText.getWindowToken(), 0);
