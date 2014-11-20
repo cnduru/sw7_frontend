@@ -5,18 +5,20 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal" >
 
-    <Button
+    <TextView
         android:id="@+id/EnterGameButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_weight="1"
+        android:onClick="onClick"
+        android:clickable="true"
         android:text="GameName"
         android:textSize="20dp"
         android:padding="10dp">
-    </Button>
+    </TextView>
 
     <ImageButton
-        android:id="@+id/RemovePlayer"
+        android:id="@+id/LeaveGameButton"
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_weight="1"

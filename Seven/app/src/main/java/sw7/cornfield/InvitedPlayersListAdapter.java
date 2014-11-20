@@ -13,12 +13,12 @@ import java.util.ArrayList;
 /**
  * Created by Morten on 17-11-2014.
  */
-public class InvitedPlayersAdapter extends ArrayAdapter<String> {
+public class InvitedPlayersListAdapter extends ArrayAdapter<String> {
     ArrayList<String> InvitedPlayers = new ArrayList<String>();
     Context ActivityContext;
     int LayoutId;
 
-    public InvitedPlayersAdapter(Context activityContext, int layoutId, ArrayList<String> invitedPlayers) {
+    public InvitedPlayersListAdapter(Context activityContext, int layoutId, ArrayList<String> invitedPlayers) {
         super(activityContext, layoutId, invitedPlayers);
         this.InvitedPlayers = invitedPlayers;
         this.ActivityContext = activityContext;
@@ -54,7 +54,7 @@ public class InvitedPlayersAdapter extends ArrayAdapter<String> {
         TextView listItemText = (TextView)playerView.findViewById(R.id.PlayerName);
         listItemText.setText(InvitedPlayers.get(position));
 
-        ImageButton uninviteButton = (ImageButton) playerView.findViewById(R.id.RemovePlayer);
+        ImageButton uninviteButton = (ImageButton) playerView.findViewById(R.id.RemovePlayerButton);
 
         uninviteButton.setOnClickListener(new View.OnClickListener(){
             @Override

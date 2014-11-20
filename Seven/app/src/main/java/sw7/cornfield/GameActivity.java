@@ -3,10 +3,6 @@ package sw7.cornfield;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.widget.TextView;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 
 public class GameActivity extends Activity {
 
@@ -19,7 +15,7 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_game);
 
         // Set context for the main activity to be used internally in this class
         mainContext = this.getApplicationContext();

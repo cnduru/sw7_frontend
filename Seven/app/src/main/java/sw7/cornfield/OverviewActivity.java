@@ -57,14 +57,15 @@ public class OverviewActivity extends Activity {
 
     View.OnClickListener ResumeGameListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Intent intent = new Intent(OverviewActivity.this, GameChooserActivity.class);
+            Intent intent = new Intent(OverviewActivity.this, ResumeGameActivity.class);
             startActivity(intent);
         }
     };
 
     View.OnClickListener JoinGameListener = new View.OnClickListener() {
         public void onClick(View v) {
-            //TODO: Implement activity for joining a public game
+            Intent intent = new Intent(OverviewActivity.this, JoinGameActivity.class);
+            startActivity(intent);
         }
     };
 

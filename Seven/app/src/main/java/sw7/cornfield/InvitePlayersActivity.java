@@ -23,7 +23,7 @@ public class InvitePlayersActivity extends Activity {
     ListView InvitedPlayersView;
     Button DoneButton;
 
-    InvitedPlayersAdapter PlayersAdapter;
+    InvitedPlayersListAdapter PlayersAdapter;
 
     //TODO: This should just be an Integer when database is ready
     ArrayList<String> InvitedPlayers = new ArrayList<String>();
@@ -43,7 +43,7 @@ public class InvitePlayersActivity extends Activity {
         InvitePlayerButton.setEnabled(false);
         DoneButton.setOnClickListener(DoneListener);
 
-        PlayersAdapter = new InvitedPlayersAdapter(this, R.layout.game_list_item, InvitedPlayers);
+        PlayersAdapter = new InvitedPlayersListAdapter(this, R.layout.resume_game_list_item, InvitedPlayers);
         InvitedPlayersView.setAdapter(PlayersAdapter);
     }
 
