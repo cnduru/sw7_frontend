@@ -11,7 +11,7 @@ public class Client {
         clientThread.start();
     }
 
-    public void sendData(String data) {
+    public void send(String data) {
         try {
             //If logcat produces errors on line below, check that the server port matches SERVER_PORT
             PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(ClientSocket.getOutputStream())), true);
@@ -24,6 +24,19 @@ public class Client {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String read() {
+
+        String result = "";
+
+        try {
+            InputStream in = ClientSocket.getInputStream();
+            result += in.read();
+            return result;
+        } catch (Exception e) {
+        }
+        return result;
     }
 
     public void close() {

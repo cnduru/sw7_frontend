@@ -5,13 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LoginActivity extends Activity {
 
+    Client DataClient;
     EditText UsernameText;
     EditText PasswordText;
     Button LoginButton;
@@ -89,11 +94,17 @@ public class LoginActivity extends Activity {
 
     View.OnClickListener LoginListener = new View.OnClickListener() {
         public void onClick(View v) {
+            String loginData = EncodeServerXML.login(UsernameText.toString(), PasswordText.toString());
+            DataClient = new Client();
+            DataClient.send(loginData);
+            DecodeServerXML.login(DataClient.read());
+
             //If user and password is found in DB, login. Otherwise display error.
             if(true) {
                 Intent intent = new Intent(LoginActivity.this, OverviewActivity.class);
                 intent.putExtra("Username", UsernameText.getText().toString());
                 startActivity(intent);
+                DataClient.close();
                 finish();
             } else {
                 Toast loginError = Toast.makeText(getApplicationContext(), "Wrong Credentials", Toast.LENGTH_SHORT);

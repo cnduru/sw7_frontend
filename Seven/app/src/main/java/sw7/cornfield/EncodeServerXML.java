@@ -5,9 +5,9 @@ import java.util.List;
 /**
  * Created by Morten on 24-11-2014.
  */
-public class XMLConverter {
+public class EncodeServerXML {
 
-    public static String convertLogin(String username, String password) {
+    public static String login(String username, String password) {
 
         String tag = "Login";
         String entryA = "Username";
@@ -23,7 +23,7 @@ public class XMLConverter {
         return xml;
     }
 
-    public static String convertSignUpCheck(String username) {
+    public static String signUpCheck(String username) {
 
         String tag = "SignUpCheck";
         String entryA = "Username";
@@ -37,7 +37,7 @@ public class XMLConverter {
         return xml;
     }
 
-    public static String convertSignUp(String username, String password) {
+    public static String signUp(String username, String password) {
 
         String tag = "SignUp";
         String entryA = "Username";
@@ -53,7 +53,7 @@ public class XMLConverter {
         return xml;
     }
 
-    public static String convertCreateGame(String name, String isPrivateGame, String numberOfTeams, String gameStart, String gameEnd, String southEastBoundry, String northEastBoundry) {
+    public static String createGame(String name, String isPrivateGame, String numberOfTeams, String gameStart, String gameEnd, String southEastBoundry, String northEastBoundry, String hostId) {
 
         String tag = "CreateGame";
         String entryA = "Name";
@@ -63,6 +63,7 @@ public class XMLConverter {
         String entryE = "GameEnd";
         String entryF = "SouthEastBoundry";
         String entryG = "NorthEastBoundry";
+        String entryH = "HostId";
 
         String xml = "";
 
@@ -74,14 +75,15 @@ public class XMLConverter {
         xml += "<" + entryE + ">" + gameEnd + "</" + entryE + ">";
         xml += "<" + entryF + ">" + southEastBoundry + "</" + entryF + ">";
         xml += "<" + entryG + ">" + northEastBoundry + "</" + entryG + ">";
+        xml += "<" + entryH + ">" + hostId + "</" + entryG + ">";
         xml += "</" + tag + ">";
 
         return xml;
     }
 
-    public static String convertEditPlayerInvites(String gameId, List<String> players) {
+    public static String setPlayerInvites(String gameId, List<String> players) {
 
-        String tag = "EditPlayerInvites";
+        String tag = "SetPlayerInvites";
         String entryA = "GameId";
         String entryB = "Players";
 
@@ -99,7 +101,7 @@ public class XMLConverter {
         return xml;
     }
 
-    public static String convertGetPlayerInvites(String gameId) {
+    public static String getPlayerInvites(String gameId) {
 
         String tag = "GetPlayerInvites";
         String entryA = "GameId";
@@ -113,7 +115,7 @@ public class XMLConverter {
         return xml;
     }
 
-    public static String convertGetPublicGames() {
+    public static String getPublicGames() {
 
         String tag = "GetPublicGames";
 
@@ -125,7 +127,7 @@ public class XMLConverter {
         return xml;
     }
 
-    public static String convertJoinGame(String userId, String gameId) {
+    public static String joinGame(String userId, String gameId) {
 
         String tag = "JoinGame";
         String entryA = "UserId";
@@ -141,7 +143,7 @@ public class XMLConverter {
         return xml;
     }
 
-    public static String convertGetActiveGames(String userId) {
+    public static String getActiveGames(String userId) {
 
         String tag = "GetActiveGames";
         String entryA = "UserId";
@@ -155,7 +157,7 @@ public class XMLConverter {
         return xml;
     }
 
-    public static String convertLeaveGame(String userId, String gameId) {
+    public static String leaveGame(String userId, String gameId) {
 
         String tag = "LeaveGame";
         String entryA = "UserId";
