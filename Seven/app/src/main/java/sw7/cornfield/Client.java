@@ -6,19 +6,17 @@ import java.net.*;
 import java.io.*;
 
 public class Client {
-    private static final String SERVER_IP = "192.168.1.59";
-    public static final int SERVER_PORT = 8000;
-    Socket socket;
+    private Socket ClientSocket;
 
     public Client() {
-        Thread cThread = new Thread(new ClientThread());
-        cThread.start();
+        Thread clientThread = new Thread(new ClientThread(ClientSocket));
+        clientThread.start();
     }
 
     public void sendData(Location location, int userId) {
         try {
-            //If logcat produces errors here, check that the server port matches SERVER_PORT
-            PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+            //If logcat produces errors on line below, check that the server port matches SERVER_PORT
+            PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(ClientSocket.getOutputStream())), true);
             if(location != null) {
                 out.println(String.format("%i;%d;%d", userId, location.getLatitude(), location.getLongitude()));
             } else {
@@ -35,7 +33,7 @@ public class Client {
 
     public void close() {
         try {
-            socket.close();
+            ClientSocket.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,21 +41,5 @@ public class Client {
 
     public void getInfo() {
 
-    }
-
-    public class ClientThread implements Runnable {
-        public void run() {
-            String ip = SERVER_IP;
-            try {
-                InetAddress serverName = InetAddress.getByName(ip);
-                socket = new Socket(serverName, SERVER_PORT);
-
-                BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-
-                out.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }
