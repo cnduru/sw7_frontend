@@ -1,7 +1,5 @@
 package sw7.cornfield;
 
-import android.location.Location;
-
 import java.net.*;
 import java.io.*;
 

@@ -1,6 +1,5 @@
 package sw7.cornfield;
 
-
 import java.util.List;
 
 /**
@@ -171,5 +170,4 @@ public class XMLConverter {
 
         return xml;
     }
-
 }

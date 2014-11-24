@@ -18,9 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Calendar;
 
-
 public class CreateGameActivity extends Activity {
-
     RadioGroup Privacy;
     RadioButton RadioPublic;
     RadioButton RadioPrivate;

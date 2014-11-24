@@ -10,7 +10,6 @@ import java.net.Socket;
  * Created by Morten on 24-11-2014.
  */
 public class ClientThread implements Runnable{
-
     private final String SERVER_IP = "192.168.1.59";
     private final int SERVER_PORT = 8000;
     private Socket ClientSocket;

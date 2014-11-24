@@ -5,7 +5,6 @@ import android.os.CountDownTimer;
 /**
  * Created by Johan 'Jizztærsker' on 30-10-2014.
  */
-
 public class DataAccumulator {
 
     GPS Gps;

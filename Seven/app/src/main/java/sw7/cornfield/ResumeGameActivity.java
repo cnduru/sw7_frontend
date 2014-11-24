@@ -6,7 +6,6 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-
 public class ResumeGameActivity extends Activity {
 
     ListView GameListView;

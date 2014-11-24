@@ -26,7 +26,6 @@ public class GameActivity extends Activity {
         Accumulator = new DataAccumulator(Gps);
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
