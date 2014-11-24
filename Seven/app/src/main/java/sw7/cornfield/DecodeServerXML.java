@@ -6,6 +6,7 @@ import org.xml.sax.InputSource;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public class DecodeServerXML {
 
         InputSource xml = new InputSource(new StringReader(data));
         XPath xpath = XPathFactory.newInstance().newXPath();
-        Map<String, String> loginValidation = null;
+        Map<String, String> loginValidation = Collections.emptyMap();
 
         try {
             Object login = xpath.evaluate("/Login", xml, XPathConstants.NODE);
@@ -103,7 +104,7 @@ public class DecodeServerXML {
 
         XPath xpath = XPathFactory.newInstance().newXPath();
         List<String> strings = new ArrayList<String>();
-        Map<Integer, String> invitees = null;
+        Map<Integer, String> invitees = Collections.emptyMap();
 
         try {
             XPathExpression expr = xpath.compile("//Core.Reference");
@@ -127,7 +128,7 @@ public class DecodeServerXML {
 
         XPath xpath = XPathFactory.newInstance().newXPath();
         List<String> strings = new ArrayList<String>();
-        Map<Integer, String> games = null;
+        Map<Integer, String> games = Collections.emptyMap();
 
         try {
             XPathExpression expr = xpath.compile("//Core.Reference");
@@ -168,7 +169,7 @@ public class DecodeServerXML {
 
         XPath xpath = XPathFactory.newInstance().newXPath();
         List<String> strings = new ArrayList<String>();
-        Map<Integer, String> games = null;
+        Map<Integer, String> games = Collections.emptyMap();
 
         try {
             XPathExpression expr = xpath.compile("//Core.Reference");

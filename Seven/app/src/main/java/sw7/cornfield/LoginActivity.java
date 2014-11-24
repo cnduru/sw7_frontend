@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class LoginActivity extends Activity {
 
@@ -38,6 +39,50 @@ public class LoginActivity extends Activity {
         PasswordText.addTextChangedListener(PasswordValidator);
         LoginButton.setOnClickListener(LoginListener);
         SignUpButton.setOnClickListener(SignUpListener);
+
+
+        //THE REMAINS OF ONCREATE IS FOR TESTING
+
+        String A = "<Login><Valid>OK</Valid><UserId>35</UserId></Login>";
+        String B = "<SignUpCheck><Valid>OK</Valid></SignUpCheck>";
+        String C = "<SignUp><UserId>69</UserId></SignUp>";
+        String D = "<CreateGame><GameId>60</GameId></CreateGame>";
+        String E = "<SetPlayerInvites><Message>OK</Message></SetPlayerInvites>";
+        String F = "<GetPlayerInvites><UserId>1</UserId><UserId>2</UserId><UserId>3</UserId></GetPlayerInvites>";
+        String G = "<GetPublicGames><GameId>6</GameId><GameId>7</GameId><GameId>8</GameId></GetPublicGames>";
+        String H = "<JoinGame><Message>OK</Message></JoinGame>";
+        String I = "<GetActiveGames><GameId>12</GameId><GameId>13</GameId><GameId>14</GameId></GetActiveGames>\"";
+        String J = "<LeaveGame><Message>OK</Message></LeaveGame>";
+
+        Map<String, String> map = DecodeServerXML.login(A);
+        Log.e("test", map.toString());
+
+        Boolean kk = DecodeServerXML.signUpCheck(B);
+        Log.e("test", kk.toString());
+
+        int userid = DecodeServerXML.signUp(C);
+        Log.e("test", Integer.toString(userid));
+
+        int game = DecodeServerXML.createGame(D);
+        Log.e("test", Integer.toString(game));
+
+        Boolean yes = DecodeServerXML.setPlayerInvites(E);
+        Log.e("test", yes.toString());
+
+        Map<Integer, String> hej = DecodeServerXML.getPlayerInvites(F);
+        Log.e("test", hej.toString());
+
+        Map<Integer, String> kkk = DecodeServerXML.getPublicGames(G);
+        Log.e("test", kkk.toString());
+
+        Boolean sup = DecodeServerXML.joinGame(H);
+        Log.e("test", sup.toString());
+
+        Map<Integer, String> kek = DecodeServerXML.getActiveGames(I);
+        Log.e("test", kek.toString());
+
+        Boolean nejjj = DecodeServerXML.leaveGame(J);
+        Log.e("test", nejjj.toString());
     }
 
     private void updateLoginButton() {
