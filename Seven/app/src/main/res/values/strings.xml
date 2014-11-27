@@ -20,5 +20,6 @@
     <string name="title_activity_game_chooser">GameChooserActivity</string>
     <string name="title_activity_join_game">JoinGameActivity</string>
     <string name="title_activity_game">GameActivity</string>
+    <string name="title_activity_lobby">LobbyActivity</string>
 
 </resources>

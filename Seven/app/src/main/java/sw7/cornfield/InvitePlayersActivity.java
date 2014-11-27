@@ -2,6 +2,7 @@ package sw7.cornfield;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -98,6 +99,8 @@ public class InvitePlayersActivity extends Activity {
 
     View.OnClickListener DoneListener = new View.OnClickListener() {
         public void onClick(View v) {
+            Intent intent = new Intent(InvitePlayersActivity.this, LobbyActivity.class);
+            startActivity(intent);
             finish();
         }
     };

@@ -59,7 +59,7 @@ public class ResumeGameListAdapter extends ArrayAdapter<String> {
         enterGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityContext, GameActivity.class);
+                Intent intent = new Intent(ActivityContext, LobbyActivity.class);
                 ActivityContext.startActivity(intent);
                 ((Activity) ActivityContext).finish();
 
