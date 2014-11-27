@@ -23,6 +23,7 @@ public class CreateGameActivity extends Activity {
     RadioButton RadioPublic;
     RadioButton RadioPrivate;
     Spinner NumberOfTeams;
+    EditText GameName;
     EditText GameStart;
     EditText GameEnd;
     EditText StartLat;
@@ -32,6 +33,7 @@ public class CreateGameActivity extends Activity {
     Button CreateGameButton;
     Button CancelButton;
 
+    Boolean GameNameValid = false;
     Boolean GameStartValid = false;
     Boolean GameEndValid = false;
     Boolean StartLatValid = false;
@@ -54,6 +56,7 @@ public class CreateGameActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
 
+        GameName = (EditText) findViewById(R.id.GameName);
         Privacy = (RadioGroup) findViewById(R.id.PrivacySetting);
         RadioPublic = (RadioButton) findViewById(R.id.radio_public);
         RadioPrivate = (RadioButton) findViewById(R.id.radio_private);
@@ -66,6 +69,8 @@ public class CreateGameActivity extends Activity {
         EndLng = (EditText) findViewById(R.id.EndLng);
         CreateGameButton = (Button) findViewById(R.id.OkCreate);
         CancelButton = (Button) findViewById(R.id.Cancel);
+
+        GameName.addTextChangedListener(GameNameListener);
 
         Privacy.setOnCheckedChangeListener(PrivacyListener);
         RadioPublic.setOnClickListener(PublicListener);
@@ -86,12 +91,10 @@ public class CreateGameActivity extends Activity {
 
         CreateGameButton.setOnClickListener(CreateGameListener);
         CancelButton.setOnClickListener(CancelListener);
-
-
     }
 
     private void updateCreateGameButton() {
-        if (GameStartValid && GameEndValid && StartLatValid && StartLngValid && EndLatValid && EndLngValid) {
+        if (GameNameValid && GameStartValid && GameEndValid && StartLatValid && StartLngValid && EndLatValid && EndLngValid) {
             CreateGameButton.setEnabled(true);
         } else {
             CreateGameButton.setEnabled(false);
@@ -111,6 +114,28 @@ public class CreateGameActivity extends Activity {
             //TODO: Put GameId into intent. Invite friends will need it.
             startActivity(intent);
             finish();
+        }
+    };
+
+    private TextWatcher GameNameListener = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String GameName = editable.toString();
+
+            if (GameName.length() == 0) {
+                GameNameValid = false;
+            } else {
+                GameNameValid = true;
+            }
+            updateCreateGameButton();
         }
     };
 

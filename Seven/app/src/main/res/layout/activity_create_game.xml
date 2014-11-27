@@ -6,10 +6,40 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="sw7.cornfield.CreateGameActivity">
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/NameLayout"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/NameDescription"
+            android:text="Name "
+            android:textSize="17dp"
+            android:gravity="center_vertical"
+            android:layout_alignParentLeft="true" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/GameName"
+            android:layout_toRightOf="@id/NameDescription"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:singleLine="true"
+            android:maxLength="20"
+            android:imeOptions="actionDone"/>
+
+    </RelativeLayout>
+
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_below="@id/NameLayout"
+        android:layout_marginTop="10dp"
         android:id="@+id/PrivacySetting"
         android:layout_weight="1" >
 
