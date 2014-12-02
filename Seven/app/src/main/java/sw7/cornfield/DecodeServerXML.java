@@ -107,7 +107,7 @@ public class DecodeServerXML {
         Map<Integer, String> invitees = Collections.emptyMap();
 
         try {
-            XPathExpression expr = xpath.compile("//Core.Reference");
+            XPathExpression expr = xpath.compile(data);
             NodeList playerList = (NodeList) expr.evaluate(data, XPathConstants.NODESET);
 
             for (int i = 0; i < playerList.getLength(); i++) {
@@ -131,7 +131,7 @@ public class DecodeServerXML {
         Map<Integer, String> games = Collections.emptyMap();
 
         try {
-            XPathExpression expr = xpath.compile("//Core.Reference");
+            XPathExpression expr = xpath.compile(data);
             NodeList gameList = (NodeList) expr.evaluate(data, XPathConstants.NODESET);
 
             for (int i = 0; i < gameList.getLength(); i++) {
@@ -172,7 +172,7 @@ public class DecodeServerXML {
         Map<Integer, String> games = Collections.emptyMap();
 
         try {
-            XPathExpression expr = xpath.compile("//Core.Reference");
+            XPathExpression expr = xpath.compile(data);
             NodeList gameList = (NodeList) expr.evaluate(data, XPathConstants.NODESET);
 
             for (int i = 0; i < gameList.getLength(); i++) {
