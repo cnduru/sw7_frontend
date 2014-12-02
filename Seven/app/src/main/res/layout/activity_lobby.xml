@@ -6,9 +6,47 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="sw7.cornfield.LobbyActivity">
 
-    <TextView android:text="Lobby" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/GameName"
+        android:text="Name "
+        android:textSize="50dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/Privacy"
+        android:text="Game type "
+        android:textStyle="bold"
+        android:textSize="17dp"
+        android:gravity="center_vertical"
+        android:layout_below="@id/GameName"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/NumberOfTeams"
+        android:text="Number of Teams "
+        android:textStyle="bold"
+        android:textSize="17dp"
+        android:gravity="center_vertical"
+        android:layout_below="@id/Privacy"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/TimeLeft"
+        android:text="Time Remaining "
+        android:textStyle="bold"
+        android:textSize="17dp"
+        android:gravity="center_vertical"
+        android:layout_below="@id/NumberOfTeams"/>
 
     <LinearLayout
         android:id="@+id/ManagementLayout"
@@ -41,7 +79,17 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="60dp"
+        android:layout_marginTop="10dp"
         android:text="Enter Game"
         android:layout_above="@id/ManagementLayout"/>
+
+    <fragment
+        android:id="@+id/Map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/TimeLeft"
+        android:layout_above="@id/EnterGame"
+        android:layout_marginTop="10dp"
+        class="com.google.android.gms.maps.MapFragment" />
 
 </RelativeLayout>

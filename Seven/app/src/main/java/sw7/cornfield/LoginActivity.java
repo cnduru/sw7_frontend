@@ -43,6 +43,27 @@ public class LoginActivity extends Activity {
 
         //THE REMAINS OF ONCREATE IS FOR TESTING
 
+        // XML - OUT
+        List<String> k = new ArrayList<String>();
+        k.add("k");
+        k.add("k");
+        k.add("k");
+
+        Log.e("test",EncodeServerXML.createGame("k", "k", "k", "k", "k", "k", "k", "k"));
+        Log.e("test",EncodeServerXML.getActiveGames("k"));
+        Log.e("test",EncodeServerXML.getPlayerInvites("k"));
+        Log.e("test",EncodeServerXML.getPublicGames());
+        Log.e("test",EncodeServerXML.joinGame("k", "k"));
+        Log.e("test",EncodeServerXML.leaveGame("k", "k"));
+        Log.e("test",EncodeServerXML.login("k", "k"));
+        Log.e("test",EncodeServerXML.setPlayerInvites("k", k));
+        Log.e("test",EncodeServerXML.signUp("k", "k"));
+        Log.e("test",EncodeServerXML.signUpCheck("k"));
+
+        Log.e("test", "END OF XML - IN");
+
+        // XML - IN
+
         String A = "<Login><Valid>OK</Valid><UserId>35</UserId></Login>";
         String B = "<SignUpCheck><Valid>OK</Valid></SignUpCheck>";
         String C = "<SignUp><UserId>69</UserId></SignUp>";
