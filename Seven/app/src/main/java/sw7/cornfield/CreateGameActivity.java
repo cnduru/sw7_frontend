@@ -19,17 +19,17 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.Calendar;
 
 public class CreateGameActivity extends Activity {
-    RadioGroup Privacy;
+    RadioGroup PrivacyGroup;
     RadioButton RadioPublic;
     RadioButton RadioPrivate;
-    Spinner NumberOfTeams;
-    EditText GameName;
-    EditText GameStart;
-    EditText GameEnd;
-    EditText StartLat;
-    EditText StartLng;
-    EditText EndLat;
-    EditText EndLng;
+    Spinner NumberOfTeamsView;
+    EditText GameNameView;
+    EditText GameStartView;
+    EditText GameEndView;
+    EditText StartLatView;
+    EditText StartLngView;
+    EditText EndLatView;
+    EditText EndLngView;
     Button CreateGameButton;
     Button CancelButton;
 
@@ -48,46 +48,50 @@ public class CreateGameActivity extends Activity {
     Integer Teams = 2;
     Calendar GameStartTime = Calendar.getInstance();
     int GameDuration;
-    LatLng SouthEastBoundry = new LatLng(0, 0);
-    LatLng NorthWestBoundry = new LatLng(0, 0);
+    LatLng SouthEastBoundary = new LatLng(0, 0);
+    LatLng NorthWestBoundary = new LatLng(0, 0);
+
+    Integer UserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
 
-        GameName = (EditText) findViewById(R.id.GameName);
-        Privacy = (RadioGroup) findViewById(R.id.PrivacySetting);
+        UserId = getIntent().getIntExtra("UserId", -1);
+
+        GameNameView = (EditText) findViewById(R.id.GameNameText);
+        PrivacyGroup = (RadioGroup) findViewById(R.id.PrivacySetting);
         RadioPublic = (RadioButton) findViewById(R.id.radio_public);
         RadioPrivate = (RadioButton) findViewById(R.id.radio_private);
-        NumberOfTeams = (Spinner) findViewById(R.id.NumberOfTeams);
-        GameStart = (EditText) findViewById(R.id.StartTimeEditable);
-        GameEnd = (EditText) findViewById(R.id.EndTimeEditable);
-        StartLat = (EditText) findViewById(R.id.StartLat);
-        StartLng = (EditText) findViewById(R.id.StartLng);
-        EndLat = (EditText) findViewById(R.id.EndLat);
-        EndLng = (EditText) findViewById(R.id.EndLng);
+        NumberOfTeamsView = (Spinner) findViewById(R.id.NumberOfTeamsSpinner);
+        GameStartView = (EditText) findViewById(R.id.StartTimeEditable);
+        GameEndView = (EditText) findViewById(R.id.EndTimeEditable);
+        StartLatView = (EditText) findViewById(R.id.StartLat);
+        StartLngView = (EditText) findViewById(R.id.StartLng);
+        EndLatView = (EditText) findViewById(R.id.EndLat);
+        EndLngView = (EditText) findViewById(R.id.EndLng);
         CreateGameButton = (Button) findViewById(R.id.OkCreate);
         CancelButton = (Button) findViewById(R.id.Cancel);
 
-        GameName.addTextChangedListener(GameNameListener);
+        GameNameView.addTextChangedListener(GameNameListener);
 
-        Privacy.setOnCheckedChangeListener(PrivacyListener);
+        PrivacyGroup.setOnCheckedChangeListener(PrivacyListener);
         RadioPublic.setOnClickListener(PublicListener);
         RadioPrivate.setOnClickListener(PrivateListener);
 
         NumberOfTeamsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, NumberOfTeamsValues);
         NumberOfTeamsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        NumberOfTeams.setAdapter(NumberOfTeamsAdapter);
-        NumberOfTeams.setOnItemSelectedListener(NumberOfTeamsListener);
+        NumberOfTeamsView.setAdapter(NumberOfTeamsAdapter);
+        NumberOfTeamsView.setOnItemSelectedListener(NumberOfTeamsListener);
 
-        GameStart.addTextChangedListener(GameStartListener);
-        GameEnd.addTextChangedListener(GameEndListener);
+        GameStartView.addTextChangedListener(GameStartListener);
+        GameEndView.addTextChangedListener(GameEndListener);
 
-        StartLat.addTextChangedListener(StartLatListener);
-        StartLng.addTextChangedListener(StartLngListener);
-        EndLat.addTextChangedListener(EndLatListener);
-        EndLng.addTextChangedListener(EndLngListener);
+        StartLatView.addTextChangedListener(StartLatListener);
+        StartLngView.addTextChangedListener(StartLngListener);
+        EndLatView.addTextChangedListener(EndLatListener);
+        EndLngView.addTextChangedListener(EndLngListener);
 
         CreateGameButton.setOnClickListener(CreateGameListener);
         CancelButton.setOnClickListener(CancelListener);
@@ -200,10 +204,10 @@ public class CreateGameActivity extends Activity {
         public void afterTextChanged(Editable editable) {
             String startLat = editable.toString();
             if(startLat.length()  == 0) {
-                SouthEastBoundry = new LatLng(0, SouthEastBoundry.longitude);
+                SouthEastBoundary = new LatLng(0, SouthEastBoundary.longitude);
                 StartLatValid = false;
             } else {
-                SouthEastBoundry = new LatLng(Double.parseDouble(startLat), SouthEastBoundry.longitude);
+                SouthEastBoundary = new LatLng(Double.parseDouble(startLat), SouthEastBoundary.longitude);
                 StartLatValid = true;
             }
             updateCreateGameButton();
@@ -223,10 +227,10 @@ public class CreateGameActivity extends Activity {
         public void afterTextChanged(Editable editable) {
             String startLng = editable.toString();
             if(startLng.length()  == 0) {
-                SouthEastBoundry = new LatLng(SouthEastBoundry.latitude, 0);
+                SouthEastBoundary = new LatLng(SouthEastBoundary.latitude, 0);
                 StartLngValid = false;
             } else {
-                SouthEastBoundry = new LatLng(SouthEastBoundry.latitude, Double.parseDouble(startLng));
+                SouthEastBoundary = new LatLng(SouthEastBoundary.latitude, Double.parseDouble(startLng));
                 StartLngValid = true;
             }
             updateCreateGameButton();
@@ -246,10 +250,10 @@ public class CreateGameActivity extends Activity {
         public void afterTextChanged(Editable editable) {
             String endLat = editable.toString();
             if(endLat.length()  == 0) {
-                NorthWestBoundry = new LatLng(0, NorthWestBoundry.longitude);
+                NorthWestBoundary = new LatLng(0, NorthWestBoundary.longitude);
                 EndLatValid = false;
             } else {
-                NorthWestBoundry = new LatLng(Double.parseDouble(endLat), NorthWestBoundry.longitude);
+                NorthWestBoundary = new LatLng(Double.parseDouble(endLat), NorthWestBoundary.longitude);
                 EndLatValid = true;
             }
             updateCreateGameButton();
@@ -269,10 +273,10 @@ public class CreateGameActivity extends Activity {
         public void afterTextChanged(Editable editable) {
             String endLng = editable.toString();
             if(endLng.length()  == 0) {
-                NorthWestBoundry = new LatLng(NorthWestBoundry.latitude, 0);
+                NorthWestBoundary = new LatLng(NorthWestBoundary.latitude, 0);
                 EndLngValid = false;
             } else {
-                NorthWestBoundry = new LatLng(NorthWestBoundry.latitude, Double.parseDouble(endLng));
+                NorthWestBoundary = new LatLng(NorthWestBoundary.latitude, Double.parseDouble(endLng));
                 EndLngValid = true;
             }
             updateCreateGameButton();

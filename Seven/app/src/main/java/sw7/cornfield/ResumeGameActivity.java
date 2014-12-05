@@ -9,11 +9,11 @@ import java.util.List;
 
 public class ResumeGameActivity extends Activity {
 
-    ListView GameListView;
-    ResumeGameListAdapter GameAdapter;
+    private ListView GameListView;
+    private ResumeGameListAdapter GameAdapter;
+    private List<Pair> GameList = new ArrayList<Pair>();
 
-    Integer UserId;
-    List<Pair> GameList = new ArrayList<Pair>();
+    public Integer UserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

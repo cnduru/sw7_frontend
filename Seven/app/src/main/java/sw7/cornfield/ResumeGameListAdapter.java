@@ -50,9 +50,10 @@ public class ResumeGameListAdapter extends ArrayAdapter<Pair> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ActivityContext, LobbyActivity.class);
+                intent.putExtra("UserId", ((ResumeGameActivity)ActivityContext).UserId);
+                intent.putExtra("GameId", GameList.get(position).getId());
                 ActivityContext.startActivity(intent);
                 ((Activity) ActivityContext).finish();
-
             }
         });
 

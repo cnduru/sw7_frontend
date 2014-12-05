@@ -10,17 +10,18 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Morten on 20-11-2014.
  */
-public class JoinGameListAdapter extends ArrayAdapter<String> {
+public class JoinGameListAdapter extends ArrayAdapter<Pair> {
 
-    ArrayList<String> GameList = new ArrayList<String>();
+    List<Pair> GameList = new ArrayList<Pair>();
     Context ActivityContext;
     int LayoutId;
 
-    public JoinGameListAdapter(Context activityContext, int layoutId, ArrayList<String> gameList) {
+    public JoinGameListAdapter(Context activityContext, int layoutId, List<Pair> gameList) {
         super(activityContext, layoutId, gameList);
         this.GameList = gameList;
         this.ActivityContext = activityContext;
@@ -30,17 +31,6 @@ public class JoinGameListAdapter extends ArrayAdapter<String> {
     @Override
     public int getCount() {
         return GameList.size();
-    }
-
-    @Override
-    public String getItem(int position) {
-        return GameList.get(position);
-    }
-
-    @Override
-    //TODO: Should return gameId
-    public long getItemId(int pos) {
-        return 0;
     }
 
     @Override
@@ -54,11 +44,13 @@ public class JoinGameListAdapter extends ArrayAdapter<String> {
 
         //TODO: In reality, this class should take the int, ask server for the associated username and display that
         TextView joinGameButton = (TextView) gameView.findViewById(R.id.JoinGameButton);
-        joinGameButton.setText(GameList.get(position));
+        joinGameButton.setText(GameList.get(position).getName());
         joinGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ActivityContext, LobbyActivity.class);
+                intent.putExtra("UserId", ((JoinGameActivity)ActivityContext).UserId);
+                intent.putExtra("GameId", GameList.get(position).getId());
                 ActivityContext.startActivity(intent);
                 ((Activity) ActivityContext).finish();
             }

@@ -24,7 +24,7 @@
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/GameName"
+            android:id="@+id/GameNameText"
             android:layout_toRightOf="@id/NameDescription"
             android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
@@ -65,7 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/PrivacySetting"
-        android:id="@+id/NumberOfTeams"
+        android:id="@+id/NumberOfTeamsSpinner"
         android:layout_marginTop="10dp"
         android:background="@android:drawable/btn_dropdown"
         android:spinnerMode="dropdown" />
@@ -76,7 +76,7 @@
         android:layout_centerInParent="true"
         android:id="@+id/StartTime"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/NumberOfTeams">
+        android:layout_below="@id/NumberOfTeamsSpinner">
 
         <TextView
             android:layout_width="wrap_content"
