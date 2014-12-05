@@ -170,8 +170,8 @@ public class LoginActivity extends Activity {
             //If user and password is found in DB, login. Otherwise display error.
             if(ResponseData.get("Valid").equals("TRUE")) {
                 Intent intent = new Intent(LoginActivity.this, OverviewActivity.class);
-                intent.putExtra("Username", UsernameText.getText().toString());
                 intent.putExtra("UserId", Integer.parseInt(ResponseData.get("UserId")));
+                intent.putExtra("Username", UsernameText.getText().toString());
                 startActivity(intent);
                 DataClient.close();
                 finish();

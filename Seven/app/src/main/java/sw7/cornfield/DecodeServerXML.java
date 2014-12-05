@@ -2,7 +2,10 @@ package sw7.cornfield;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.xpath.XPath;
@@ -101,9 +104,9 @@ public class DecodeServerXML {
         return false;
     }
 
-    public static Map<String, String> getPlayerInvites(Document data) {
+    public static List<Pair> getPlayerInvites(Document data) {
         String[] tempList;
-        Map<String, String> invitees = new HashMap<String, String>();
+        List<Pair> invitees = new ArrayList<Pair>();
 
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
@@ -112,7 +115,7 @@ public class DecodeServerXML {
 
             for (int i = 0; i < n1.getLength(); i++) {
                 tempList = n1.item(i).getTextContent().split("&");
-                invitees.put(tempList[0], tempList[1]);
+                invitees.add(new Pair(Integer.parseInt(tempList[0]), tempList[1]));
             }
 
         } catch (XPathExpressionException e) {
@@ -121,9 +124,9 @@ public class DecodeServerXML {
         return invitees;
     }
 
-    public static Map<String, String> getPublicGames(Document data) {
+    public static List<Pair> getPublicGames(Document data) {
         String[] tempList;
-        Map<String, String> games = new HashMap<String, String>();
+        List<Pair> games = new ArrayList<Pair>();
 
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
@@ -132,7 +135,7 @@ public class DecodeServerXML {
 
             for (int i = 0; i < n1.getLength(); i++) {
                 tempList = n1.item(i).getTextContent().split("&");
-                games.put(tempList[0], tempList[1]);
+                games.add(new Pair(Integer.parseInt(tempList[0]), tempList[1]));
             }
 
         } catch (XPathExpressionException e) {
@@ -159,9 +162,9 @@ public class DecodeServerXML {
         return false;
     }
 
-    public static Map<String, String> getActiveGames(Document data) {
+    public static List<Pair> getActiveGames(Document data) {
         String[] tempList;
-        Map<String, String> games = new HashMap<String, String>();
+        List<Pair> games = new ArrayList<Pair>();
 
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
@@ -170,7 +173,7 @@ public class DecodeServerXML {
 
             for (int i = 0; i < n1.getLength(); i++) {
                 tempList = n1.item(i).getTextContent().split("&");
-                games.put(tempList[0], tempList[1]);
+                games.add(new Pair(Integer.parseInt(tempList[0]), tempList[1]));
             }
 
         } catch (XPathExpressionException e) {

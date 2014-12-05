@@ -34,9 +34,8 @@ public class OverviewActivity extends Activity {
         JoinGameButton.setOnClickListener(JoinGameListener);
         LogOutButton.setOnClickListener(LogOutListener);
 
-        Intent intent = getIntent();
-        UserId = intent.getIntExtra("UserId", -1);
-        Username = intent.getStringExtra("Username");
+        UserId = getIntent().getIntExtra("UserId", -1);
+        Username = getIntent().getStringExtra("Username");
 
         WelcomeText.setText("Welcome " + Username + ". Your ID is " + UserId + ".");
     }
@@ -52,6 +51,7 @@ public class OverviewActivity extends Activity {
     View.OnClickListener CreateGameListener = new View.OnClickListener() {
         public void onClick(View v) {
             Intent intent = new Intent(OverviewActivity.this, CreateGameActivity.class);
+            intent.putExtra("UserId", UserId);
             startActivity(intent);
         }
     };
@@ -59,6 +59,7 @@ public class OverviewActivity extends Activity {
     View.OnClickListener ResumeGameListener = new View.OnClickListener() {
         public void onClick(View v) {
             Intent intent = new Intent(OverviewActivity.this, ResumeGameActivity.class);
+            intent.putExtra("UserId", UserId);
             startActivity(intent);
         }
     };
@@ -66,6 +67,7 @@ public class OverviewActivity extends Activity {
     View.OnClickListener JoinGameListener = new View.OnClickListener() {
         public void onClick(View v) {
             Intent intent = new Intent(OverviewActivity.this, JoinGameActivity.class);
+            intent.putExtra("UserId", UserId);
             startActivity(intent);
         }
     };

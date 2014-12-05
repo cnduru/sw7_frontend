@@ -11,18 +11,20 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Morten on 20-11-2014.
  */
-public class ResumeGameListAdapter extends ArrayAdapter<String> {
+public class ResumeGameListAdapter extends ArrayAdapter<Pair> {
 
-    ArrayList<String> GameList = new ArrayList<String>();
+    List<Pair> GameList = new ArrayList<Pair>();
     Context ActivityContext;
     int LayoutId;
 
-    public ResumeGameListAdapter(Context activityContext, int layoutId, ArrayList<String> gameList) {
+    public ResumeGameListAdapter(Context activityContext, int layoutId, List<Pair> gameList) {
         super(activityContext, layoutId, gameList);
+
         this.GameList = gameList;
         this.ActivityContext = activityContext;
         this.LayoutId = layoutId;
@@ -34,17 +36,6 @@ public class ResumeGameListAdapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public String getItem(int position) {
-        return GameList.get(position);
-    }
-
-    @Override
-    //TODO: Should return gameId
-    public long getItemId(int pos) {
-        return 0;
-    }
-
-    @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View gameView = convertView;
 
@@ -53,9 +44,8 @@ public class ResumeGameListAdapter extends ArrayAdapter<String> {
             gameView = inflater.inflate(R.layout.resume_game_list_item, null);
         }
 
-        //TODO: In reality, this class should take the int, ask server for the associated username and display that
         TextView enterGameButton = (TextView) gameView.findViewById(R.id.EnterGameButton);
-        enterGameButton.setText(GameList.get(position));
+        enterGameButton.setText(GameList.get(position).getName());
         enterGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
