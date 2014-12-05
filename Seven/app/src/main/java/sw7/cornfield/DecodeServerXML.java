@@ -1,18 +1,13 @@
 package sw7.cornfield;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 /**
@@ -20,188 +15,184 @@ import javax.xml.xpath.XPathFactory;
  */
 public class DecodeServerXML {
 
-    public static Map<String, String> login(String data) {
-
-        InputSource xml = new InputSource(new StringReader(data));
-        XPath xpath = XPathFactory.newInstance().newXPath();
-        Map<String, String> loginValidation = Collections.emptyMap();
+    public static Map<String, String> login(Document data) {
+        Map<String, String> loginValidation = new HashMap<String, String>();
 
         try {
-            Object login = xpath.evaluate("/Login", xml, XPathConstants.NODE);
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String exp = "/Login/UserId/text()";
+            NodeList nl= (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/Login/Valid/text()";
+            NodeList n2= (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
-            loginValidation.put("Valid", xpath.evaluate("Valid", login));
-            loginValidation.put("UserId", xpath.evaluate("UserId", login));
-        } catch (Exception e) {
+            loginValidation.put("UserId", nl.item(0).getTextContent());
+            loginValidation.put("Valid", n2.item(0).getTextContent());
+
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
         }
 
         return loginValidation;
     }
 
-    public static boolean signUpCheck(String data) {
-
-        InputSource xml = new InputSource(new StringReader(data));
-        XPath xpath = XPathFactory.newInstance().newXPath();
+    public static boolean signUpCheck(Document data) {
         boolean validation = false;
 
         try {
-            Object signUpCheck = xpath.evaluate("/SignUpCheck", xml, XPathConstants.NODE);
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String exp = "/SignUpCheck/Valid/text()";
+            NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
-            if("true" == xpath.evaluate("Valid", signUpCheck)) {
+            if(n1.item(0).getTextContent().equals("TRUE")) {
                 validation = true;
             }
 
-        } catch (Exception e) {
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
         }
         return validation;
     }
 
-    public static int signUp(String data) {
-
-        InputSource xml = new InputSource(new StringReader(data));
-        XPath xpath = XPathFactory.newInstance().newXPath();
+    public static Integer signUp(Document data) {
         Integer userId = null;
 
         try {
-            Object signUp = xpath.evaluate("/SignUp", xml, XPathConstants.NODE);
-            userId = Integer.parseInt(xpath.evaluate("UserId", signUp));
-        } catch (Exception e) {
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String exp = "/SignUp/UserId/text()";
+            NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            userId = Integer.parseInt(n1.item(0).getTextContent());
+
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
         }
         return userId;
     }
 
-    public static Integer createGame(String data) {
-
-        InputSource xml = new InputSource(new StringReader(data));
-        XPath xpath = XPathFactory.newInstance().newXPath();
+    public static Integer createGame(Document data) {
         Integer gameId = null;
 
         try {
-            Object createGame = xpath.evaluate("/CreateGame", xml, XPathConstants.NODE);
-            gameId = Integer.parseInt(xpath.evaluate("GameId", createGame));
-        } catch (Exception e) {
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String exp = "/CreateGame/GameId/text()";
+            NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            gameId = Integer.parseInt(n1.item(0).getTextContent());
+
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
         }
         return gameId;
     }
 
-    public static Boolean setPlayerInvites(String data) {
-
-        InputSource xml = new InputSource(new StringReader(data));
-        XPath xpath = XPathFactory.newInstance().newXPath();
+    public static Boolean setPlayerInvites(Document data) {
 
         try {
-            Object editPlayerInvites = xpath.evaluate("/SetPlayerInvites", xml, XPathConstants.NODE);
-            if ("OK" == xpath.evaluate("Message", editPlayerInvites)) {
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String exp = "/SetPlayerInvites/Message/text()";
+            NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+
+            if (n1.item(0).getTextContent().equals("OK")) {
                 return true;
             } else {
                 return false;
             }
-        } catch (Exception e) {
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
         }
         return false;
     }
 
-    public static Map<Integer, String> getPlayerInvites(String data) {
-
-        XPath xpath = XPathFactory.newInstance().newXPath();
-        List<String> strings = new ArrayList<String>();
-        Map<Integer, String> invitees = Collections.emptyMap();
+    public static Map<String, String> getPlayerInvites(Document data) {
+        String[] tempList;
+        Map<String, String> invitees = new HashMap<String, String>();
 
         try {
-            XPathExpression expr = xpath.compile(data);
-            NodeList playerList = (NodeList) expr.evaluate(data, XPathConstants.NODESET);
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String exp = "/GetPlayerInvites/RetrieveId/text()";
+            NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
-            for (int i = 0; i < playerList.getLength(); i++) {
-                strings.add(playerList.item(i).getTextContent());
+            for (int i = 0; i < n1.getLength(); i++) {
+                tempList = n1.item(i).getTextContent().split("&");
+                invitees.put(tempList[0], tempList[1]);
             }
-        } catch (Exception e) {
-        }
 
-        List<String> splitValues;
-        for(String invitee : strings) {
-            splitValues = Arrays.asList(invitee.split("&"));
-            invitees.put(Integer.parseInt(splitValues.get(0)), splitValues.get(1));
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
         }
         return invitees;
     }
 
-    public static Map<Integer, String> getPublicGames(String data) {
-
-        XPath xpath = XPathFactory.newInstance().newXPath();
-        List<String> strings = new ArrayList<String>();
-        Map<Integer, String> games = Collections.emptyMap();
+    public static Map<String, String> getPublicGames(Document data) {
+        String[] tempList;
+        Map<String, String> games = new HashMap<String, String>();
 
         try {
-            XPathExpression expr = xpath.compile(data);
-            NodeList gameList = (NodeList) expr.evaluate(data, XPathConstants.NODESET);
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String exp = "/GetPublicGames/Game/text()";
+            NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
-            for (int i = 0; i < gameList.getLength(); i++) {
-                strings.add(gameList.item(i).getTextContent());
+            for (int i = 0; i < n1.getLength(); i++) {
+                tempList = n1.item(i).getTextContent().split("&");
+                games.put(tempList[0], tempList[1]);
             }
-        } catch (Exception e) {
-        }
 
-        List<String> splitValues;
-        for(String invitee : strings) {
-            splitValues = Arrays.asList(invitee.split("&"));
-            games.put(Integer.parseInt(splitValues.get(0)), splitValues.get(1));
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
         }
         return games;
     }
 
-    public static Boolean joinGame(String data) {
-
-        InputSource xml = new InputSource(new StringReader(data));
-        XPath xpath = XPathFactory.newInstance().newXPath();
+    public static Boolean joinGame(Document data) {
 
         try {
-            Object joinGame = xpath.evaluate("/JoinGame", xml, XPathConstants.NODE);
-            if ("OK" == xpath.evaluate("Message", joinGame)) {
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String exp = "/JoinGame/Message/text()";
+            NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+
+            if (n1.item(0).getTextContent().equals("OK")) {
                 return true;
             } else {
                 return false;
             }
-        } catch (Exception e) {
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
         }
         return false;
     }
 
-    public static Map<Integer, String> getActiveGames(String data) {
-
-        XPath xpath = XPathFactory.newInstance().newXPath();
-        List<String> strings = new ArrayList<String>();
-        Map<Integer, String> games = Collections.emptyMap();
+    public static Map<String, String> getActiveGames(Document data) {
+        String[] tempList;
+        Map<String, String> games = new HashMap<String, String>();
 
         try {
-            XPathExpression expr = xpath.compile(data);
-            NodeList gameList = (NodeList) expr.evaluate(data, XPathConstants.NODESET);
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String exp = "/GetActiveGames/Game/text()";
+            NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
-            for (int i = 0; i < gameList.getLength(); i++) {
-                strings.add(gameList.item(i).getTextContent());
+            for (int i = 0; i < n1.getLength(); i++) {
+                tempList = n1.item(i).getTextContent().split("&");
+                games.put(tempList[0], tempList[1]);
             }
-        } catch (Exception e) {
-        }
 
-        List<String> splitValues;
-        for(String invitee : strings) {
-            splitValues = Arrays.asList(invitee.split("&"));
-            games.put(Integer.parseInt(splitValues.get(0)), splitValues.get(1));
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
         }
         return games;
     }
 
-    public static Boolean leaveGame(String data) {
-
-        InputSource xml = new InputSource(new StringReader(data));
-        XPath xpath = XPathFactory.newInstance().newXPath();
+    public static Boolean leaveGame(Document data) {
 
         try {
-            Object leaveGame = xpath.evaluate("/LeaveGame", xml, XPathConstants.NODE);
-            if ("OK" == xpath.evaluate("Message", leaveGame)) {
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String exp = "/LeaveGame/Message/text()";
+            NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+
+            if (n1.item(0).getTextContent().equals("OK")) {
                 return true;
             } else {
                 return false;
             }
-        } catch (Exception e) {
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
         }
         return false;
     }

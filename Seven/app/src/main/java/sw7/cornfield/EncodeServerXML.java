@@ -19,6 +19,7 @@ public class EncodeServerXML {
         xml += "<" + entryA + ">" + username + "</" + entryA + ">";
         xml += "<" + entryB + ">" + password + "</" + entryB + ">";
         xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }
@@ -33,6 +34,7 @@ public class EncodeServerXML {
         xml += "<" + tag + ">";
         xml += "<" + entryA + ">" + username + "</" + entryA + ">";
         xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }
@@ -49,6 +51,7 @@ public class EncodeServerXML {
         xml += "<" + entryA + ">" + username + "</" + entryA + ">";
         xml += "<" + entryB + ">" + password + "</" + entryB + ">";
         xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }
@@ -77,6 +80,7 @@ public class EncodeServerXML {
         xml += "<" + entryG + ">" + northEastBoundry + "</" + entryG + ">";
         xml += "<" + entryH + ">" + hostId + "</" + entryG + ">";
         xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }
@@ -97,6 +101,7 @@ public class EncodeServerXML {
         }
 
         xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }
@@ -111,6 +116,7 @@ public class EncodeServerXML {
         xml += "<" + tag + ">";
         xml += "<" + entryA + ">" + gameId + "</" + entryA + ">";
         xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }
@@ -123,6 +129,7 @@ public class EncodeServerXML {
 
         xml += "<" + tag + ">";
         xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }
@@ -139,6 +146,7 @@ public class EncodeServerXML {
         xml += "<" + entryA + ">" + userId + "</" + entryA + ">";
         xml += "<" + entryB + ">" + gameId + "</" + entryB + ">";
         xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }
@@ -153,6 +161,7 @@ public class EncodeServerXML {
         xml += "<" + tag + ">";
         xml += "<" + entryA + ">" + userId + "</" + entryA + ">";
         xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }
@@ -169,6 +178,7 @@ public class EncodeServerXML {
         xml += "<" + entryA + ">" + userId + "</" + entryA + ">";
         xml += "<" + entryB + ">" + gameId + "</" + entryB + ">";
         xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }

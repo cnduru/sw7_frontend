@@ -1,42 +1,102 @@
 package sw7.cornfield;
 
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
 import java.net.*;
 import java.io.*;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 public class Client {
     private Socket ClientSocket;
+    private Thread SocketThread;
+    private Thread ReadThread;
+    private String Response = "";
+
+    private final String SERVER_IP = "192.168.43.56";
+    private final int SERVER_PORT = 11000;
 
     public Client() {
-        Thread clientThread = new Thread(new ClientThread(ClientSocket));
-        clientThread.start();
+
+        SocketThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    InetAddress serverName = InetAddress.getByName(SERVER_IP);
+                    ClientSocket = new Socket(serverName, SERVER_PORT);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        SocketThread.start();
     }
 
     public void send(String data) {
         try {
-            //If logcat produces errors on line below, check that the server port matches SERVER_PORT
+            SocketThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            //If logcat produces errors on line below, check that the server is running and that port matches SERVERPORT
             PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(ClientSocket.getOutputStream())), true);
-            out.println(String.format("%s", data));
-
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
+            out.println(data);
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public String read() {
+    public Document read() {
+        ReadThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                InputStream in;
+                try {
+                    in = ClientSocket.getInputStream();
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+                    String line;
+                    line = bufferedReader.readLine();
 
-        String result = "";
+                    while (line != null) {
+                        Response += line;
+                        line = bufferedReader.readLine();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        ReadThread.start();
 
         try {
-            InputStream in = ClientSocket.getInputStream();
-            result += in.read();
-            return result;
-        } catch (Exception e) {
+            ReadThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        return result;
+
+        try {
+            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            InputSource is = new InputSource();
+            is.setCharacterStream(new StringReader(Response));
+            Document doc = db.parse(is);
+            return doc;
+
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public void close() {
@@ -45,9 +105,5 @@ public class Client {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public void getInfo() {
-
     }
 }

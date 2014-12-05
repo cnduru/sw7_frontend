@@ -31,7 +31,7 @@ public class LobbyActivity extends Activity {
         SettingsButton = (Button) findViewById(R.id.GameSettings);
         InvitePlayersButton = (Button) findViewById(R.id.InvitePlayers);
         PlayArea = ((MapFragment) getFragmentManager().findFragmentById(R.id.Map)).getMap();
-        
+
         final LatLngBounds playAreaBounds = new LatLngBounds(new LatLng(57.0046047, 9.8616402), new LatLng(57.0786811,9.9666766));
 
         //Get the overlaycolor and add it to the map

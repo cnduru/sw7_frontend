@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends Activity {
@@ -24,6 +21,8 @@ public class LoginActivity extends Activity {
     Button SignUpButton;
     Boolean UsernameValid = false;
     Boolean PasswordValid = false;
+
+    String LoginData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +40,7 @@ public class LoginActivity extends Activity {
         SignUpButton.setOnClickListener(SignUpListener);
 
 
+        /*
         //THE REMAINS OF ONCREATE IS FOR TESTING
 
         // XML - OUT
@@ -76,7 +76,7 @@ public class LoginActivity extends Activity {
         String J = "<LeaveGame><Message>OK</Message></LeaveGame>";
 
         Map<String, String> map = DecodeServerXML.login(A);
-        Log.e("test", map.toString());
+        Log.e("test", "Login test: " + map.get("Valid"));
 
         Boolean kk = DecodeServerXML.signUpCheck(B);
         Log.e("test", kk.toString());
@@ -104,6 +104,8 @@ public class LoginActivity extends Activity {
 
         Boolean nejjj = DecodeServerXML.leaveGame(J);
         Log.e("test", nejjj.toString());
+
+        */
     }
 
     private void updateLoginButton() {
@@ -160,15 +162,16 @@ public class LoginActivity extends Activity {
 
     View.OnClickListener LoginListener = new View.OnClickListener() {
         public void onClick(View v) {
-            String loginData = EncodeServerXML.login(UsernameText.toString(), PasswordText.toString());
+            LoginData = EncodeServerXML.login(UsernameText.getText().toString(), PasswordText.getText().toString());
             DataClient = new Client();
-            DataClient.send(loginData);
-            DecodeServerXML.login(DataClient.read());
+            DataClient.send(LoginData);
+            Map<String, String> ResponseData = DecodeServerXML.login(DataClient.read());
 
             //If user and password is found in DB, login. Otherwise display error.
-            if(true) {
+            if(ResponseData.get("Valid").equals("TRUE")) {
                 Intent intent = new Intent(LoginActivity.this, OverviewActivity.class);
                 intent.putExtra("Username", UsernameText.getText().toString());
+                intent.putExtra("UserId", Integer.parseInt(ResponseData.get("UserId")));
                 startActivity(intent);
                 DataClient.close();
                 finish();

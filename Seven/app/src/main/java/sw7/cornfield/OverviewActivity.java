@@ -15,6 +15,7 @@ public class OverviewActivity extends Activity {
     Button CreateGameButton;
     Button LogOutButton;
 
+    Integer UserId;
     String Username;
 
     @Override
@@ -34,9 +35,10 @@ public class OverviewActivity extends Activity {
         LogOutButton.setOnClickListener(LogOutListener);
 
         Intent intent = getIntent();
+        UserId = intent.getIntExtra("UserId", -1);
         Username = intent.getStringExtra("Username");
 
-        WelcomeText.setText("Logged in as " + Username);
+        WelcomeText.setText("Welcome " + Username + ". Your ID is " + UserId + ".");
     }
 
     View.OnClickListener LogOutListener = new View.OnClickListener() {
