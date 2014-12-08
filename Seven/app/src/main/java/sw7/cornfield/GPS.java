@@ -5,6 +5,8 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.model.LatLng;
 
 import android.content.Context;
 
@@ -15,23 +17,23 @@ import android.widget.Toast;
 
 public class GPS implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, LocationListener {
 
-    Context MainContext;
+    Context GameContext;
     LocationClient Client;
     Location CurrentLocation;
     LocationRequest Request;
 
-    public GPS(Context mainContext) {
+    public GPS(Context gameContext) {
 
         //Set class variables
-        this.MainContext = mainContext;
+        this.GameContext = gameContext;
 
         //Display warning if GPS is disabled
         if(!gpsEnabled()) {
-            Toast.makeText(MainContext, "Warning: GPS is disabled", Toast.LENGTH_SHORT).show();
+            Toast.makeText(GameContext, "Warning: GPS is disabled", Toast.LENGTH_SHORT).show();
         }
 
-        //Setup the Client
-        Client = new LocationClient(MainContext, this, this);
+        //Setup the LocationClient
+        Client = new LocationClient(GameContext, this, this);
 
         // Define requests for positions. Desired interval is 5 seconds, and never updates faster than 3 seconds.
         Request = LocationRequest.create();
@@ -57,14 +59,14 @@ public class GPS implements GooglePlayServicesClient.ConnectionCallbacks, Google
     }
 
     private Boolean gpsEnabled(){
-        LocationManager manager = (LocationManager) MainContext.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager manager = (LocationManager) GameContext.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
         return manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
     //Needed for GooglePlayServicesClient.OnConnectionFailedListener
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Toast.makeText(MainContext, "GPS connection failed", Toast.LENGTH_SHORT).show();
+        Toast.makeText(GameContext, "GPS connection failed", Toast.LENGTH_SHORT).show();
     }
 
     //Needed for GooglePlayServicesClient.ConnectionCallbacks
@@ -84,7 +86,7 @@ public class GPS implements GooglePlayServicesClient.ConnectionCallbacks, Google
     //Needed for GooglePlayServicesClient.ConnectionCallbacks
     @Override
     public void onDisconnected() {
-        Toast.makeText(MainContext, "GPS disconnected.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(GameContext, "GPS disconnected.", Toast.LENGTH_SHORT).show();
     }
 
     // Listen for location changes
@@ -92,5 +94,6 @@ public class GPS implements GooglePlayServicesClient.ConnectionCallbacks, Google
     public void onLocationChanged(Location location) {
         //Update class variable
         CurrentLocation = Client.getLastLocation();
+        ((GameActivity)GameContext).GameMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(CurrentLocation.getLatitude(), CurrentLocation.getLongitude())));
     }
 }
