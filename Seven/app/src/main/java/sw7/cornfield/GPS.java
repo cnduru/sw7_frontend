@@ -54,8 +54,8 @@ public class GPS implements GooglePlayServicesClient.ConnectionCallbacks, Google
         }
     }
 
-    public Location getCurrentLocation() {
-        return this.CurrentLocation;
+    public LatLng getCurrentLocation() {
+        return new LatLng(CurrentLocation.getLatitude(), CurrentLocation.getLongitude());
     }
 
     private Boolean gpsEnabled(){

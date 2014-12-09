@@ -134,7 +134,7 @@ public class EncodeServerXML {
         return xml;
     }
 
-    public static String joinGame(String userId, String gameId) {
+    public static String joinGame(Integer userId, Integer gameId) {
 
         String tag = "JoinGame";
         String entryA = "UserId";
@@ -151,9 +151,9 @@ public class EncodeServerXML {
         return xml;
     }
 
-    public static String getActiveGames(String userId) {
+    public static String getMyGames(Integer userId) {
 
-        String tag = "GetActiveGames";
+        String tag = "GetMyGames";
         String entryA = "UserId";
 
         String xml = "";
@@ -166,7 +166,7 @@ public class EncodeServerXML {
         return xml;
     }
 
-    public static String leaveGame(String userId, String gameId) {
+    public static String leaveGame(Integer userId, Integer gameId) {
 
         String tag = "LeaveGame";
         String entryA = "UserId";

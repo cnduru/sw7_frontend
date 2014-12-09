@@ -1,6 +1,5 @@
 package sw7.cornfield;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -8,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,17 +42,23 @@ public class JoinGameListAdapter extends ArrayAdapter<Pair> {
             gameView = inflater.inflate(R.layout.join_game_list_item, null);
         }
 
-        //TODO: In reality, this class should take the int, ask server for the associated username and display that
         TextView joinGameButton = (TextView) gameView.findViewById(R.id.JoinGameButton);
         joinGameButton.setText(GameList.get(position).getName());
         joinGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ActivityContext, LobbyActivity.class);
-                intent.putExtra("UserId", ((JoinGameActivity)ActivityContext).UserId);
-                intent.putExtra("GameId", GameList.get(position).getId());
-                ActivityContext.startActivity(intent);
-                ((Activity) ActivityContext).finish();
+                Client dataClient = new Client();
+                dataClient.send(EncodeServerXML.joinGame(((JoinGameActivity) ActivityContext).UserId, GameList.get(position).getId()));
+                if (DecodeServerXML.joinGame(dataClient.read())) {
+                    Intent intent = new Intent(ActivityContext, LobbyActivity.class);
+                    intent.putExtra("UserId", ((JoinGameActivity) ActivityContext).UserId);
+                    intent.putExtra("GameId", GameList.get(position).getId());
+                    ActivityContext.startActivity(intent);
+                    ((JoinGameActivity) ActivityContext).finish();
+                } else {
+                    Toast joinError = Toast.makeText(ActivityContext.getApplicationContext(), "Something failed. Please try again.", Toast.LENGTH_SHORT);
+                    joinError.show();
+                }
             }
         });
         return gameView;

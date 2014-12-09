@@ -9,11 +9,14 @@ import java.util.List;
 
 public class ResumeGameActivity extends Activity {
 
+    public Client DataClient;
+
     private ListView GameListView;
     private ResumeGameListAdapter GameAdapter;
     private List<Pair> GameList = new ArrayList<Pair>();
 
     public Integer UserId;
+    private String GetMyGamesRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +25,11 @@ public class ResumeGameActivity extends Activity {
 
         UserId = getIntent().getIntExtra("UserId", -1);
 
-        //For testing purposes
-        GameList.add(new Pair(1, "Game1"));
-        GameList.add(new Pair(2, "Game2"));
-        GameList.add(new Pair(3, "Game3"));
+        GetMyGamesRequest = EncodeServerXML.getMyGames(UserId);
+        DataClient = new Client();
+        DataClient.send(GetMyGamesRequest);
+        GameList = DecodeServerXML.getMyGames(DataClient.read());
+        DataClient.close();
 
         GameListView = (ListView) findViewById(R.id.GameList);
         GameAdapter = new ResumeGameListAdapter(this, R.layout.player_list_item, GameList);

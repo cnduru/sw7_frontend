@@ -1,5 +1,7 @@
 package sw7.cornfield;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by Johan 'Jizztærsker' on 02-12-2014.
  */
@@ -21,6 +23,7 @@ public class EncodeActionXML {
         xml += "<" + entryC + ">" + item + "</" + entryC + ">";
         xml += "<" + entryD + ">" + target + "</" + entryD + ">";
         xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }
@@ -40,6 +43,7 @@ public class EncodeActionXML {
         xml += "<" + entryB + ">" + player + "</" + entryB + ">";
         xml += "<" + entryC + ">" + item + "</" + entryC + ">";
         xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }
@@ -58,6 +62,7 @@ public class EncodeActionXML {
         xml += "<" + entryB + ">" + player + "</" + entryB + ">";
         xml += "<" + entryC + ">" + latlng + "</" + entryC + ">";
         xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }
@@ -76,6 +81,28 @@ public class EncodeActionXML {
         xml += "<" + entryB + ">" + player + "</" + entryB + ">";
         xml += "<" + entryC + ">" + latlng + "</" + entryC + ">";
         xml += "</" + tag + ">";
+        xml += "<EOF>";
+
+        return xml;
+    }
+
+    public static String gameUpdate(Integer userId, Integer gameId, LatLng position) {
+
+        String tag = "UpdatePlayerLocation";
+        String entryA = "UserId";
+        String entryB = "GameId";
+        String entryC = "Latitude";
+        String entryD = "Longitude";
+
+        String xml = "";
+
+        xml += "<" + tag + ">";
+        xml += "<" + entryA + ">" + userId + "</" + entryA + ">";
+        xml += "<" + entryB + ">" + gameId + "</" + entryB + ">";
+        xml += "<" + entryC + ">" + position.latitude + "</" + entryC + ">";
+        xml += "<" + entryD + ">" + position.longitude + "</" + entryD + ">";
+        xml += "</" + tag + ">";
+        xml += "<EOF>";
 
         return xml;
     }

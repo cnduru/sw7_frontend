@@ -12,9 +12,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class Client {
-    private Socket ClientSocket;
-    private Thread SocketThread;
-    private Thread ReadThread;
+    private Socket ClientSocket = null;
+    private Thread SocketThread = null;
+    private Thread ReadThread = null;
     private String Response = "";
 
     private final String SERVER_IP = "192.168.43.56";
@@ -95,7 +95,6 @@ public class Client {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 

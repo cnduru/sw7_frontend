@@ -8,21 +8,27 @@ import android.os.CountDownTimer;
 public class DataAccumulator {
 
     GPS Gps;
+    Integer UserId;
+    Integer GameId;
 
     private CountDownTimer Timer = new CountDownTimer(2000,2000) {
+
         @Override
         public void onTick(long l) {
         }
 
         @Override
         public void onFinish() {
-            //MainActivity.client.sendData(Gps.getCurrentLocation());
+            Client dataClient = new Client();
+            dataClient.send(EncodeActionXML.gameUpdate(UserId, GameId, Gps.getCurrentLocation()));
             Timer.start();
         }
     };
 
-    public DataAccumulator(GPS gps) {
+    public DataAccumulator(GPS gps, Integer userId, Integer gameId) {
         this.Gps = gps;
+        this.UserId = userId;
+        this.GameId = gameId;
         Timer.start();
     }
 }

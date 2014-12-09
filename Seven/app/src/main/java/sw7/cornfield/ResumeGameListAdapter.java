@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,9 +62,15 @@ public class ResumeGameListAdapter extends ArrayAdapter<Pair> {
         leaveGameButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //TODO: Tell server to remove player from invitation list
-                GameList.remove(position);
-                notifyDataSetChanged();
+                Client dataClient = new Client();
+                dataClient.send(EncodeServerXML.leaveGame(((ResumeGameActivity)ActivityContext).UserId, GameList.get(position).getId()));
+                if (DecodeServerXML.leaveGame(dataClient.read())) {
+                    GameList.remove(position);
+                    notifyDataSetChanged();
+                } else {
+                    Toast leaveError = Toast.makeText(ActivityContext.getApplicationContext(), "Something failed. Please try again.", Toast.LENGTH_SHORT);
+                    leaveError.show();
+                }
             }
         });
         return gameView;

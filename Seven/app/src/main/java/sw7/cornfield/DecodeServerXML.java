@@ -125,17 +125,17 @@ public class DecodeServerXML {
     }
 
     public static List<Pair> getPublicGames(Document data) {
-        String[] tempList;
         List<Pair> games = new ArrayList<Pair>();
 
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
-            String exp = "/GetPublicGames/Game/text()";
+            String exp = "/GetPublicGames/Game/GameId/text()";
             NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "GetPublicGames/Game/GameName/text()";
+            NodeList n2 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
             for (int i = 0; i < n1.getLength(); i++) {
-                tempList = n1.item(i).getTextContent().split("&");
-                games.add(new Pair(Integer.parseInt(tempList[0]), tempList[1]));
+                games.add(new Pair(Integer.parseInt(n1.item(i).getTextContent()), n2.item(i).getTextContent()));
             }
 
         } catch (XPathExpressionException e) {
@@ -151,7 +151,7 @@ public class DecodeServerXML {
             String exp = "/JoinGame/Message/text()";
             NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
-            if (n1.item(0).getTextContent().equals("OK")) {
+            if (n1.item(0).getTextContent().equals("TRUE")) {
                 return true;
             } else {
                 return false;
@@ -162,20 +162,20 @@ public class DecodeServerXML {
         return false;
     }
 
-    public static List<Pair> getActiveGames(Document data) {
+    public static List<Pair> getMyGames(Document data) {
         String[] tempList;
         List<Pair> games = new ArrayList<Pair>();
 
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
-            String exp = "/GetActiveGames/Game/text()";
+            String exp = "/GetMyGames/Game/GameId/text()";
             NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "GetMyGames/Game/GameName/text()";
+            NodeList n2 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
             for (int i = 0; i < n1.getLength(); i++) {
-                tempList = n1.item(i).getTextContent().split("&");
-                games.add(new Pair(Integer.parseInt(tempList[0]), tempList[1]));
+                games.add(new Pair(Integer.parseInt(n1.item(i).getTextContent()), n2.item(i).getTextContent()));
             }
-
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
@@ -189,7 +189,7 @@ public class DecodeServerXML {
             String exp = "/LeaveGame/Message/text()";
             NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
-            if (n1.item(0).getTextContent().equals("OK")) {
+            if (n1.item(0).getTextContent().equals("TRUE")) {
                 return true;
             } else {
                 return false;
