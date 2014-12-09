@@ -1,4 +1,4 @@
-package sw7.cornfield;
+package sw7.Cornfieldz;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

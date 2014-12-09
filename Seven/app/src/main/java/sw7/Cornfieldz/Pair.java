@@ -1,4 +1,4 @@
-package sw7.cornfield;
+package sw7.Cornfieldz;
 
 /**
  * Created by Morten on 05-12-2014.

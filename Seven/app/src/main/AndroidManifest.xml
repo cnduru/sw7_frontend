@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="sw7.cornfield" >
+    package="sw7.Cornfieldz" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -22,7 +22,7 @@
             android:value="AIzaSyBy_I_MoOqoWPhL2pHhj-xbPPgMLQRmA5k" />
 
         <activity
-            android:name="sw7.cornfield.LoginActivity"
+            android:name="sw7.Cornfieldz.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,43 +31,43 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="sw7.cornfield.OverviewActivity"
+            android:name="sw7.Cornfieldz.OverviewActivity"
             android:label="@string/title_activity_overview" >
         </activity>
         <activity
-            android:name="sw7.cornfield.SignUpActivity"
+            android:name="sw7.Cornfieldz.SignUpActivity"
             android:label="@string/title_activity_sign_up"
-            android:parentActivityName="sw7.cornfield.LoginActivity" >
+            android:parentActivityName="sw7.Cornfieldz.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sw7.cornfield.LoginActivity" />
+                android:value="sw7.Cornfieldz.LoginActivity" />
         </activity>
         <activity
-            android:name="sw7.cornfield.CreateGameActivity"
+            android:name="sw7.Cornfieldz.CreateGameActivity"
             android:label="@string/title_activity_create_game"
-            android:parentActivityName="sw7.cornfield.OverviewActivity" >
+            android:parentActivityName="sw7.Cornfieldz.OverviewActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sw7.cornfield.OverviewActivity" />
+                android:value="sw7.Cornfieldz.OverviewActivity" />
         </activity>
         <activity
-            android:name="sw7.cornfield.InvitePlayersActivity"
+            android:name="sw7.Cornfieldz.InvitePlayersActivity"
             android:label="@string/title_activity_invite_players" >
         </activity>
         <activity
-            android:name="sw7.cornfield.ResumeGameActivity"
+            android:name="sw7.Cornfieldz.ResumeGameActivity"
             android:label="@string/title_activity_game_chooser" >
         </activity>
         <activity
-            android:name="sw7.cornfield.JoinGameActivity"
+            android:name="sw7.Cornfieldz.JoinGameActivity"
             android:label="@string/title_activity_join_game" >
         </activity>
         <activity
-            android:name="sw7.cornfield.GameActivity"
+            android:name="sw7.Cornfieldz.GameActivity"
             android:label="@string/title_activity_game" >
         </activity>
         <activity
-            android:name="sw7.cornfield.LobbyActivity"
+            android:name="sw7.Cornfieldz.LobbyActivity"
             android:label="@string/title_activity_lobby" >
         </activity>
     </application>

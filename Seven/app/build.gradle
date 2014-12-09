@@ -5,7 +5,7 @@ android {
     buildToolsVersion '20.0.0'
 
     defaultConfig {
-        applicationId "sw7.cornfield"
+        applicationId "sw7.Cornfieldz"
         minSdkVersion 15
         targetSdkVersion 20
         versionCode 1

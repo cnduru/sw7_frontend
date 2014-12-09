@@ -1,4 +1,4 @@
-package sw7.cornfield;
+package sw7.Cornfieldz;
 
 import android.content.Context;
 import android.view.LayoutInflater;
