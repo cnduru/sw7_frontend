@@ -19,7 +19,6 @@ import java.util.List;
 public class GameActivity extends Activity {
 
     private GPS Gps;
-    private DataAccumulator Accumulator;
     private Client client;
     public GoogleMap GameMap;
 
