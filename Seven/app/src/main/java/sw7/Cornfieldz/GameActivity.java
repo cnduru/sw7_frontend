@@ -11,6 +11,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,6 @@ public class GameActivity extends Activity {
     private Context ActivityContext;
 
     private List<PositionPair> PlayerLocations;
-    private List<UserMarker> PlayerMarkers;
 
     CountDownTimer Timer;
 
@@ -41,7 +41,6 @@ public class GameActivity extends Activity {
         UserId = getIntent().getIntExtra("UserId", -1);
         GameId = getIntent().getIntExtra("GameId", -1);
         PlayerLocations = new ArrayList<PositionPair>();
-        PlayerMarkers = new ArrayList<UserMarker>();
 
         GameMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.GameMapFragment)).getMap();
 
@@ -50,6 +49,24 @@ public class GameActivity extends Activity {
         GameMap.getUiSettings().setZoomControlsEnabled(false);
         GameMap.getUiSettings().setMyLocationButtonEnabled(false);
         GameMap.getUiSettings().setScrollGesturesEnabled(false);
+
+        GameMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(ActivityContext);
+                builder.setTitle("User " + marker.getTitle());
+                builder.setPositiveButton("Shoot", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Shoot the guy
+                    }
+                });
+                builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                return false;
+            }
+        });
 
 
         client = new Client();
@@ -69,14 +86,12 @@ public class GameActivity extends Activity {
                     PlayerLocations = DecodeActionXML.gameUpdate(dataClient.read());
                     dataClient.close();
                     GameMap.clear();
-                    PlayerMarkers.clear();
 
                     for (PositionPair pp : PlayerLocations) {
-                        PlayerMarkers.add(new UserMarker(pp.getUserId(), pp.getPosition()));
-                    }
-
-                    for (UserMarker marker : PlayerMarkers) {
-                        GameMap.addMarker(marker.markerOptions);
+                        MarkerOptions options = new MarkerOptions();
+                        options.title(pp.getUserId().toString());
+                        options.position(pp.getPosition());
+                        GameMap.addMarker(options);
                     }
                 }
                 Timer.start();
@@ -96,27 +111,4 @@ public class GameActivity extends Activity {
         super.onStop();
         Gps.stop();
     }
-
-    GoogleMap.OnMarkerClickListener MarkerListener = new GoogleMap.OnMarkerClickListener() {
-        @Override
-        public boolean onMarkerClick(Marker marker) {
-            Integer userId = Integer.parseInt(marker.getTitle().toString());
-            shootDialog.setTitle("User " + userId);
-            shootDialog.show();
-            return true;
-        }
-    };
-
-    AlertDialog shootDialog = new AlertDialog.Builder(ActivityContext)
-            .setPositiveButton("Shoot", new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int which) {
-            //Shoot the guy
-        }
-    })
-            .setNegativeButton("Back", new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int which) {
-            shootDialog.dismiss();
-        }
-    })
-            .setIcon(android.R.drawable.ic_dialog_alert).show();
 }
