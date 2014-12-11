@@ -3,7 +3,6 @@ package sw7.Cornfieldz;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Created by Morten on 24-11-2014.
