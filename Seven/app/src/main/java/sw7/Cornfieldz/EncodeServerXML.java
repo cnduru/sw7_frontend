@@ -100,16 +100,17 @@ public class EncodeServerXML {
         Calendar gameEndCalendar = gameStartCalendar;
         gameEndCalendar.add(Calendar.HOUR, gameEnd);
 
-
         String xml = "";
+        Integer publicGame = 1;
+        Integer privateGame = 2;
 
         xml += "<" + tag + ">";
         xml += "<" + entryA + ">" + name + "</" + entryA + ">";
 
         if(isPrivateGame) {
-        xml += "<" + entryB + ">" + "PRIVATE" + "</" + entryB + ">";
+        xml += "<" + entryB + ">" + privateGame + "</" + entryB + ">";
         } else {
-            xml += "<" + entryB + ">" + "PUBLIC" + "</" + entryB + ">";
+            xml += "<" + entryB + ">" + publicGame + "</" + entryB + ">";
         }
 
         xml += "<" + entryC + ">" + numberOfTeams + "</" + entryC + ">";
