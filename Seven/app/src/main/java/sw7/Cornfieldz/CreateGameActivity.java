@@ -45,7 +45,7 @@ public class CreateGameActivity extends Activity {
     String GameName;
     Boolean IsPrivateGame = false;
     Integer TeamCount = 2;
-    Calendar GameStart;
+    Calendar GameStart = Calendar.getInstance();
     Integer GameDuration;
     LatLng SEBoundary = new LatLng(0, 0);
     LatLng NWBoundary = new LatLng(0, 0);
@@ -114,6 +114,7 @@ public class CreateGameActivity extends Activity {
             client.send(EncodeServerXML.createGame(GameName, IsPrivateGame, TeamCount, GameStart, GameDuration, SEBoundary, NWBoundary, UserId));
             Integer gameId = DecodeServerXML.createGame(client.read());
             Intent intent = new Intent(CreateGameActivity.this, InvitePlayersActivity.class);
+            intent.putExtra("UserId", UserId);
             intent.putExtra("GameId", gameId);
             startActivity(intent);
             finish();
@@ -153,13 +154,13 @@ public class CreateGameActivity extends Activity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            String GameStart = editable.toString();
+            String content = editable.toString();
 
-            if (GameStart.length() == 0) {
-                CreateGameActivity.this.GameStart = Calendar.getInstance();
+            if (content.length() == 0) {
+                GameStart = Calendar.getInstance();
                 GameStartValid = false;
             } else {
-                CreateGameActivity.this.GameStart.add(Calendar.HOUR, Integer.parseInt(GameStart));
+                GameStart.add(Calendar.HOUR, Integer.parseInt(content));
                 GameStartValid = true;
             }
             updateCreateGameButton();
@@ -177,13 +178,13 @@ public class CreateGameActivity extends Activity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            String GameEnd = editable.toString();
+            String content = editable.toString();
 
-            if (GameEnd.length() == 0) {
+            if (content.length() == 0) {
                 GameEndValid = false;
 
             } else {
-                GameDuration = Integer.parseInt(GameEnd);
+                GameDuration = Integer.parseInt(content);
                 GameEndValid = true;
             }
             updateCreateGameButton();
@@ -201,12 +202,12 @@ public class CreateGameActivity extends Activity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            String startLat = editable.toString();
-            if(startLat.length()  == 0) {
+            String content = editable.toString();
+            if(content.length()  == 0) {
                 SEBoundary = new LatLng(0, SEBoundary.longitude);
                 SELatValid = false;
             } else {
-                SEBoundary = new LatLng(Double.parseDouble(startLat), SEBoundary.longitude);
+                SEBoundary = new LatLng(Double.parseDouble(content), SEBoundary.longitude);
                 SELatValid = true;
             }
             updateCreateGameButton();
@@ -224,12 +225,12 @@ public class CreateGameActivity extends Activity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            String startLng = editable.toString();
-            if(startLng.length()  == 0) {
+            String content = editable.toString();
+            if(content.length()  == 0) {
                 SEBoundary = new LatLng(SEBoundary.latitude, 0);
                 SELngValid = false;
             } else {
-                SEBoundary = new LatLng(SEBoundary.latitude, Double.parseDouble(startLng));
+                SEBoundary = new LatLng(SEBoundary.latitude, Double.parseDouble(content));
                 SELngValid = true;
             }
             updateCreateGameButton();
@@ -247,12 +248,12 @@ public class CreateGameActivity extends Activity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            String endLat = editable.toString();
-            if(endLat.length()  == 0) {
+            String content = editable.toString();
+            if(content.length()  == 0) {
                 NWBoundary = new LatLng(0, NWBoundary.longitude);
                 NWLatValid = false;
             } else {
-                NWBoundary = new LatLng(Double.parseDouble(endLat), NWBoundary.longitude);
+                NWBoundary = new LatLng(Double.parseDouble(content), NWBoundary.longitude);
                 NWLatValid = true;
             }
             updateCreateGameButton();
@@ -270,12 +271,12 @@ public class CreateGameActivity extends Activity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            String endLng = editable.toString();
-            if(endLng.length()  == 0) {
+            String content = editable.toString();
+            if(content.length()  == 0) {
                 NWBoundary = new LatLng(NWBoundary.latitude, 0);
                 NWLngValid = false;
             } else {
-                NWBoundary = new LatLng(NWBoundary.latitude, Double.parseDouble(endLng));
+                NWBoundary = new LatLng(NWBoundary.latitude, Double.parseDouble(content));
                 NWLngValid = true;
             }
             updateCreateGameButton();

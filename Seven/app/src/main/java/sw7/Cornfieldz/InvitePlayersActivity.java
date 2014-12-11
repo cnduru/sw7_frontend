@@ -23,6 +23,9 @@ public class InvitePlayersActivity extends Activity {
     ListView InvitedPlayersView;
     Button DoneButton;
 
+    Integer UserId;
+    Integer GameId;
+
     InvitedPlayersListAdapter PlayersAdapter;
 
     //TODO: This should just be an Integer when database is ready
@@ -32,6 +35,9 @@ public class InvitePlayersActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite_players);
+
+        UserId = getIntent().getIntExtra("UserId", -1);
+        GameId = getIntent().getIntExtra("GameId", -1);
 
         InvitePlayerText = (EditText) findViewById(R.id.Username);
         InvitePlayerButton = (ImageButton) findViewById(R.id.UsernameAddButton);
@@ -100,6 +106,8 @@ public class InvitePlayersActivity extends Activity {
     View.OnClickListener DoneListener = new View.OnClickListener() {
         public void onClick(View v) {
             Intent intent = new Intent(InvitePlayersActivity.this, LobbyActivity.class);
+            intent.putExtra("UserId", UserId);
+            intent.putExtra("GameId", GameId);
             startActivity(intent);
             finish();
         }

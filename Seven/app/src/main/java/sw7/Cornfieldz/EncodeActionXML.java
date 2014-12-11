@@ -74,8 +74,9 @@ public class EncodeActionXML {
         String entryD = "ItemId";
 
         String xml = "";
-        xml += Tag.open(entryA) + userId + Tag.close(entryB);
-        xml += Tag.open(entryB) + gameId + Tag.close(entryA);
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + userId + Tag.close(entryA);
+        xml += Tag.open(entryB) + gameId + Tag.close(entryB);
         xml += Tag.open(entryC) + itemId + Tag.close(entryC);
         xml += Tag.open(entryD) + targetId + Tag.close(entryD);
         xml += Tag.close(tag);
