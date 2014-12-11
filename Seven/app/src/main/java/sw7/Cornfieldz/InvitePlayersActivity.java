@@ -15,21 +15,19 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class InvitePlayersActivity extends Activity {
-
     EditText InvitePlayerText;
     ImageButton InvitePlayerButton;
     ListView InvitedPlayersView;
     Button DoneButton;
 
     Integer UserId;
-    Integer GameId;
+    public Integer GameId;
 
     InvitedPlayersListAdapter PlayersAdapter;
-
-    //TODO: This should just be an Integer when database is ready
-    ArrayList<String> InvitedPlayers = new ArrayList<String>();
+    ArrayList<Pair> InvitedPlayers = new ArrayList<Pair>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,18 +76,19 @@ public class InvitePlayersActivity extends Activity {
 
     View.OnClickListener InvitePlayerListener = new View.OnClickListener() {
         public void onClick(View v) {
-            if (!InvitedPlayers.contains(InvitePlayerText.getText().toString())) {
-                //TODO: Ask server if user exists - If so, add user id to list and to server invite list (Currently just adds to list whatever string is entered)
-                if (true) {
-                    InvitedPlayers.add(InvitePlayerText.getText().toString());
+            if (InvitedPlayers.contains(InvitePlayerText.getText().toString())) {
+                Client client = new Client();
+                client.send(EncodeServerXML.inviteUser(InvitePlayerText.getText().toString(), GameId));
+                Map<String, String> inviteUserValidation = DecodeServerXML.inviteUser(client.read());
+                if (inviteUserValidation.get("Message").equals("TRUE")) {
+                    InvitedPlayers.add(new Pair(Integer.parseInt(inviteUserValidation.get("UserId")), InvitePlayerText.getText().toString()));
                     InvitePlayerText.setText("");
                     PlayersAdapter.notifyDataSetChanged();
 
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(InvitePlayerText.getWindowToken(), 0);
-
                 } else {
-                    Toast inviteError = Toast.makeText(getApplicationContext(), "That user does not exist", Toast.LENGTH_SHORT);
+                    Toast inviteError = Toast.makeText(getApplicationContext(), "User does not exist", Toast.LENGTH_SHORT);
                     inviteError.show();
                 }
             } else {
@@ -97,7 +96,7 @@ public class InvitePlayersActivity extends Activity {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(InvitePlayerText.getWindowToken(), 0);
 
-                Toast inviteError = Toast.makeText(getApplicationContext(), "This user has already been invited", Toast.LENGTH_SHORT);
+                Toast inviteError = Toast.makeText(getApplicationContext(), "User already invited", Toast.LENGTH_SHORT);
                 inviteError.show();
             }
         }

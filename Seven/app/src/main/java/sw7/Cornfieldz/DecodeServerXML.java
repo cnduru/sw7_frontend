@@ -121,11 +121,29 @@ public class DecodeServerXML {
                 tempList = n1.item(i).getTextContent().split("&");
                 invitees.add(new Pair(Integer.parseInt(tempList[0]), tempList[1]));
             }
-
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
         return invitees;
+    }
+
+    public static Map<String, String> inviteUser (Document data) {
+        Map<String, String> inviteUserValidation = new HashMap<String, String>();
+
+        try {
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String exp = "/InviteUser/UserId/text()";
+            NodeList nl= (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/InviteUser/Message/text()";
+            NodeList n2= (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+
+            inviteUserValidation.put("UserId", nl.item(0).getTextContent());
+            inviteUserValidation.put("Message", n2.item(0).getTextContent());
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+
+        return inviteUserValidation;
     }
 
     public static List<Pair> getPublicGames(Document data) {

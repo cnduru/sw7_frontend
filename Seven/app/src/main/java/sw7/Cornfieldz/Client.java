@@ -20,12 +20,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class Client {
-    private final String SERVER_IP = "192.168.43.03";
-    private final Integer SERVER_PORT = 11000;
+    final String SERVER_IP = "192.168.43.03";
+    final Integer SERVER_PORT = 11000;
 
-    private Socket ClientSocket = null;
-    private Thread SocketThread = null;
-    private String Response;
+    Socket ClientSocket = null;
+    Thread SocketThread = null;
+    String Response;
 
 
     public Client() {

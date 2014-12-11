@@ -123,19 +123,15 @@ public class EncodeServerXML {
     }
 
     //TODO: This is not complete
-    public static String setPlayerInvites(Integer gameId, List<String> players) {
-        String tag = "SetPlayerInvites";
-        String entryA = "GameId";
-        String entryB = "Players";
+    public static String inviteUser(String userName, Integer gameId) {
+        String tag = "InviteUser";
+        String entryA = "UserName";
+        String entryB = "GameId";
 
         String xml = "";
         xml += Tag.open(tag);
-        xml += Tag.open(entryA) + gameId + Tag.close(entryA);
-
-        for(String player : players) {
-            xml += Tag.open(entryB) + player + Tag.close(entryB);
-        }
-
+        xml += Tag.open(entryA) + userName + Tag.close(entryA);
+        xml += Tag.open(entryB) + gameId + Tag.close(entryB);
         xml += Tag.close(tag);
         xml += Tag.endXML();
 
