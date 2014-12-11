@@ -18,39 +18,34 @@ import android.widget.Toast;
 public class GPS implements GooglePlayServicesClient.ConnectionCallbacks, GooglePlayServicesClient.OnConnectionFailedListener, LocationListener {
 
     Context GameContext;
-    LocationClient Client;
+    LocationClient PositionClient;
     Location CurrentLocation;
     LocationRequest Request;
 
     public GPS(Context gameContext) {
+        GameContext = gameContext;
 
-        //Set class variables
-        this.GameContext = gameContext;
-
-        //Display warning if GPS is disabled
         if(!gpsEnabled()) {
             Toast.makeText(GameContext, "Warning: GPS is disabled", Toast.LENGTH_SHORT).show();
         }
 
-        //Setup the LocationClient
-        Client = new LocationClient(GameContext, this, this);
+        PositionClient = new LocationClient(GameContext, this, this);
 
-        // Define requests for positions. Desired interval is 5 seconds, and never updates faster than 3 seconds.
         Request = LocationRequest.create();
         Request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        Request.setInterval(5000);
-        Request.setFastestInterval(3000);
+        Request.setInterval(4000);
+        Request.setFastestInterval(3500);
     }
 
     public void stop() {
-        if(Client.isConnected()) {
-            Client.disconnect();
+        if(PositionClient.isConnected()) {
+            PositionClient.disconnect();
         }
     }
 
     public void start() {
-        if(!Client.isConnected()) {
-            Client.connect();
+        if(!PositionClient.isConnected()) {
+            PositionClient.connect();
         }
     }
 
@@ -74,12 +69,12 @@ public class GPS implements GooglePlayServicesClient.ConnectionCallbacks, Google
     public void onConnected(Bundle dataBundle) {
 
         //Magic. Don't ask
-        if(Client != null) {
-            Client.requestLocationUpdates(Request, this);
+        if(PositionClient != null) {
+            PositionClient.requestLocationUpdates(Request, this);
         }
 
-        if(Client != null){
-            CurrentLocation = Client.getLastLocation();
+        if(PositionClient != null){
+            CurrentLocation = PositionClient.getLastLocation();
         }
     }
 
@@ -93,7 +88,7 @@ public class GPS implements GooglePlayServicesClient.ConnectionCallbacks, Google
     @Override
     public void onLocationChanged(Location location) {
         //Update class variable
-        CurrentLocation = Client.getLastLocation();
+        CurrentLocation = PositionClient.getLastLocation();
         ((GameActivity)GameContext).GameMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(CurrentLocation.getLatitude(), CurrentLocation.getLongitude())));
     }
 }
