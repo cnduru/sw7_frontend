@@ -2,8 +2,6 @@ package sw7.Cornfieldz;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -12,8 +10,34 @@ import java.util.List;
  */
 public class EncodeServerXML {
 
-    public static String login(String username, String password) {
+    private static String createDateTimeXML(String xml, Calendar dateTime) {
+        String entryA = "Year";
+        String entryB = "Month";
+        String entryC = "Day";
+        String entryD = "Hour";
+        String entryE = "Minute";
 
+        xml += "<" + entryA + ">" + dateTime.get(Calendar.YEAR) + "</" + entryA + ">";
+        xml += "<" + entryB + ">" + dateTime.get(Calendar.MONTH) + "</" + entryB + ">";
+        xml += "<" + entryC + ">" + dateTime.get(Calendar.DAY_OF_MONTH) + "</" + entryC + ">";
+        xml += "<" + entryD + ">" + dateTime.get(Calendar.HOUR_OF_DAY) + "</" + entryD + ">";
+        xml += "<" + entryE + ">" + dateTime.get(Calendar.MINUTE) + "</" + entryE + ">";
+
+        return xml;
+    }
+
+    private static String createCoordinateXML(String xml, LatLng coordinate) {
+
+        String entryA = "Latitude";
+        String entryB = "Longitude";
+
+        xml += "<" + entryA + ">" + "<" + coordinate.latitude + "</" + entryA + ">";
+        xml += "<" + entryB + ">" + "<" + coordinate.longitude + "</" + entryA + ">";
+
+        return xml;
+    }
+
+    public static String login(String username, String password) {
         String tag = "Login";
         String entryA = "Username";
         String entryB = "Password";
@@ -29,8 +53,8 @@ public class EncodeServerXML {
         return xml;
     }
 
+    //TODO: This is not complete
     public static String signUpCheck(String username) {
-
         String tag = "SignUpCheck";
         String entryA = "Username";
 
@@ -44,8 +68,8 @@ public class EncodeServerXML {
         return xml;
     }
 
+    //TODO: This is not complete
     public static String signUp(String username, String password) {
-
         String tag = "SignUp";
         String entryA = "Username";
         String entryB = "Password";
@@ -61,8 +85,7 @@ public class EncodeServerXML {
         return xml;
     }
 
-    public static String createGame(String name, Boolean isPrivateGame, Integer numberOfTeams, Calendar gameStart, Integer gameEnd, LatLng southEastBoundary, LatLng northWestBoundary, Integer hostId) {
-
+    public static String createGame(String name, Boolean isPrivateGame, Integer numberOfTeams, Calendar gameStartCalendar, Integer gameEnd, LatLng southEastBoundary, LatLng northWestBoundary, Integer hostId) {
         String tag = "CreateGame";
         String entryA = "Name";
         String entryB = "Privacy";
@@ -71,17 +94,10 @@ public class EncodeServerXML {
         String entryE = "GameEnd";
         String entryF = "SouthEastBoundary";
         String entryG = "NorthWestBoundary";
-        String entryH = "Latitude";
-        String entryI = "Longitude";
-        String entryJ = "HostId";
+        String entryH = "HostId";
 
-        String entryK = "Year";
-        String entryL = "Month";
-        String entryM = "Day";
-        String entryN = "Hour";
-        String entryO = "Minute";
 
-        Calendar gameEndCalendar = gameStart.getInstance();
+        Calendar gameEndCalendar = gameStartCalendar;
         gameEndCalendar.add(Calendar.HOUR, gameEnd);
 
 
@@ -97,31 +113,19 @@ public class EncodeServerXML {
         }
 
         xml += "<" + entryC + ">" + numberOfTeams + "</" + entryC + ">";
-        xml += "<" + entryD + ">";
-        xml += "<" + entryK + ">" + gameStart.get(Calendar.YEAR) + "</" + entryK + ">";
-        xml += "<" + entryL + ">" + gameStart.get(Calendar.MONTH) + "</" + entryL + ">";
-        xml += "<" + entryM + ">" + gameStart.get(Calendar.DAY_OF_MONTH) + "</" + entryM + ">";
-        xml += "<" + entryN + ">" + gameStart.get(Calendar.HOUR_OF_DAY) + "</" + entryN + ">";
-        xml += "<" + entryO + ">" + gameStart.get(Calendar.MINUTE) + "</" + entryO + ">";
-        xml += "</" + entryD + ">";
-        xml += "<" + entryE + ">";
-        xml += "<" + entryK + ">" + gameEndCalendar.get(Calendar.YEAR) + "</" + entryK + ">";
-        xml += "<" + entryL + ">" + gameEndCalendar.get(Calendar.MONTH) + "</" + entryL + ">";
-        xml += "<" + entryM + ">" + gameEndCalendar.get(Calendar.DAY_OF_MONTH) + "</" + entryM + ">";
-        xml += "<" + entryN + ">" + gameEndCalendar.get(Calendar.HOUR_OF_DAY) + "</" + entryN + ">";
-        xml += "<" + entryO + ">" + gameEndCalendar.get(Calendar.MINUTE) + "</" + entryO + ">";
-        xml += "</" + entryE + ">";
-        xml += "<" + entryF + ">" + "<" + entryH + ">" + "<" + southEastBoundary.latitude + "</" + entryH + ">" + "<" + entryI + ">" + "<" + southEastBoundary.longitude + "</" + entryI + ">" + "</" + entryF + ">";
-        xml += "<" + entryG + ">" + "<" + entryH + ">" + "<" + northWestBoundary.latitude + "</" + entryH + ">" + "<" + entryI + ">" + "<" + northWestBoundary.longitude + "</" + entryI + ">" + "</" + entryG + ">";
-        xml += "<" + entryJ + ">" + hostId + "</" + entryG + ">";
+        xml += "<" + entryD + ">" + createDateTimeXML(xml, gameStartCalendar) +  "</" + entryD + ">";
+        xml += "<" + entryE + ">" + createDateTimeXML(xml, gameEndCalendar) + "</" + entryE + ">";
+        xml += "<" + entryF + ">" + createCoordinateXML(xml, southEastBoundary) + "</" + entryF + ">";
+        xml += "<" + entryG + ">" + createCoordinateXML(xml, northWestBoundary) + "</" + entryG + ">";
+        xml += "<" + entryH + ">" + hostId + "</" + entryG + ">";
         xml += "</" + tag + ">";
         xml += "<EOF>";
 
         return xml;
     }
 
+    //TODO: This is not complete
     public static String setPlayerInvites(String gameId, List<String> players) {
-
         String tag = "SetPlayerInvites";
         String entryA = "GameId";
         String entryB = "Players";
@@ -141,8 +145,8 @@ public class EncodeServerXML {
         return xml;
     }
 
+    //TODO: This is not complete
     public static String getPlayerInvites(String gameId) {
-
         String tag = "GetPlayerInvites";
         String entryA = "GameId";
 
@@ -157,7 +161,6 @@ public class EncodeServerXML {
     }
 
     public static String getPublicGames() {
-
         String tag = "GetPublicGames";
 
         String xml = "";
@@ -170,7 +173,6 @@ public class EncodeServerXML {
     }
 
     public static String joinGame(Integer userId, Integer gameId) {
-
         String tag = "JoinGame";
         String entryA = "UserId";
         String entryB = "GameId";
@@ -187,7 +189,6 @@ public class EncodeServerXML {
     }
 
     public static String getMyGames(Integer userId) {
-
         String tag = "GetMyGames";
         String entryA = "UserId";
 
@@ -202,7 +203,6 @@ public class EncodeServerXML {
     }
 
     public static String leaveGame(Integer userId, Integer gameId) {
-
         String tag = "LeaveGame";
         String entryA = "UserId";
         String entryB = "GameId";

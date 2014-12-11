@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.LatLng;
  */
 public class EncodeActionXML {
 
+    //TODO: This is not complete
     public static String useItem(String game, String player, String item, String target) {
 
         String tag = "useItem";
@@ -28,6 +29,7 @@ public class EncodeActionXML {
         return xml;
     }
 
+    //TODO: This is not complete
     public static String pickupItem(String game, String player, String item) {
 
         String tag = "pickupItem";
@@ -48,6 +50,7 @@ public class EncodeActionXML {
         return xml;
     }
 
+    //TODO: This is not complete
     public static String scan(String game, String player, String latlng) {
 
         String tag = "scan";
@@ -88,7 +91,6 @@ public class EncodeActionXML {
     }
 
     public static String shootAction(Integer gameId, Integer userId, Integer victimId, Integer itemId) {
-
         String tag = "ShootAction";
         String entryA = "GameId";
         String entryB = "UserId";

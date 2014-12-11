@@ -38,6 +38,7 @@ public class DecodeServerXML {
         return loginValidation;
     }
 
+    //TODO: This is not complete
     public static boolean signUpCheck(Document data) {
         boolean validation = false;
 
@@ -56,6 +57,7 @@ public class DecodeServerXML {
         return validation;
     }
 
+    //TODO: This is not complete
     public static Integer signUp(Document data) {
         Integer userId = null;
 
@@ -86,8 +88,8 @@ public class DecodeServerXML {
         return gameId;
     }
 
+    //TODO: This is not complete
     public static Boolean setPlayerInvites(Document data) {
-
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
             String exp = "/SetPlayerInvites/Message/text()";
@@ -98,12 +100,14 @@ public class DecodeServerXML {
             } else {
                 return false;
             }
+
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
         return false;
     }
 
+    //TODO: This is not complete
     public static List<Pair> getPlayerInvites(Document data) {
         String[] tempList;
         List<Pair> invitees = new ArrayList<Pair>();
@@ -163,7 +167,6 @@ public class DecodeServerXML {
     }
 
     public static List<Pair> getMyGames(Document data) {
-        String[] tempList;
         List<Pair> games = new ArrayList<Pair>();
 
         try {
@@ -176,6 +179,7 @@ public class DecodeServerXML {
             for (int i = 0; i < n1.getLength(); i++) {
                 games.add(new Pair(Integer.parseInt(n1.item(i).getTextContent()), n2.item(i).getTextContent()));
             }
+
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
@@ -183,7 +187,6 @@ public class DecodeServerXML {
     }
 
     public static Boolean leaveGame(Document data) {
-
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
             String exp = "/LeaveGame/Message/text()";
@@ -194,6 +197,7 @@ public class DecodeServerXML {
             } else {
                 return false;
             }
+            
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }

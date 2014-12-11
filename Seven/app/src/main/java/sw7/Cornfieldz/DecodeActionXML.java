@@ -23,6 +23,7 @@ import javax.xml.xpath.XPathFactory;
  */
 public class DecodeActionXML {
 
+    //TODO: This is not complete
     public static Map<String, String> useItem(String data) {
         InputSource xml = new InputSource(new StringReader(data));
         XPath xpath = XPathFactory.newInstance().newXPath();
@@ -39,6 +40,7 @@ public class DecodeActionXML {
         return useItemResponse;
     }
 
+    //TODO: This is not complete
     public static Map<String, String> pickupItem(String data) {
         InputSource xml = new InputSource(new StringReader(data));
         XPath xpath = XPathFactory.newInstance().newXPath();
@@ -51,29 +53,10 @@ public class DecodeActionXML {
             pickupItemResponse.put("ItemDescription", xpath.evaluate("ItemDescription", pickupItem));
         } catch (Exception e) {
         }
-
         return pickupItemResponse;
     }
 
-    public static List<String> update(String data) {
-        InputSource xml = new InputSource(new StringReader(data));
-        XPath xpath = XPathFactory.newInstance().newXPath();
-        List<String> items = new ArrayList<String>();
-
-
-        try {
-            XPathExpression expr = xpath.compile(data);
-            NodeList itemList = (NodeList) expr.evaluate(data, XPathConstants.NODESET);
-
-            for (int i = 0; i < itemList.getLength(); i++) {
-                items.add(itemList.item(i).getTextContent());
-            }
-        } catch (Exception e) {
-        }
-
-        return items;
-    }
-
+    //TODO: This is not complete
     public static List<String> scan(String data) {
         InputSource xml = new InputSource(new StringReader(data));
         XPath xpath = XPathFactory.newInstance().newXPath();
@@ -107,9 +90,12 @@ public class DecodeActionXML {
             NodeList n4 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
             for (int i = 0; i < n1.getLength(); i++) {
-                games.add(new Player(Integer.parseInt(n1.item(i).getTextContent()), n2.item(i).getTextContent(), new LatLng(Double.parseDouble(n3.item(i).getTextContent()), Double.parseDouble(n4.item(i).getTextContent()))));
+                games.add(
+                        new Player(Integer.parseInt(n1.item(i).getTextContent()),
+                        n2.item(i).getTextContent(),
+                        new LatLng(Double.parseDouble(n3.item(i).getTextContent()),
+                        Double.parseDouble(n4.item(i).getTextContent()))));
             }
-
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
@@ -117,7 +103,6 @@ public class DecodeActionXML {
     }
 
     public static boolean shootAction(Document data) {
-
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
             String exp = "ShootAction/Message/text()";
