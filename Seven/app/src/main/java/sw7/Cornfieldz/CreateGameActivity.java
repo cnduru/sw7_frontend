@@ -11,51 +11,46 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import org.apache.http.impl.cookie.DateUtils;
-
 import java.util.Calendar;
-import java.util.Date;
 
 public class CreateGameActivity extends Activity {
-    RadioGroup PrivacyGroup;
-    RadioButton RadioPublic;
-    RadioButton RadioPrivate;
-    Spinner NumberOfTeamsView;
+    RadioButton PublicRadio;
+    RadioButton PrivateRadio;
+    Spinner TeamCountView;
     EditText GameNameView;
     EditText GameStartView;
     EditText GameEndView;
-    EditText StartLatView;
-    EditText StartLngView;
-    EditText EndLatView;
-    EditText EndLngView;
+    EditText SELatView;
+    EditText SELngView;
+    EditText NWLatView;
+    EditText NWLngView;
     Button CreateGameButton;
-    Button CancelButton;
+    Button CancelGameButton;
 
     Boolean GameNameValid = false;
     Boolean GameStartValid = false;
     Boolean GameEndValid = false;
-    Boolean StartLatValid = false;
-    Boolean StartLngValid = false;
-    Boolean EndLatValid = false;
-    Boolean EndLngValid = false;
+    Boolean SELatValid = false;
+    Boolean SELngValid = false;
+    Boolean NWLatValid = false;
+    Boolean NWLngValid = false;
 
-    String[] NumberOfTeamsValues = new String[]{"2 Teams", "3 Teams", "4 Teams"};
-    ArrayAdapter<String> NumberOfTeamsAdapter;
+    String[] TeamCountDisplayValues = new String[]{"2 Teams", "3 Teams", "4 Teams"};
+    ArrayAdapter<String> TeamCountAdapter;
 
+    String GameName;
     Boolean IsPrivateGame = false;
-    Integer Teams = 2;
-    Calendar GameStartTime;
-    int GameDuration;
-    LatLng SouthEastBoundary = new LatLng(0, 0);
-    LatLng NorthWestBoundary = new LatLng(0, 0);
+    Integer TeamCount = 2;
+    Calendar GameStart;
+    Integer GameDuration;
+    LatLng SEBoundary = new LatLng(0, 0);
+    LatLng NWBoundary = new LatLng(0, 0);
 
     Integer UserId;
-    Integer GameId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,51 +60,49 @@ public class CreateGameActivity extends Activity {
         UserId = getIntent().getIntExtra("UserId", -1);
 
         GameNameView = (EditText) findViewById(R.id.GameNameText);
-        PrivacyGroup = (RadioGroup) findViewById(R.id.PrivacySetting);
-        RadioPublic = (RadioButton) findViewById(R.id.radio_public);
-        RadioPrivate = (RadioButton) findViewById(R.id.radio_private);
-        NumberOfTeamsView = (Spinner) findViewById(R.id.NumberOfTeamsSpinner);
+        PublicRadio = (RadioButton) findViewById(R.id.radio_public);
+        PrivateRadio = (RadioButton) findViewById(R.id.radio_private);
+        TeamCountView = (Spinner) findViewById(R.id.NumberOfTeamsSpinner);
         GameStartView = (EditText) findViewById(R.id.StartTimeEditable);
         GameEndView = (EditText) findViewById(R.id.EndTimeEditable);
-        StartLatView = (EditText) findViewById(R.id.StartLat);
-        StartLngView = (EditText) findViewById(R.id.StartLng);
-        EndLatView = (EditText) findViewById(R.id.EndLat);
-        EndLngView = (EditText) findViewById(R.id.EndLng);
+        SELatView = (EditText) findViewById(R.id.StartLat);
+        SELngView = (EditText) findViewById(R.id.StartLng);
+        NWLatView = (EditText) findViewById(R.id.EndLat);
+        NWLngView = (EditText) findViewById(R.id.EndLng);
         CreateGameButton = (Button) findViewById(R.id.OkCreate);
-        CancelButton = (Button) findViewById(R.id.Cancel);
+        CancelGameButton = (Button) findViewById(R.id.Cancel);
 
         GameNameView.addTextChangedListener(GameNameListener);
 
-        PrivacyGroup.setOnCheckedChangeListener(PrivacyListener);
-        RadioPublic.setOnClickListener(PublicListener);
-        RadioPrivate.setOnClickListener(PrivateListener);
+        PublicRadio.setOnClickListener(PublicListener);
+        PrivateRadio.setOnClickListener(PrivateListener);
 
-        NumberOfTeamsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, NumberOfTeamsValues);
-        NumberOfTeamsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        NumberOfTeamsView.setAdapter(NumberOfTeamsAdapter);
-        NumberOfTeamsView.setOnItemSelectedListener(NumberOfTeamsListener);
+        TeamCountAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, TeamCountDisplayValues);
+        TeamCountAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        TeamCountView.setAdapter(TeamCountAdapter);
+        TeamCountView.setOnItemSelectedListener(TeamCountListener);
 
         GameStartView.addTextChangedListener(GameStartListener);
         GameEndView.addTextChangedListener(GameEndListener);
 
-        StartLatView.addTextChangedListener(StartLatListener);
-        StartLngView.addTextChangedListener(StartLngListener);
-        EndLatView.addTextChangedListener(EndLatListener);
-        EndLngView.addTextChangedListener(EndLngListener);
+        SELatView.addTextChangedListener(SELatListener);
+        SELngView.addTextChangedListener(SELngListener);
+        NWLatView.addTextChangedListener(NWLatListener);
+        NWLngView.addTextChangedListener(NWLngListener);
 
         CreateGameButton.setOnClickListener(CreateGameListener);
-        CancelButton.setOnClickListener(CancelListener);
+        CancelGameButton.setOnClickListener(CancelGameListener);
     }
 
     private void updateCreateGameButton() {
-        if (GameNameValid && GameStartValid && GameEndValid && StartLatValid && StartLngValid && EndLatValid && EndLngValid) {
+        if (GameNameValid && GameStartValid && GameEndValid && SELatValid && SELngValid && NWLatValid && NWLngValid) {
             CreateGameButton.setEnabled(true);
         } else {
             CreateGameButton.setEnabled(false);
         }
     }
 
-    View.OnClickListener CancelListener = new View.OnClickListener() {
+    View.OnClickListener CancelGameListener = new View.OnClickListener() {
         public void onClick(View v) {
             finish();
         }
@@ -117,11 +110,11 @@ public class CreateGameActivity extends Activity {
 
     View.OnClickListener CreateGameListener = new View.OnClickListener() {
         public void onClick(View v) {
-            Client dataClient = new Client();
-            dataClient.send(EncodeServerXML.createGame(GameNameView.getText().toString(), IsPrivateGame, Teams, GameStartTime, GameDuration, SouthEastBoundary, NorthWestBoundary, UserId));
-            GameId = DecodeServerXML.createGame(dataClient.read());
+            Client client = new Client();
+            client.send(EncodeServerXML.createGame(GameName, IsPrivateGame, TeamCount, GameStart, GameDuration, SEBoundary, NWBoundary, UserId));
+            Integer gameId = DecodeServerXML.createGame(client.read());
             Intent intent = new Intent(CreateGameActivity.this, InvitePlayersActivity.class);
-            intent.putExtra("GameId", GameId);
+            intent.putExtra("GameId", gameId);
             startActivity(intent);
             finish();
         }
@@ -138,7 +131,7 @@ public class CreateGameActivity extends Activity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            String GameName = editable.toString();
+            GameName = editable.toString();
 
             if (GameName.length() == 0) {
                 GameNameValid = false;
@@ -163,10 +156,10 @@ public class CreateGameActivity extends Activity {
             String GameStart = editable.toString();
 
             if (GameStart.length() == 0) {
-                GameStartTime = Calendar.getInstance();
+                CreateGameActivity.this.GameStart = Calendar.getInstance();
                 GameStartValid = false;
             } else {
-                GameStartTime.add(Calendar.HOUR, Integer.parseInt(GameStart));
+                CreateGameActivity.this.GameStart.add(Calendar.HOUR, Integer.parseInt(GameStart));
                 GameStartValid = true;
             }
             updateCreateGameButton();
@@ -197,7 +190,7 @@ public class CreateGameActivity extends Activity {
         }
     };
 
-    private TextWatcher StartLatListener = new TextWatcher() {
+    private TextWatcher SELatListener = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         }
@@ -210,17 +203,17 @@ public class CreateGameActivity extends Activity {
         public void afterTextChanged(Editable editable) {
             String startLat = editable.toString();
             if(startLat.length()  == 0) {
-                SouthEastBoundary = new LatLng(0, SouthEastBoundary.longitude);
-                StartLatValid = false;
+                SEBoundary = new LatLng(0, SEBoundary.longitude);
+                SELatValid = false;
             } else {
-                SouthEastBoundary = new LatLng(Double.parseDouble(startLat), SouthEastBoundary.longitude);
-                StartLatValid = true;
+                SEBoundary = new LatLng(Double.parseDouble(startLat), SEBoundary.longitude);
+                SELatValid = true;
             }
             updateCreateGameButton();
         }
     };
 
-    private TextWatcher StartLngListener = new TextWatcher() {
+    private TextWatcher SELngListener = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         }
@@ -233,17 +226,17 @@ public class CreateGameActivity extends Activity {
         public void afterTextChanged(Editable editable) {
             String startLng = editable.toString();
             if(startLng.length()  == 0) {
-                SouthEastBoundary = new LatLng(SouthEastBoundary.latitude, 0);
-                StartLngValid = false;
+                SEBoundary = new LatLng(SEBoundary.latitude, 0);
+                SELngValid = false;
             } else {
-                SouthEastBoundary = new LatLng(SouthEastBoundary.latitude, Double.parseDouble(startLng));
-                StartLngValid = true;
+                SEBoundary = new LatLng(SEBoundary.latitude, Double.parseDouble(startLng));
+                SELngValid = true;
             }
             updateCreateGameButton();
         }
     };
 
-    private TextWatcher EndLatListener = new TextWatcher() {
+    private TextWatcher NWLatListener = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         }
@@ -256,17 +249,17 @@ public class CreateGameActivity extends Activity {
         public void afterTextChanged(Editable editable) {
             String endLat = editable.toString();
             if(endLat.length()  == 0) {
-                NorthWestBoundary = new LatLng(0, NorthWestBoundary.longitude);
-                EndLatValid = false;
+                NWBoundary = new LatLng(0, NWBoundary.longitude);
+                NWLatValid = false;
             } else {
-                NorthWestBoundary = new LatLng(Double.parseDouble(endLat), NorthWestBoundary.longitude);
-                EndLatValid = true;
+                NWBoundary = new LatLng(Double.parseDouble(endLat), NWBoundary.longitude);
+                NWLatValid = true;
             }
             updateCreateGameButton();
         }
     };
 
-    private TextWatcher EndLngListener = new TextWatcher() {
+    private TextWatcher NWLngListener = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
         }
@@ -279,28 +272,28 @@ public class CreateGameActivity extends Activity {
         public void afterTextChanged(Editable editable) {
             String endLng = editable.toString();
             if(endLng.length()  == 0) {
-                NorthWestBoundary = new LatLng(NorthWestBoundary.latitude, 0);
-                EndLngValid = false;
+                NWBoundary = new LatLng(NWBoundary.latitude, 0);
+                NWLngValid = false;
             } else {
-                NorthWestBoundary = new LatLng(NorthWestBoundary.latitude, Double.parseDouble(endLng));
-                EndLngValid = true;
+                NWBoundary = new LatLng(NWBoundary.latitude, Double.parseDouble(endLng));
+                NWLngValid = true;
             }
             updateCreateGameButton();
         }
     };
 
-    private AdapterView.OnItemSelectedListener NumberOfTeamsListener = new AdapterView.OnItemSelectedListener() {
+    private AdapterView.OnItemSelectedListener TeamCountListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
             switch (i) {
                 case 0:
-                    Teams = 2;
+                    TeamCount = 2;
                     break;
                 case 1:
-                    Teams = 3;
+                    TeamCount = 3;
                     break;
                 case 2:
-                    Teams = 4;
+                    TeamCount = 4;
                     break;
             }
         }
@@ -312,30 +305,17 @@ public class CreateGameActivity extends Activity {
 
     private View.OnClickListener PublicListener = new View.OnClickListener(){
         public void onClick(View v) {
-            RadioPrivate.setChecked(false);
-            RadioPublic.setChecked(true);
+            PrivateRadio.setChecked(false);
+            PublicRadio.setChecked(true);
+            IsPrivateGame = false;
         }
     };
 
     private View.OnClickListener PrivateListener = new View.OnClickListener(){
         public void onClick(View v) {
-            RadioPrivate.setChecked(true);
-            RadioPublic.setChecked(false);
-        }
-    };
-
-    private RadioGroup.OnCheckedChangeListener PrivacyListener = new RadioGroup.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(RadioGroup radioGroup, int i) {
-            // Check which radio button was clicked
-            switch (i) {
-                case R.id.radio_private:
-                    IsPrivateGame = true;
-                    break;
-                case R.id.radio_public:
-                    IsPrivateGame = false;
-                    break;
-            }
+            PrivateRadio.setChecked(true);
+            PublicRadio.setChecked(false);
+            IsPrivateGame = true;
         }
     };
 }
