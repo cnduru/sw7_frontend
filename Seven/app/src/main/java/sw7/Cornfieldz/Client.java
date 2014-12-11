@@ -4,24 +4,31 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import java.net.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.net.InetAddress;
+import java.net.Socket;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class Client {
+    private final String SERVER_IP = "192.168.43.03";
+    private final Integer SERVER_PORT = 11000;
+
     private Socket ClientSocket = null;
     private Thread SocketThread = null;
-    private Thread ReadThread = null;
-    private String Response = "";
+    private String Response;
 
-    private final String SERVER_IP = "192.168.43.03";
-    private final int SERVER_PORT = 11000;
 
     public Client() {
-
         SocketThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -33,7 +40,6 @@ public class Client {
                 }
             }
         });
-
         SocketThread.start();
     }
 
@@ -43,8 +49,10 @@ public class Client {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         try {
-            //If logcat produces errors on line below, check that the server is running and that port matches SERVERPORT
+            //Error on line below means no connection to server
+            //Check: Is server up? Does SERVER_PORT and SERVER_IP match? Are you on the same network?
             PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(ClientSocket.getOutputStream())), true);
             out.println(data);
         } catch (IOException e) {
@@ -53,26 +61,19 @@ public class Client {
     }
 
     public Document read() {
-        ReadThread = new Thread(new Runnable() {
+        Thread ReadThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 InputStream in;
                 try {
                     in = ClientSocket.getInputStream();
                     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
-                    String line;
-                    line = bufferedReader.readLine();
-
-                    while (line != null) {
-                        Response += line;
-                        line = bufferedReader.readLine();
-                    }
+                    Response = bufferedReader.readLine();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         });
-
         ReadThread.start();
 
         try {
@@ -85,9 +86,7 @@ public class Client {
             DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             InputSource is = new InputSource();
             is.setCharacterStream(new StringReader(Response));
-            Document doc = db.parse(is);
-            return doc;
-
+            return db.parse(is);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
