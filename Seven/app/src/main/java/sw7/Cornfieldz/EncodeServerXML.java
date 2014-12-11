@@ -10,29 +10,30 @@ import java.util.List;
  */
 public class EncodeServerXML {
 
-    private static String createDateTimeXML(String xml, Calendar dateTime) {
+    private static String createDateTimeXML(Calendar dateTime) {
         String entryA = "Year";
         String entryB = "Month";
         String entryC = "Day";
         String entryD = "Hour";
         String entryE = "Minute";
 
-        xml += "<" + entryA + ">" + dateTime.get(Calendar.YEAR) + "</" + entryA + ">";
-        xml += "<" + entryB + ">" + dateTime.get(Calendar.MONTH) + "</" + entryB + ">";
-        xml += "<" + entryC + ">" + dateTime.get(Calendar.DAY_OF_MONTH) + "</" + entryC + ">";
-        xml += "<" + entryD + ">" + dateTime.get(Calendar.HOUR_OF_DAY) + "</" + entryD + ">";
-        xml += "<" + entryE + ">" + dateTime.get(Calendar.MINUTE) + "</" + entryE + ">";
+        String xml = "";
+        xml += Tag.open(entryA) + dateTime.get(Calendar.YEAR) + Tag.close(entryA);
+        xml += Tag.open(entryB) + dateTime.get(Calendar.MONTH) + Tag.close(entryB);
+        xml += Tag.open(entryC) + dateTime.get(Calendar.DAY_OF_MONTH) + Tag.close(entryC);
+        xml += Tag.open(entryD) + dateTime.get(Calendar.HOUR_OF_DAY) + Tag.close(entryD);
+        xml += Tag.open(entryE) + dateTime.get(Calendar.MINUTE) + Tag.close(entryE);
 
         return xml;
     }
 
-    private static String createCoordinateXML(String xml, LatLng coordinate) {
-
+    private static String createCoordinateXML(LatLng coordinate) {
         String entryA = "Latitude";
         String entryB = "Longitude";
 
-        xml += "<" + entryA + ">" + "<" + coordinate.latitude + "</" + entryA + ">";
-        xml += "<" + entryB + ">" + "<" + coordinate.longitude + "</" + entryA + ">";
+        String xml = "";
+        xml += Tag.open(entryA) + coordinate.latitude + Tag.close(entryA);
+        xml += Tag.open(entryB) + coordinate.longitude + Tag.close(entryB);
 
         return xml;
     }
@@ -43,12 +44,11 @@ public class EncodeServerXML {
         String entryB = "Password";
 
         String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + username + "</" + entryA + ">";
-        xml += "<" + entryB + ">" + password + "</" + entryB + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + username + Tag.close(entryA);
+        xml += Tag.open(entryB) + password + Tag.close(entryB);
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }
@@ -59,11 +59,10 @@ public class EncodeServerXML {
         String entryA = "Username";
 
         String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + username + "</" + entryA + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + username + Tag.close(entryA);
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }
@@ -75,17 +74,19 @@ public class EncodeServerXML {
         String entryB = "Password";
 
         String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + username + "</" + entryA + ">";
-        xml += "<" + entryB + ">" + password + "</" + entryB + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + username + Tag.close(entryA);
+        xml += Tag.open(entryB) + password + Tag.close(entryB);
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }
 
-    public static String createGame(String name, Boolean isPrivateGame, Integer numberOfTeams, Calendar gameStartCalendar, Integer gameEnd, LatLng southEastBoundary, LatLng northWestBoundary, Integer hostId) {
+    public static String createGame(String name, Boolean isPrivateGame, Integer teamCount, Calendar gameStartCalendar, Integer gameDuration, LatLng southEastBoundary, LatLng northWestBoundary, Integer hostId) {
+        Integer publicGame = 1;
+        Integer privateGame = 2;
+
         String tag = "CreateGame";
         String entryA = "Name";
         String entryB = "Privacy";
@@ -96,52 +97,47 @@ public class EncodeServerXML {
         String entryG = "NorthWestBoundary";
         String entryH = "HostId";
 
-
-        Calendar gameEndCalendar = gameStartCalendar;
-        gameEndCalendar.add(Calendar.HOUR, gameEnd);
-
         String xml = "";
-        Integer publicGame = 1;
-        Integer privateGame = 2;
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + name + "</" + entryA + ">";
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + name + Tag.close(entryA);
 
         if(isPrivateGame) {
-        xml += "<" + entryB + ">" + privateGame + "</" + entryB + ">";
+            xml += Tag.open(entryB) + privateGame + Tag.close(entryB);
         } else {
-            xml += "<" + entryB + ">" + publicGame + "</" + entryB + ">";
+            xml += Tag.open(entryB) + publicGame + Tag.close(entryB);
         }
 
-        xml += "<" + entryC + ">" + numberOfTeams + "</" + entryC + ">";
-        xml += "<" + entryD + ">" + createDateTimeXML(xml, gameStartCalendar) +  "</" + entryD + ">";
-        xml += "<" + entryE + ">" + createDateTimeXML(xml, gameEndCalendar) + "</" + entryE + ">";
-        xml += "<" + entryF + ">" + createCoordinateXML(xml, southEastBoundary) + "</" + entryF + ">";
-        xml += "<" + entryG + ">" + createCoordinateXML(xml, northWestBoundary) + "</" + entryG + ">";
-        xml += "<" + entryH + ">" + hostId + "</" + entryG + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.open(entryC) + teamCount + Tag.close(entryC);
+        xml += Tag.open(entryD) + createDateTimeXML(gameStartCalendar) +  Tag.close(entryD);
+
+        gameStartCalendar.add(Calendar.HOUR, gameDuration);
+
+        xml += Tag.open(entryE) + createDateTimeXML(gameStartCalendar) +  Tag.close(entryE);
+        xml += Tag.open(entryF) + createCoordinateXML(southEastBoundary) + Tag.close(entryF);
+        xml += Tag.open(entryG) + createCoordinateXML(northWestBoundary) + Tag.close(entryG);
+        xml += Tag.open(entryH) + hostId + Tag.close(entryH);
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }
 
     //TODO: This is not complete
-    public static String setPlayerInvites(String gameId, List<String> players) {
+    public static String setPlayerInvites(Integer gameId, List<String> players) {
         String tag = "SetPlayerInvites";
         String entryA = "GameId";
         String entryB = "Players";
 
         String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + gameId + "</" + entryA + ">";
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + gameId + Tag.close(entryA);
 
         for(String player : players) {
-            xml += "<" + entryB + ">" + player + "</" + entryB + ">";
+            xml += Tag.open(entryB) + player + Tag.close(entryB);
         }
 
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }
@@ -152,11 +148,10 @@ public class EncodeServerXML {
         String entryA = "GameId";
 
         String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + gameId + "</" + entryA + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + gameId + Tag.close(entryA);
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }
@@ -165,10 +160,9 @@ public class EncodeServerXML {
         String tag = "GetPublicGames";
 
         String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.open(tag);
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }
@@ -179,12 +173,11 @@ public class EncodeServerXML {
         String entryB = "GameId";
 
         String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + userId + "</" + entryA + ">";
-        xml += "<" + entryB + ">" + gameId + "</" + entryB + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + userId + Tag.close(entryA);
+        xml += Tag.open(entryB) + gameId + Tag.close(entryB);
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }
@@ -194,11 +187,10 @@ public class EncodeServerXML {
         String entryA = "UserId";
 
         String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + userId + "</" + entryA + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + userId + Tag.close(entryA);
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }
@@ -209,12 +201,11 @@ public class EncodeServerXML {
         String entryB = "GameId";
 
         String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + userId + "</" + entryA + ">";
-        xml += "<" + entryB + ">" + gameId + "</" + entryB + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + userId + Tag.close(entryA);
+        xml += Tag.open(entryB) + gameId + Tag.close(entryB);
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }

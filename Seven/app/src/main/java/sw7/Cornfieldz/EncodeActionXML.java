@@ -8,64 +8,41 @@ import com.google.android.gms.maps.model.LatLng;
 public class EncodeActionXML {
 
     //TODO: This is not complete
-    public static String useItem(String game, String player, String item, String target) {
+    public static String pickupItem(Integer userId, Integer gameId, Integer itemId) {
 
-        String tag = "useItem";
-        String entryA = "game";
-        String entryB = "player";
-        String entryC = "Item";
-        String entryD = "Target";
+        String tag = "PickupItem";
+        String entryA = "UserId";
+        String entryB = "GameId";
+        String entryC = "ItemId";
 
         String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + game + "</" + entryA + ">";
-        xml += "<" + entryB + ">" + player + "</" + entryB + ">";
-        xml += "<" + entryC + ">" + item + "</" + entryC + ">";
-        xml += "<" + entryD + ">" + target + "</" + entryD + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + userId + Tag.close(entryA);
+        xml += Tag.open(entryB) + gameId + Tag.close(entryB);
+        xml += Tag.open(entryC) + itemId + Tag.close(entryC);
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }
 
     //TODO: This is not complete
-    public static String pickupItem(String game, String player, String item) {
+    public static String scan(Integer userId, Integer gameId, LatLng position) {
 
-        String tag = "pickupItem";
-        String entryA = "game";
-        String entryB = "player";
-        String entryC = "Item";
-        String entryD = "Target";
-
-        String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + game + "</" + entryA + ">";
-        xml += "<" + entryB + ">" + player + "</" + entryB + ">";
-        xml += "<" + entryC + ">" + item + "</" + entryC + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
-
-        return xml;
-    }
-
-    //TODO: This is not complete
-    public static String scan(String game, String player, String latlng) {
-
-        String tag = "scan";
-        String entryA = "game";
-        String entryB = "player";
-        String entryC = "latlng";
+        String tag = "Scan";
+        String entryA = "UserId";
+        String entryB = "GameId";
+        String entryC = "Latitude";
+        String entryD = "Longitude";
 
         String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + game + "</" + entryA + ">";
-        xml += "<" + entryB + ">" + player + "</" + entryB + ">";
-        xml += "<" + entryC + ">" + latlng + "</" + entryC + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + userId + Tag.close(entryA);
+        xml += Tag.open(entryB) + gameId + Tag.close(entryB);
+        xml += Tag.open(entryC) + position.latitude + Tag.close(entryC);
+        xml += Tag.open(entryD) + position.longitude + Tag.close(entryD);
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }
@@ -78,19 +55,18 @@ public class EncodeActionXML {
         String entryD = "Longitude";
 
         String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + userId + "</" + entryA + ">";
-        xml += "<" + entryB + ">" + gameId + "</" + entryB + ">";
-        xml += "<" + entryC + ">" + position.latitude + "</" + entryC + ">";
-        xml += "<" + entryD + ">" + position.longitude + "</" + entryD + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + userId + Tag.close(entryA);
+        xml += Tag.open(entryB) + gameId + Tag.close(entryB);
+        xml += Tag.open(entryC) + position.latitude + Tag.close(entryC);
+        xml += Tag.open(entryD) + position.longitude + Tag.close(entryD);
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }
 
-    public static String shootAction(Integer gameId, Integer userId, Integer victimId, Integer itemId) {
+    public static String shootAction(Integer userId, Integer gameId, Integer targetId, Integer itemId) {
         String tag = "ShootAction";
         String entryA = "GameId";
         String entryB = "UserId";
@@ -98,14 +74,12 @@ public class EncodeActionXML {
         String entryD = "ItemId";
 
         String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + gameId + "</" + entryA + ">";
-        xml += "<" + entryB + ">" + userId + "</" + entryB + ">";
-        xml += "<" + entryC + ">" + victimId + "</" + entryC + ">";
-        xml += "<" + entryD + ">" + itemId + "</" + entryD + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
+        xml += Tag.open(entryA) + userId + Tag.close(entryB);
+        xml += Tag.open(entryB) + gameId + Tag.close(entryA);
+        xml += Tag.open(entryC) + itemId + Tag.close(entryC);
+        xml += Tag.open(entryD) + targetId + Tag.close(entryD);
+        xml += Tag.close(tag);
+        xml += Tag.endXML();
 
         return xml;
     }
