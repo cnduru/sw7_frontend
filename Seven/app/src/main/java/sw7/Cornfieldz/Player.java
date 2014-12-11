@@ -5,17 +5,23 @@ import com.google.android.gms.maps.model.LatLng;
 /**
  * Created by Morten on 05-12-2014.
  */
-public class PositionPair {
+public class Player {
     private Integer UserId;
+    private String Username;
     private LatLng Position;
 
-    public PositionPair(Integer id, LatLng position) {
+    public Player(Integer id, String username, LatLng position) {
         this.UserId = id;
+        this.Username = username;
         this.Position = position;
     }
 
     public Integer getUserId() {
         return UserId;
+    }
+
+    public String getUsername() {
+        return Username;
     }
 
     public LatLng getPosition() {

@@ -16,7 +16,10 @@ import android.widget.Spinner;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import org.apache.http.impl.cookie.DateUtils;
+
 import java.util.Calendar;
+import java.util.Date;
 
 public class CreateGameActivity extends Activity {
     RadioGroup PrivacyGroup;
@@ -46,12 +49,13 @@ public class CreateGameActivity extends Activity {
 
     Boolean IsPrivateGame = false;
     Integer Teams = 2;
-    Calendar GameStartTime = Calendar.getInstance();
+    Calendar GameStartTime;
     int GameDuration;
     LatLng SouthEastBoundary = new LatLng(0, 0);
     LatLng NorthWestBoundary = new LatLng(0, 0);
 
     Integer UserId;
+    Integer GameId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,9 +117,11 @@ public class CreateGameActivity extends Activity {
 
     View.OnClickListener CreateGameListener = new View.OnClickListener() {
         public void onClick(View v) {
-            //TODO: Send created variables to server
+            Client dataClient = new Client();
+            dataClient.send(EncodeServerXML.createGame(GameNameView.getText().toString(), IsPrivateGame, Teams, GameStartTime, GameDuration, SouthEastBoundary, NorthWestBoundary, UserId));
+            GameId = DecodeServerXML.createGame(dataClient.read());
             Intent intent = new Intent(CreateGameActivity.this, InvitePlayersActivity.class);
-            //TODO: Put GameId into intent. Invite friends will need it.
+            intent.putExtra("GameId", GameId);
             startActivity(intent);
             finish();
         }

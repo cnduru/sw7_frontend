@@ -92,25 +92,45 @@ public class DecodeActionXML {
         return items;
     }
 
-    public static List<PositionPair> gameUpdate(Document data) {
-        List<PositionPair> games = new ArrayList<PositionPair>();
+    public static List<Player> gameUpdate(Document data) {
+        List<Player> games = new ArrayList<Player>();
 
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
             String exp = "GameUpdate/Player/UserId/text()";
             NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
-            exp = "GameUpdate/Player/Latitude/text()";
+            exp = "GameUpdate/Player/UserName/text()";
             NodeList n2 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
-            exp = "GameUpdate/Player/Longitude/text()";
+            exp = "GameUpdate/Player/Latitude/text()";
             NodeList n3 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "GameUpdate/Player/Longitude/text()";
+            NodeList n4 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
             for (int i = 0; i < n1.getLength(); i++) {
-                games.add(new PositionPair(Integer.parseInt(n1.item(i).getTextContent()), new LatLng(Double.parseDouble(n2.item(i).getTextContent()), Double.parseDouble(n3.item(i).getTextContent()))));
+                games.add(new Player(Integer.parseInt(n1.item(i).getTextContent()), n2.item(i).getTextContent(), new LatLng(Double.parseDouble(n3.item(i).getTextContent()), Double.parseDouble(n4.item(i).getTextContent()))));
             }
 
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
         return games;
+    }
+
+    public static boolean shootAction(Document data) {
+
+        try {
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String exp = "ShootAction/Message/text()";
+            NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+
+            if (n1.item(0).getTextContent().equals("TRUE")) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

@@ -1,5 +1,10 @@
 package sw7.Cornfieldz;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -56,7 +61,7 @@ public class EncodeServerXML {
         return xml;
     }
 
-    public static String createGame(String name, String isPrivateGame, String numberOfTeams, String gameStart, String gameEnd, String southEastBoundry, String northEastBoundry, String hostId) {
+    public static String createGame(String name, Boolean isPrivateGame, Integer numberOfTeams, Calendar gameStart, Integer gameEnd, LatLng southEastBoundary, LatLng northWestBoundary, Integer hostId) {
 
         String tag = "CreateGame";
         String entryA = "Name";
@@ -64,21 +69,51 @@ public class EncodeServerXML {
         String entryC = "NumberOfTeams";
         String entryD = "GameStart";
         String entryE = "GameEnd";
-        String entryF = "SouthEastBoundry";
-        String entryG = "NorthEastBoundry";
-        String entryH = "HostId";
+        String entryF = "SouthEastBoundary";
+        String entryG = "NorthWestBoundary";
+        String entryH = "Latitude";
+        String entryI = "Longitude";
+        String entryJ = "HostId";
+
+        String entryK = "Year";
+        String entryL = "Month";
+        String entryM = "Day";
+        String entryN = "Hour";
+        String entryO = "Minute";
+
+        Calendar gameEndCalendar = gameStart.getInstance();
+        gameEndCalendar.add(Calendar.HOUR, gameEnd);
+
 
         String xml = "";
 
         xml += "<" + tag + ">";
         xml += "<" + entryA + ">" + name + "</" + entryA + ">";
-        xml += "<" + entryB + ">" + isPrivateGame + "</" + entryB + ">";
+
+        if(isPrivateGame) {
+        xml += "<" + entryB + ">" + "PRIVATE" + "</" + entryB + ">";
+        } else {
+            xml += "<" + entryB + ">" + "PUBLIC" + "</" + entryB + ">";
+        }
+
         xml += "<" + entryC + ">" + numberOfTeams + "</" + entryC + ">";
-        xml += "<" + entryD + ">" + gameStart + "</" + entryD + ">";
-        xml += "<" + entryE + ">" + gameEnd + "</" + entryE + ">";
-        xml += "<" + entryF + ">" + southEastBoundry + "</" + entryF + ">";
-        xml += "<" + entryG + ">" + northEastBoundry + "</" + entryG + ">";
-        xml += "<" + entryH + ">" + hostId + "</" + entryG + ">";
+        xml += "<" + entryD + ">";
+        xml += "<" + entryK + ">" + gameStart.get(Calendar.YEAR) + "</" + entryK + ">";
+        xml += "<" + entryL + ">" + gameStart.get(Calendar.MONTH) + "</" + entryL + ">";
+        xml += "<" + entryM + ">" + gameStart.get(Calendar.DAY_OF_MONTH) + "</" + entryM + ">";
+        xml += "<" + entryN + ">" + gameStart.get(Calendar.HOUR_OF_DAY) + "</" + entryN + ">";
+        xml += "<" + entryO + ">" + gameStart.get(Calendar.MINUTE) + "</" + entryO + ">";
+        xml += "</" + entryD + ">";
+        xml += "<" + entryE + ">";
+        xml += "<" + entryK + ">" + gameEndCalendar.get(Calendar.YEAR) + "</" + entryK + ">";
+        xml += "<" + entryL + ">" + gameEndCalendar.get(Calendar.MONTH) + "</" + entryL + ">";
+        xml += "<" + entryM + ">" + gameEndCalendar.get(Calendar.DAY_OF_MONTH) + "</" + entryM + ">";
+        xml += "<" + entryN + ">" + gameEndCalendar.get(Calendar.HOUR_OF_DAY) + "</" + entryN + ">";
+        xml += "<" + entryO + ">" + gameEndCalendar.get(Calendar.MINUTE) + "</" + entryO + ">";
+        xml += "</" + entryE + ">";
+        xml += "<" + entryF + ">" + "<" + entryH + ">" + "<" + southEastBoundary.latitude + "</" + entryH + ">" + "<" + entryI + ">" + "<" + southEastBoundary.longitude + "</" + entryI + ">" + "</" + entryF + ">";
+        xml += "<" + entryG + ">" + "<" + entryH + ">" + "<" + northWestBoundary.latitude + "</" + entryH + ">" + "<" + entryI + ">" + "<" + northWestBoundary.longitude + "</" + entryI + ">" + "</" + entryG + ">";
+        xml += "<" + entryJ + ">" + hostId + "</" + entryG + ">";
         xml += "</" + tag + ">";
         xml += "<EOF>";
 

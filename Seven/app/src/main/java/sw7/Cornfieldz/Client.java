@@ -17,7 +17,7 @@ public class Client {
     private Thread ReadThread = null;
     private String Response = "";
 
-    private final String SERVER_IP = "192.168.43.56";
+    private final String SERVER_IP = "192.168.43.03";
     private final int SERVER_PORT = 11000;
 
     public Client() {

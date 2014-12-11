@@ -48,25 +48,6 @@ public class EncodeActionXML {
         return xml;
     }
 
-    public static String update(String game, String player, String latlng) {
-
-        String tag = "update";
-        String entryA = "game";
-        String entryB = "player";
-        String entryC = "latlng";
-
-        String xml = "";
-
-        xml += "<" + tag + ">";
-        xml += "<" + entryA + ">" + game + "</" + entryA + ">";
-        xml += "<" + entryB + ">" + player + "</" + entryB + ">";
-        xml += "<" + entryC + ">" + latlng + "</" + entryC + ">";
-        xml += "</" + tag + ">";
-        xml += "<EOF>";
-
-        return xml;
-    }
-
     public static String scan(String game, String player, String latlng) {
 
         String tag = "scan";
@@ -87,7 +68,6 @@ public class EncodeActionXML {
     }
 
     public static String gameUpdate(Integer userId, Integer gameId, LatLng position) {
-
         String tag = "UpdatePlayerLocation";
         String entryA = "UserId";
         String entryB = "GameId";
@@ -101,6 +81,27 @@ public class EncodeActionXML {
         xml += "<" + entryB + ">" + gameId + "</" + entryB + ">";
         xml += "<" + entryC + ">" + position.latitude + "</" + entryC + ">";
         xml += "<" + entryD + ">" + position.longitude + "</" + entryD + ">";
+        xml += "</" + tag + ">";
+        xml += "<EOF>";
+
+        return xml;
+    }
+
+    public static String shootAction(Integer gameId, Integer userId, Integer victimId, Integer itemId) {
+
+        String tag = "ShootAction";
+        String entryA = "GameId";
+        String entryB = "UserId";
+        String entryC = "Victim";
+        String entryD = "ItemId";
+
+        String xml = "";
+
+        xml += "<" + tag + ">";
+        xml += "<" + entryA + ">" + gameId + "</" + entryA + ">";
+        xml += "<" + entryB + ">" + userId + "</" + entryB + ">";
+        xml += "<" + entryC + ">" + victimId + "</" + entryC + ">";
+        xml += "<" + entryD + ">" + itemId + "</" + entryD + ">";
         xml += "</" + tag + ">";
         xml += "<EOF>";
 
