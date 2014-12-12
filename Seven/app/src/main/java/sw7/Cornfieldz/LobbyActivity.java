@@ -56,7 +56,7 @@ public class LobbyActivity extends Activity {
         InvitePlayersButton = (Button) findViewById(R.id.InvitePlayers);
         PlayArea = ((MapFragment) getFragmentManager().findFragmentById(R.id.Map)).getMap();
         TextView privacyView  = (TextView) findViewById(R.id.PrivacyValue);
-        TextView teamCountView = (TextView) findViewById(R.id.TeamCountValue);
+        //TextView teamCountView = (TextView) findViewById(R.id.TeamCountValue);
         TextView timeRemainingView = (TextView) findViewById(R.id.GameEndValue);
 
         if (Integer.parseInt(lobbyInfo.get("Privacy")) == 1) {
@@ -65,7 +65,7 @@ public class LobbyActivity extends Activity {
             privacyView.setText("Private");
         }
 
-        teamCountView.setText(lobbyInfo.get("TeamCount"));
+        //teamCountView.setText(lobbyInfo.get("TeamCount"));
 
         EnterGameButton.setOnClickListener(EnterGameListener);
 
