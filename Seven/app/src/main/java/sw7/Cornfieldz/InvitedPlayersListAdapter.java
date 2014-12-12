@@ -10,16 +10,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Morten on 17-11-2014.
  */
 public class InvitedPlayersListAdapter extends ArrayAdapter<Pair> {
-    ArrayList<Pair> InvitedPlayers = new ArrayList<Pair>();
+    List<Pair> InvitedPlayers = new ArrayList<Pair>();
     Context ActivityContext;
     int LayoutId;
 
-    public InvitedPlayersListAdapter(Context activityContext, int layoutId, ArrayList<Pair> invitedPlayers) {
+    public InvitedPlayersListAdapter(Context activityContext, int layoutId, List<Pair> invitedPlayers) {
         super(activityContext, layoutId, invitedPlayers);
         this.InvitedPlayers = invitedPlayers;
         this.ActivityContext = activityContext;

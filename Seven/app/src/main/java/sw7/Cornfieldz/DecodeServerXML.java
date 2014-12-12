@@ -88,35 +88,14 @@ public class DecodeServerXML {
         return gameId;
     }
 
-    //TODO: This is not complete
-    public static Boolean setPlayerInvites(Document data) {
-        try {
-            XPath xpath = XPathFactory.newInstance().newXPath();
-            String exp = "/SetPlayerInvites/Message/text()";
-            NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
-
-            if (n1.item(0).getTextContent().equals("OK")) {
-                return true;
-            } else {
-                return false;
-            }
-
-        } catch (XPathExpressionException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    //TODO: This is not complete
     public static List<Pair> getPlayerInvites(Document data) {
-        String[] tempList;
         List<Pair> invitees = new ArrayList<Pair>();
 
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
             String exp = "/GetPlayerInvites/Player/UserId/text()";
             NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
-            exp = "/GetPlayerInvites/Player/Username/text()";
+            exp = "/GetPlayerInvites/Player/UserName/text()";
             NodeList n2 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
             for (int i = 0; i < n1.getLength(); i++) {
@@ -242,16 +221,18 @@ public class DecodeServerXML {
             NodeList n6 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
             exp = "/LobbyInfo/GameEnd/Minute/text()";
             NodeList n7 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
-            exp = "/LobbyInfo/NorthWestBoundary/Latitude()";
+            exp = "/LobbyInfo/NorthWestBoundary/Latitude/text()";
             NodeList n8 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
-            exp = "/LobbyInfo/NorthWestBoundary/Longitude()";
+            exp = "/LobbyInfo/NorthWestBoundary/Longitude/text()";
             NodeList n9 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
-            exp = "/LobbyInfo/SouthEastBoundary/Latitude()";
+            exp = "/LobbyInfo/SouthEastBoundary/Latitude/text()";
             NodeList n10 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
-            exp = "/LobbyInfo/SouthEastBoundary/Longitude()";
+            exp = "/LobbyInfo/SouthEastBoundary/Longitude/text()";
             NodeList n11 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
             exp = "/LobbyInfo/HostId/text()";
             NodeList n12 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/LobbyInfo/Alias/text()";
+            NodeList n13 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
             lobbyInfo.put("Privacy", n1.item(0).getTextContent());
             lobbyInfo.put("TeamCount", n2.item(0).getTextContent());
@@ -265,10 +246,10 @@ public class DecodeServerXML {
             lobbyInfo.put("SELatitude", n10.item(0).getTextContent());
             lobbyInfo.put("SELongitude", n11.item(0).getTextContent());
             lobbyInfo.put("HostId", n12.item(0).getTextContent());
+            lobbyInfo.put("Name", n13.item(0).getTextContent());
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
-
         return lobbyInfo;
     }
 }

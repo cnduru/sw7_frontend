@@ -15,38 +15,89 @@
         android:layout_centerInParent="true"
         android:layout_alignParentTop="true"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/Privacy"
-        android:text="Game type "
-        android:textStyle="bold"
-        android:textSize="17dp"
-        android:gravity="center_vertical"
-        android:layout_below="@id/GameName"/>
+        android:layout_below="@id/GameName"
+        android:id="@+id/PrivacyLayout"
+        android:layout_marginTop="10dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/NumberOfTeams"
-        android:text="Number of Teams "
-        android:textStyle="bold"
-        android:textSize="17dp"
-        android:gravity="center_vertical"
-        android:layout_below="@id/Privacy"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/Privacy"
+            android:text="Game type"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:gravity="center_vertical"/>
 
-    <TextView
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/PrivacyValue"
+            android:layout_toRightOf="@id/Privacy"
+            android:layout_marginLeft="10dp"
+            android:text="Loading..."
+            android:textSize="17dp"
+            android:gravity="center_vertical"/>
+
+        </RelativeLayout>
+
+    <!-- <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:id="@+id/TimeLeft"
-        android:text="Time Remaining "
-        android:textStyle="bold"
-        android:textSize="17dp"
-        android:gravity="center_vertical"
-        android:layout_below="@id/NumberOfTeams"/>
+        android:layout_below="@id/PrivacyLayout"
+        android:id="@+id/TeamCountLayout"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/TeamCount"
+            android:text="Number of Teams"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/TeamCountValue"
+            android:layout_toRightOf="@id/TeamCount"
+            android:layout_marginLeft="10dp"
+            android:text="Loading..."
+            android:textSize="17dp"
+            android:gravity="center_vertical"/>
+
+        </RelativeLayout> -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/PrivacyLayout"
+        android:id="@+id/GameEndLayout"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/GameEnd"
+            android:text="Game Ends"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:gravity="center_vertical"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/GameEndValue"
+            android:layout_toRightOf="@id/GameEnd"
+            android:layout_marginLeft="10dp"
+            android:text="Loading..."
+            android:textSize="17dp"
+            android:gravity="center_vertical"/>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ManagementLayout"
@@ -87,7 +138,7 @@
         android:id="@+id/Map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/TimeLeft"
+        android:layout_below="@id/GameEndLayout"
         android:layout_above="@id/EnterGame"
         android:layout_marginTop="10dp"
         class="com.google.android.gms.maps.MapFragment" />

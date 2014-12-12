@@ -16,6 +16,13 @@ import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 public class LobbyActivity extends Activity {
     TextView GameNameView;
     Button EnterGameButton;
@@ -25,9 +32,7 @@ public class LobbyActivity extends Activity {
 
     Integer UserId;
     Integer GameId;
-
-    //Hardcoded for test
-    Integer HostId = 5;
+    Integer HostId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +42,30 @@ public class LobbyActivity extends Activity {
         UserId = getIntent().getIntExtra("UserId", -1);
         GameId = getIntent().getIntExtra("GameId", -1);
 
+
+        Client client = new Client();
+        client.send(EncodeServerXML.getLobbyInfo(GameId));
+        Map<String, String> lobbyInfo = DecodeServerXML.getLobbyInfo(client.read());
+        client.close();
+
+        HostId = Integer.parseInt(lobbyInfo.get("HostId"));
+
         GameNameView = (TextView) findViewById(R.id.GameName);
         EnterGameButton = (Button) findViewById(R.id.EnterGame);
         SettingsButton = (Button) findViewById(R.id.GameSettings);
         InvitePlayersButton = (Button) findViewById(R.id.InvitePlayers);
         PlayArea = ((MapFragment) getFragmentManager().findFragmentById(R.id.Map)).getMap();
+        TextView privacyView  = (TextView) findViewById(R.id.PrivacyValue);
+        TextView teamCountView = (TextView) findViewById(R.id.TeamCountValue);
+        TextView timeRemainingView = (TextView) findViewById(R.id.GameEndValue);
+
+        if (Integer.parseInt(lobbyInfo.get("Privacy")) == 1) {
+            privacyView.setText("Public");
+        } else {
+            privacyView.setText("Private");
+        }
+
+        teamCountView.setText(lobbyInfo.get("TeamCount"));
 
         EnterGameButton.setOnClickListener(EnterGameListener);
 
@@ -53,10 +77,14 @@ public class LobbyActivity extends Activity {
             InvitePlayersButton.setEnabled(false);
         }
 
-        GameNameView.setText("Name (ID " + GameId + ")");
+        timeRemainingView.setText(lobbyInfo.get("Day") + "/" + lobbyInfo.get("Month") + "/" + lobbyInfo.get("Year") + " - "
+                + String.format("%02d", Integer.parseInt(lobbyInfo.get("Hour"))) + ":" + String.format("%02d", Integer.parseInt(lobbyInfo.get("Minute"))));
 
-        //Hardcoded for test
-        final LatLngBounds playAreaBounds = new LatLngBounds(new LatLng(57.0046047, 9.8616402), new LatLng(57.0786811,9.9666766));
+        GameNameView.setText(lobbyInfo.get("Name"));
+
+
+        final LatLngBounds playAreaBounds = new LatLngBounds(new LatLng(Double.parseDouble(lobbyInfo.get("SELatitude")), Double.parseDouble(lobbyInfo.get("SELongitude")))
+                , new LatLng(Double.parseDouble(lobbyInfo.get("NWLatitude")), Double.parseDouble(lobbyInfo.get("NWLongitude"))));
 
         //Get the overlaycolor and add it to the map
         BitmapDescriptor overlay = BitmapDescriptorFactory.fromResource(R.drawable.overlay);

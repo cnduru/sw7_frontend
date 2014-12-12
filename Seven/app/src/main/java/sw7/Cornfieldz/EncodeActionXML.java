@@ -9,7 +9,6 @@ public class EncodeActionXML {
 
     //TODO: This is not complete
     public static String pickupItem(Integer userId, Integer gameId, Integer itemId) {
-
         String tag = "PickupItem";
         String entryA = "UserId";
         String entryB = "GameId";
@@ -28,7 +27,6 @@ public class EncodeActionXML {
 
     //TODO: This is not complete
     public static String scan(Integer userId, Integer gameId, LatLng position) {
-
         String tag = "Scan";
         String entryA = "UserId";
         String entryB = "GameId";

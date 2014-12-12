@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class InvitePlayersActivity extends Activity {
@@ -27,7 +28,7 @@ public class InvitePlayersActivity extends Activity {
     public Integer GameId;
 
     InvitedPlayersListAdapter PlayersAdapter;
-    ArrayList<Pair> InvitedPlayers = new ArrayList<Pair>();
+    List<Pair> InvitedPlayers = new ArrayList<Pair>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,11 @@ public class InvitePlayersActivity extends Activity {
 
         UserId = getIntent().getIntExtra("UserId", -1);
         GameId = getIntent().getIntExtra("GameId", -1);
+
+        Client client = new Client();
+        client.send(EncodeServerXML.getPlayerInvites(GameId));
+        InvitedPlayers = DecodeServerXML.getPlayerInvites(client.read());
+        client.close();
 
         InvitePlayerText = (EditText) findViewById(R.id.Username);
         InvitePlayerButton = (ImageButton) findViewById(R.id.UsernameAddButton);
@@ -76,7 +82,7 @@ public class InvitePlayersActivity extends Activity {
 
     View.OnClickListener InvitePlayerListener = new View.OnClickListener() {
         public void onClick(View v) {
-            if (InvitedPlayers.contains(InvitePlayerText.getText().toString())) {
+            if (!InvitedPlayers.contains(InvitePlayerText.getText().toString())) {
                 Client client = new Client();
                 client.send(EncodeServerXML.inviteUser(InvitePlayerText.getText().toString(), GameId));
                 Map<String, String> inviteUserValidation = DecodeServerXML.inviteUser(client.read());

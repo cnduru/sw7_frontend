@@ -121,7 +121,6 @@ public class EncodeServerXML {
         return xml;
     }
 
-    //TODO: This is not complete
     public static String inviteUser(String userName, Integer gameId) {
         String tag = "InviteUser";
         String entryA = "Username";
@@ -137,8 +136,7 @@ public class EncodeServerXML {
         return xml;
     }
 
-    //TODO: This is not complete
-    public static String getPlayerInvites(String gameId) {
+    public static String getPlayerInvites(Integer gameId) {
         String tag = "GetPlayerInvites";
         String entryA = "GameId";
 
@@ -213,7 +211,7 @@ public class EncodeServerXML {
         xml += Tag.open(tag);
         xml += Tag.open(entryA) + gameId + Tag.close(entryA);
         xml += Tag.close(tag);
-        Tag.endXML();
+        xml += Tag.endXML();
 
         return xml;
     }

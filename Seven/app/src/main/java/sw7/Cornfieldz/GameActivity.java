@@ -65,33 +65,35 @@ public class GameActivity extends Activity {
         @Override
         public boolean onMarkerClick(Marker marker) {
             ClickedPlayer = PlayerLocations.get(Integer.parseInt(marker.getTitle()));
-            ShootDialog.create();
-            ShootDialog.show();
+            showShootDialog();
             return false;
         }
     };
 
-
-    AlertDialog.Builder ShootDialog = new AlertDialog.Builder(ActivityContext)
-            .setTitle(ClickedPlayer.getUsername())
-            .setPositiveButton("Shoot", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    Client client = new Client();
-                    client.send(EncodeActionXML.shootAction(GameId, UserId, ClickedPlayer.getUserId(), 1));
-                    if (DecodeActionXML.shootAction(client.read())) {
-                        Toast success = Toast.makeText(getApplicationContext(), "You shot " + ClickedPlayer.getUsername() + "!", Toast.LENGTH_SHORT);
-                        success.show();
-                    } else {
-                        Toast failure = Toast.makeText(getApplicationContext(), "You missed" + ClickedPlayer.getUsername() + " :(", Toast.LENGTH_SHORT);
-                        failure.show();
+    private void showShootDialog() {
+        AlertDialog.Builder ShootDialog = new AlertDialog.Builder(ActivityContext)
+                .setTitle(ClickedPlayer.getUsername())
+                .setPositiveButton("Shoot", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Client client = new Client();
+                        client.send(EncodeActionXML.shootAction(GameId, UserId, ClickedPlayer.getUserId(), 1));
+                        if (DecodeActionXML.shootAction(client.read())) {
+                            Toast success = Toast.makeText(getApplicationContext(), "You shot " + ClickedPlayer.getUsername() + "!", Toast.LENGTH_SHORT);
+                            success.show();
+                        } else {
+                            Toast failure = Toast.makeText(getApplicationContext(), "You missed" + ClickedPlayer.getUsername() + " :(", Toast.LENGTH_SHORT);
+                            failure.show();
+                        }
+                        client.close();
                     }
-                    client.close();
-                }
-            })
-            .setNegativeButton("Back", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
+                })
+                .setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        ShootDialog.create();
+        ShootDialog.show();
+    }
 
     CountDownTimer Timer = new CountDownTimer(4000, 4000) {
 
