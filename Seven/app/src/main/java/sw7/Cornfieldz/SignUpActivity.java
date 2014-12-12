@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SignUpActivity extends Activity {
-
     EditText UsernameText;
     TextView UsernameStatusText;
     ImageView UsernameStatusImage;
@@ -106,13 +105,13 @@ public class SignUpActivity extends Activity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            String password = editable.toString();
-            if (password.length() >= 6 && ConfirmPasswordText.getText().toString().equals(password)) {
+            String content = editable.toString();
+            if (content.length() >= 6 && ConfirmPasswordText.getText().toString().equals(content)) {
                 PasswordValid = true;
                 PasswordsMatch = true;
                 PasswordStatusImage.setImageResource(R.drawable.checkmark);
                 ConfirmPasswordStatusImage.setImageResource(R.drawable.checkmark);
-            } else if (password.length() >= 6) {
+            } else if (content.length() >= 6) {
                 PasswordValid = true;
                 PasswordsMatch = false;
                 PasswordStatusImage.setImageResource(R.drawable.checkmark);
@@ -136,8 +135,8 @@ public class SignUpActivity extends Activity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            String confirmPassword = editable.toString();
-            if (confirmPassword.equals(PasswordText.getText().toString())) {
+            String content = editable.toString();
+            if (content.equals(PasswordText.getText().toString())) {
                 PasswordsMatch = true;
                 ConfirmPasswordStatusImage.setImageResource(R.drawable.checkmark);
             } else {

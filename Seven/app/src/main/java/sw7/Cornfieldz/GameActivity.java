@@ -22,8 +22,8 @@ public class GameActivity extends Activity {
 
     public GoogleMap GameMap;
     GPS Gps;
-    List<Player> PlayerLocations = new ArrayList<Player>();
-    Player ClickedPlayer;
+    List<User> PlayerLocations = new ArrayList<User>();
+    User ClickedPlayer;
 
     Integer UserId;
     Integer GameId;
@@ -76,15 +76,16 @@ public class GameActivity extends Activity {
             .setTitle(ClickedPlayer.getUsername())
             .setPositiveButton("Shoot", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    Client dataClient = new Client();
-                    dataClient.send(EncodeActionXML.shootAction(GameId, UserId, ClickedPlayer.getUserId(), 1));
-                    if (DecodeActionXML.shootAction(dataClient.read())) {
+                    Client client = new Client();
+                    client.send(EncodeActionXML.shootAction(GameId, UserId, ClickedPlayer.getUserId(), 1));
+                    if (DecodeActionXML.shootAction(client.read())) {
                         Toast success = Toast.makeText(getApplicationContext(), "You shot " + ClickedPlayer.getUsername() + "!", Toast.LENGTH_SHORT);
                         success.show();
                     } else {
                         Toast failure = Toast.makeText(getApplicationContext(), "You missed" + ClickedPlayer.getUsername() + " :(", Toast.LENGTH_SHORT);
                         failure.show();
                     }
+                    client.close();
                 }
             })
             .setNegativeButton("Back", new DialogInterface.OnClickListener() {
@@ -101,10 +102,10 @@ public class GameActivity extends Activity {
         @Override
         public void onFinish() {
             if (Gps.getCurrentLocation() != null) {
-                Client dataClient = new Client();
-                dataClient.send(EncodeActionXML.gameUpdate(UserId, GameId, Gps.getCurrentLocation()));
-                PlayerLocations = DecodeActionXML.gameUpdate(dataClient.read());
-                dataClient.close();
+                Client client = new Client();
+                client.send(EncodeActionXML.gameUpdate(UserId, GameId, Gps.getCurrentLocation()));
+                PlayerLocations = DecodeActionXML.gameUpdate(client.read());
+                client.close();
                 GameMap.clear();
 
                 for (Integer i = 0; i < PlayerLocations.size(); i++) {

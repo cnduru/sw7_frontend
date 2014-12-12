@@ -113,6 +113,7 @@ public class CreateGameActivity extends Activity {
             Client client = new Client();
             client.send(EncodeServerXML.createGame(GameName, IsPrivateGame, TeamCount, GameStart, GameDuration, SEBoundary, NWBoundary, UserId));
             Integer gameId = DecodeServerXML.createGame(client.read());
+            client.close();
             Intent intent = new Intent(CreateGameActivity.this, InvitePlayersActivity.class);
             intent.putExtra("UserId", UserId);
             intent.putExtra("GameId", gameId);

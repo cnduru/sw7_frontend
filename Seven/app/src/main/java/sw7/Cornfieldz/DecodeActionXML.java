@@ -75,8 +75,8 @@ public class DecodeActionXML {
         return items;
     }
 
-    public static List<Player> gameUpdate(Document data) {
-        List<Player> games = new ArrayList<Player>();
+    public static List<User> gameUpdate(Document data) {
+        List<User> games = new ArrayList<User>();
 
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
@@ -91,7 +91,7 @@ public class DecodeActionXML {
 
             for (int i = 0; i < n1.getLength(); i++) {
                 games.add(
-                        new Player(Integer.parseInt(n1.item(i).getTextContent()),
+                        new User(Integer.parseInt(n1.item(i).getTextContent()),
                         n2.item(i).getTextContent(),
                         new LatLng(Double.parseDouble(n3.item(i).getTextContent()),
                         Double.parseDouble(n4.item(i).getTextContent()))));

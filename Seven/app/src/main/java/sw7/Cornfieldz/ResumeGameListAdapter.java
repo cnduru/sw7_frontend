@@ -18,7 +18,6 @@ import java.util.List;
  * Created by Morten on 20-11-2014.
  */
 public class ResumeGameListAdapter extends ArrayAdapter<Pair> {
-
     List<Pair> GameList = new ArrayList<Pair>();
     Context ActivityContext;
     int LayoutId;
@@ -26,14 +25,9 @@ public class ResumeGameListAdapter extends ArrayAdapter<Pair> {
     public ResumeGameListAdapter(Context activityContext, int layoutId, List<Pair> gameList) {
         super(activityContext, layoutId, gameList);
 
-        this.GameList = gameList;
-        this.ActivityContext = activityContext;
-        this.LayoutId = layoutId;
-    }
-
-    @Override
-    public int getCount() {
-        return GameList.size();
+        GameList = gameList;
+        ActivityContext = activityContext;
+        LayoutId = layoutId;
     }
 
     @Override
@@ -62,15 +56,16 @@ public class ResumeGameListAdapter extends ArrayAdapter<Pair> {
         leaveGameButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                Client dataClient = new Client();
-                dataClient.send(EncodeServerXML.leaveGame(((ResumeGameActivity)ActivityContext).UserId, GameList.get(position).getId()));
-                if (DecodeServerXML.leaveGame(dataClient.read())) {
+                Client client = new Client();
+                client.send(EncodeServerXML.leaveGame(((ResumeGameActivity)ActivityContext).UserId, GameList.get(position).getId()));
+                if (DecodeServerXML.leaveGame(client.read())) {
                     GameList.remove(position);
                     notifyDataSetChanged();
                 } else {
                     Toast leaveError = Toast.makeText(ActivityContext.getApplicationContext(), "Something failed. Please try again.", Toast.LENGTH_SHORT);
                     leaveError.show();
                 }
+                client.close();
             }
         });
         return gameView;
