@@ -16,10 +16,10 @@ public class ResumeGameActivity extends Activity {
 
         Client client= new Client();
         client.send(EncodeServerXML.getMyGames(UserId));
+        ResumeGameListAdapter GameAdapter = new ResumeGameListAdapter(this, R.layout.player_list_item, DecodeServerXML.getMyGames(client.read()));
         client.close();
 
         ListView GameListView = (ListView) findViewById(R.id.GameList);
-        ResumeGameListAdapter GameAdapter = new ResumeGameListAdapter(this, R.layout.player_list_item, DecodeServerXML.getMyGames(client.read()));
         GameListView.setAdapter(GameAdapter);
     }
 }

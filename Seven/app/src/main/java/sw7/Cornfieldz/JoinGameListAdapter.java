@@ -16,16 +16,15 @@ import java.util.List;
  * Created by Morten on 20-11-2014.
  */
 public class JoinGameListAdapter extends ArrayAdapter<Pair> {
-
     List<Pair> GameList = new ArrayList<Pair>();
     Context ActivityContext;
     int LayoutId;
 
     public JoinGameListAdapter(Context activityContext, int layoutId, List<Pair> gameList) {
         super(activityContext, layoutId, gameList);
-        this.GameList = gameList;
-        this.ActivityContext = activityContext;
-        this.LayoutId = layoutId;
+        GameList = gameList;
+        ActivityContext = activityContext;
+        LayoutId = layoutId;
     }
 
     @Override
@@ -47,9 +46,9 @@ public class JoinGameListAdapter extends ArrayAdapter<Pair> {
         joinGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Client dataClient = new Client();
-                dataClient.send(EncodeServerXML.joinGame(((JoinGameActivity) ActivityContext).UserId, GameList.get(position).getId()));
-                if (DecodeServerXML.joinGame(dataClient.read())) {
+                Client client = new Client();
+                client.send(EncodeServerXML.joinGame(((JoinGameActivity) ActivityContext).UserId, GameList.get(position).getId()));
+                if (DecodeServerXML.joinGame(client.read())) {
                     Intent intent = new Intent(ActivityContext, LobbyActivity.class);
                     intent.putExtra("UserId", ((JoinGameActivity) ActivityContext).UserId);
                     intent.putExtra("GameId", GameList.get(position).getId());
@@ -59,6 +58,7 @@ public class JoinGameListAdapter extends ArrayAdapter<Pair> {
                     Toast joinError = Toast.makeText(ActivityContext.getApplicationContext(), "Something failed. Please try again.", Toast.LENGTH_SHORT);
                     joinError.show();
                 }
+                client.close();
             }
         });
         return gameView;

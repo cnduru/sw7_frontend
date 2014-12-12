@@ -17,7 +17,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 public class LobbyActivity extends Activity {
-
     TextView GameNameView;
     Button EnterGameButton;
     Button SettingsButton;
@@ -46,7 +45,7 @@ public class LobbyActivity extends Activity {
 
         EnterGameButton.setOnClickListener(EnterGameListener);
 
-        if(HostId == UserId) {
+        if(HostId.equals(UserId)) {
             SettingsButton.setOnClickListener(SettingsListener);
             InvitePlayersButton.setOnClickListener(InvitePlayersListener);
         } else {

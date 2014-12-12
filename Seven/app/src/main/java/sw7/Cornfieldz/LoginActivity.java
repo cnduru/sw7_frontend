@@ -13,7 +13,6 @@ import android.widget.Toast;
 import java.util.Map;
 
 public class LoginActivity extends Activity {
-
     Client DataClient;
     EditText UsernameText;
     EditText PasswordText;
