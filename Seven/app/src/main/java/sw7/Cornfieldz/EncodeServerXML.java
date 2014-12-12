@@ -124,7 +124,7 @@ public class EncodeServerXML {
     //TODO: This is not complete
     public static String inviteUser(String userName, Integer gameId) {
         String tag = "InviteUser";
-        String entryA = "UserName";
+        String entryA = "Username";
         String entryB = "GameId";
 
         String xml = "";
@@ -201,6 +201,19 @@ public class EncodeServerXML {
         xml += Tag.open(entryB) + gameId + Tag.close(entryB);
         xml += Tag.close(tag);
         xml += Tag.endXML();
+
+        return xml;
+    }
+
+    public static String getLobbyInfo(Integer gameId) {
+        String tag = "LobbyInfo";
+        String entryA = "GameId";
+
+        String xml = "";
+        xml += Tag.open(tag);
+        xml += Tag.open(entryA) + gameId + Tag.close(entryA);
+        xml += Tag.close(tag);
+        Tag.endXML();
 
         return xml;
     }

@@ -114,12 +114,13 @@ public class DecodeServerXML {
 
         try {
             XPath xpath = XPathFactory.newInstance().newXPath();
-            String exp = "/GetPlayerInvites/RetrieveId/text()";
+            String exp = "/GetPlayerInvites/Player/UserId/text()";
             NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/GetPlayerInvites/Player/Username/text()";
+            NodeList n2 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
 
             for (int i = 0; i < n1.getLength(); i++) {
-                tempList = n1.item(i).getTextContent().split("&");
-                invitees.add(new Pair(Integer.parseInt(tempList[0]), tempList[1]));
+                invitees.add(new Pair(Integer.parseInt(n1.item(i).getTextContent()), n2.item(i).getTextContent()));
             }
         } catch (XPathExpressionException e) {
             e.printStackTrace();
@@ -220,5 +221,54 @@ public class DecodeServerXML {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static Map<String, String> getLobbyInfo (Document data) {
+        Map<String, String> lobbyInfo = new HashMap<String, String>();
+
+        try {
+            XPath xpath = XPathFactory.newInstance().newXPath();
+            String exp = "/LobbyInfo/Privacy/text()";
+            NodeList n1 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/LobbyInfo/NumberOfTeams/text()";
+            NodeList n2 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/LobbyInfo/GameEnd/Year/text()";
+            NodeList n3 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/LobbyInfo/GameEnd/Month/text()";
+            NodeList n4 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/LobbyInfo/GameEnd/Day/text()";
+            NodeList n5 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/LobbyInfo/GameEnd/Hour/text()";
+            NodeList n6 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/LobbyInfo/GameEnd/Minute/text()";
+            NodeList n7 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/LobbyInfo/NorthWestBoundary/Latitude()";
+            NodeList n8 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/LobbyInfo/NorthWestBoundary/Longitude()";
+            NodeList n9 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/LobbyInfo/SouthEastBoundary/Latitude()";
+            NodeList n10 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/LobbyInfo/SouthEastBoundary/Longitude()";
+            NodeList n11 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+            exp = "/LobbyInfo/HostId/text()";
+            NodeList n12 = (NodeList) xpath.compile(exp).evaluate(data, XPathConstants.NODESET);
+
+            lobbyInfo.put("Privacy", n1.item(0).getTextContent());
+            lobbyInfo.put("TeamCount", n2.item(0).getTextContent());
+            lobbyInfo.put("Year", n3.item(0).getTextContent());
+            lobbyInfo.put("Month", n4.item(0).getTextContent());
+            lobbyInfo.put("Day", n5.item(0).getTextContent());
+            lobbyInfo.put("Hour", n6.item(0).getTextContent());
+            lobbyInfo.put("Minute", n7.item(0).getTextContent());
+            lobbyInfo.put("NWLatitude", n8.item(0).getTextContent());
+            lobbyInfo.put("NWLongitude", n9.item(0).getTextContent());
+            lobbyInfo.put("SELatitude", n10.item(0).getTextContent());
+            lobbyInfo.put("SELongitude", n11.item(0).getTextContent());
+            lobbyInfo.put("HostId", n12.item(0).getTextContent());
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+
+        return lobbyInfo;
     }
 }
