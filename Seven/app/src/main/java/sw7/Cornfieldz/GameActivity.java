@@ -73,6 +73,7 @@ public class GameActivity extends Activity {
     private void showShootDialog() {
         AlertDialog.Builder ShootDialog = new AlertDialog.Builder(ActivityContext)
                 .setTitle(ClickedPlayer.getUsername())
+                .setIcon(R.drawable.target)
                 .setPositiveButton("Shoot", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Client client = new Client();
@@ -81,7 +82,7 @@ public class GameActivity extends Activity {
                             Toast success = Toast.makeText(getApplicationContext(), "You shot " + ClickedPlayer.getUsername() + "!", Toast.LENGTH_SHORT);
                             success.show();
                         } else {
-                            Toast failure = Toast.makeText(getApplicationContext(), "You missed" + ClickedPlayer.getUsername() + " :(", Toast.LENGTH_SHORT);
+                            Toast failure = Toast.makeText(getApplicationContext(), "You missed " + ClickedPlayer.getUsername() + " :(", Toast.LENGTH_SHORT);
                             failure.show();
                         }
                         client.close();
